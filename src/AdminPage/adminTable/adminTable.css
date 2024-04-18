@@ -1,0 +1,14 @@
+.updateForm{
+    background: linear-gradient(45deg, #f9ad20, rgb(255, 234, 185) );
+}
+.inputbox-label{
+    border-radius: 0 20px;
+    background-color: rgba(68, 68, 68, .9) !important;   
+}
+.inputbox{
+    border-radius: 0 20px 0;
+    background: linear-gradient(45deg, rgba(68, 68, 68, .9), rgba(114, 114, 114, .8), transparent );
+}
+.old-label{
+    background: linear-gradient(90deg, transparent, rgb(97, 97, 97));
+}

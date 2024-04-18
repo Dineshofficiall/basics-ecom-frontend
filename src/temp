@@ -1,0 +1,115 @@
+import React, { useState } from 'react';
+import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles.css'; // Import your CSS file
+
+function App() {
+  const [isSignUpMode, setIsSignUpMode] = useState(false);
+
+  const toggleSignUpMode = () => {
+    setIsSignUpMode(!isSignUpMode);
+  };
+
+  return (
+    <Container fluid className={`container ${isSignUpMode ? 'sign-up-mode' : ''}`}>
+      <Row className="align-items-center">
+        <Col md={6}>
+          <SignInForm />
+          <SignUpForm />
+        </Col>
+        <Col md={6}>
+          <div className="panels-container">
+            <LeftPanel toggleSignUpMode={toggleSignUpMode} />
+            <RightPanel toggleSignUpMode={toggleSignUpMode} />
+          </div>
+        </Col>
+      </Row>
+    </Container>
+  );
+}
+
+function SignInForm() {
+  return (
+    <Form className="sign-in-form">
+      <h2 className="title">Sign in</h2>
+      <Form.Group controlId="formUsername">
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text><i className="fas fa-user"></i></InputGroup.Text>
+          </InputGroup.Prepend>
+          <Form.Control type="text" placeholder="Username" />
+        </InputGroup>
+      </Form.Group>
+      <Form.Group controlId="formPassword">
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text><i className="fas fa-lock"></i></InputGroup.Text>
+          </InputGroup.Prepend>
+          <Form.Control type="password" placeholder="Password" />
+        </InputGroup>
+      </Form.Group>
+      <Button variant="primary" type="submit" className="btn">Login</Button>
+    </Form>
+  );
+}
+
+function SignUpForm() {
+  return (
+    <Form className="sign-up-form">
+      <h2 className="title">Sign up</h2>
+      <Form.Group controlId="formUsername">
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text><i className="fas fa-user"></i></InputGroup.Text>
+          </InputGroup.Prepend>
+          <Form.Control type="text" placeholder="Username" />
+        </InputGroup>
+      </Form.Group>
+      <Form.Group controlId="formEmail">
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text><i className="fas fa-envelope"></i></InputGroup.Text>
+          </InputGroup.Prepend>
+          <Form.Control type="email" placeholder="Email" />
+        </InputGroup>
+      </Form.Group>
+      <Form.Group controlId="formPassword">
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text><i className="fas fa-lock"></i></InputGroup.Text>
+          </InputGroup.Prepend>
+          <Form.Control type="password" placeholder="Password" />
+        </InputGroup>
+      </Form.Group>
+      <Button variant="primary" type="submit" className="btn">Sign up</Button>
+    </Form>
+  );
+}
+
+function LeftPanel({ toggleSignUpMode }) {
+  return (
+    <div className="panel left-panel">
+      <div className="content">
+        <h3>Member of Brand?</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque accusantium dolor, eos incidunt minima iure?</p>
+        <Button variant="primary" onClick={toggleSignUpMode} className="btn">Sign in</Button>
+      </div>
+      <img src="signin.svg" alt="" className="image" />
+    </div>
+  );
+}
+
+function RightPanel({ toggleSignUpMode }) {
+  return (
+    <div className="panel right-panel">
+      <div className="content">
+        <h3>New to Brand?</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque accusantium dolor, eos incidunt minima iure?</p>
+        <Button variant="primary" onClick={toggleSignUpMode} className="btn">Sign up</Button>
+      </div>
+      <img src="signup.svg" alt="" className="image" />
+    </div>
+  );
+}
+
+export default App;

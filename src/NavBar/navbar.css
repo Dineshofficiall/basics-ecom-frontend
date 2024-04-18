@@ -1,0 +1,22 @@
+.burgerMenu{
+    display: none !important;
+}
+.logo{
+    width: 200px;
+    height: 50px;
+    object-fit: contain;
+    border: 0;
+}
+@media screen and (max-width : 760px) {
+    .burgerMenu{
+        display: flex !important;
+    }
+    .logo{
+        width: 100px;
+    }
+}
+@media screen and (max-width : 767px) {
+    .links, .searchbar, .icons{
+        display: none;
+    }
+}

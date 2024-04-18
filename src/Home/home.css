@@ -1,0 +1,21 @@
+.home{
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+    outline: none;
+}
+.home , .banner-img{
+    max-height: 50vh;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+@media screen and (max-width : 620px) {
+    .home , .banner-img{
+        height: 100vh;
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+}

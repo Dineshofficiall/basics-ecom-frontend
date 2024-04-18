@@ -1,0 +1,11 @@
+.parent-block{
+    min-height: 90vh ;
+    border: 2px solid black;
+}
+.child-1{
+    border-right: 2px solid black;
+    outline: none;
+}
+/* .child-2{
+    
+} */
