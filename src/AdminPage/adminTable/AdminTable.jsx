@@ -162,14 +162,14 @@ function AdminTable() {
                                     </Modal>
 
                                     {/*  */}
-                                    {fetchRole.map((roleResponse, roleIndex)=>(
+                                    {/* {fetchRole.map((roleResponse, roleIndex)=>(
                                         <Modal key={roleIndex} size="sm" show={smShow} onHide={() => setSmShow(false)} aria-labelledby="example-modal-sizes-title-sm">
                                             <Modal.Header closeButton>
                                             <Modal.Title id="example-modal-sizes-title-sm">Click</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body></Modal.Body>
                                         </Modal>
-                                    ))}
+                                    ))} */}
                                 </tbody>
                             ))}
                         </Table>
