@@ -8,10 +8,11 @@ import NavBar from './NavBar/NavBar'
 import EmptyPage from './EmptyPage/EmptyPage'
 import Admin from './AdminPage/Admin'
 import UserTable from './AdminPage/usersTable/UsersTable.jsx'
-import AdminTable from './AdminPage/adminTable/AdminTable.jsx'
+// import AdminTable from './AdminPage/adminTable/AdminTable.jsx'
 import OrdersTable from './AdminPage/ordersTable/OrdersTable.jsx'
 import ProductsTable from './AdminPage/productsTable/ProductsTable.jsx'
 import SellersTable from './AdminPage/sellersTable/SellersTable.jsx'
+import Footer from './Footer/Footer.jsx'
 function App() {
   return (
     <>
@@ -24,10 +25,13 @@ function App() {
 
             {/* unknown url */}
             <Route path='*' element={<EmptyPage />}/>
+
+            {/* Footer*/}
+            <Route path='/foot' element={<Footer />} />
             
             {/* admin */}
             <Route path='/basics-admin-panel' element={<Admin />} >
-              <Route path='admin' element={<AdminTable />} />
+              {/* <Route path='admin' element={<AdminTable />} /> */}
               <Route path='users' element={<UserTable />} />
               <Route path='orders' element={<OrdersTable />} />
               <Route path='products' element={<ProductsTable />} />

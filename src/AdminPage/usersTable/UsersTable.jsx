@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React,{useEffect, useState} from 'react'
-import { Container, Col, Table, Button, Modal, Form, InputGroup } from 'react-bootstrap'
+import { Container, Col, Table, Button, Modal, Form, InputGroup} from 'react-bootstrap'
 import axios from 'axios'
 import { BiUser, BiLogoGmail } from "react-icons/bi";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -16,6 +16,9 @@ function UsersTable() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    // apiRoleName
+    const [smShow, setSmShow] = useState(true);
     
     // updateUserInputs
     const [apiObj, updateApiObj] = useState ({
@@ -36,9 +39,9 @@ function UsersTable() {
         getAllData();
     },[])
 
-    // allUsers
+    // allUsers[admin-users]
     const  getAllData = () =>{
-        axios.get('http://localhost:5300/Basics-Users/All-Users')
+        axios.get('http://localhost:5300/Basics-Users/getAllUsers')
         .then((Response) =>{
             console.log(Response.data);
             updateApiObjData(Response.data);
@@ -49,8 +52,8 @@ function UsersTable() {
     }
 
     // userUpdateByClick
-    const apiUpdate = (userId) =>{
-        axios.put(`http://localhost:5300/Basics-Users/User-Update/${userId}`,apiObj)
+    const apiUpdate = (id) =>{
+        axios.put(`http://localhost:5300/Basics-Users/User-Update/${id}`,apiObj)
         .then((response) =>{
             console.log(response);
             setShow(false)
@@ -62,15 +65,15 @@ function UsersTable() {
     };
 
     // user deletByClick
-    const apiDelete = (userId) => {
+    const apiDelete = (id) => {
         if (confirm("Are you sure want to delete")){
-            axios.delete(`http://localhost:5300/Basics-Users/delete-User/${userId}`)
+            axios.delete(`http://localhost:5300/Basics-Users/delete-User/${id}`)
             .then((response) => {
                 console.log('Delete request successful:', response);
                 updateApiObj(response.data);
             })
             .catch((error) => {
-                console.log(userId);
+                console.log(id);
                 console.error('Error deleting user:', error);
             });
         }
@@ -78,17 +81,35 @@ function UsersTable() {
             alert("Process Cancelled by user");
         }
     }
+
+
+    // fetchUserRole
+    const [fetchRole, updateFetchRole] = useState ([]);
+    const [count, updateCount] = useState(0);
+    const roleFetchApi = (fetchId)=>{
+        axios.get(`http://localhost:5300/Basics-Role/User-Role-Fetch/${fetchId}`)
+        .then((res)=>{
+            updateFetchRole(res.data)
+            setSmShow(true)
+            updateCount(1);
+            console.log(res.data);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
+    
     return (
-        <>
+        <>  
             <Container>
-                <h1 className='my-4'>User</h1>
+                <h1 className='my-4'>Admin</h1>
                 <Col sm={12}>
                     <div className="table-responsive">
                         <Table striped bordered hover>
                             <thead>
                                 <tr className='text-center'>
                                     <th>Id</th>
-                                    <th>User Name</th>
+                                    <th>Admin Name</th>
                                     <th>Password</th>
                                     <th>Mail</th>
                                     <th>PhoneNumber</th>
@@ -98,14 +119,16 @@ function UsersTable() {
                             {apiObjData.map((response, index)=>(
                                 <tbody key={index}>
                                     <tr className='text-center '>
-                                        <td>{response.userId}</td>
+                                        <td>{response.id}</td>
                                         <td>{response.userName}</td>
                                         <td>{response.password}</td>
                                         <td>{response.mail}</td>
                                         <td>{response.phoneNumber}</td>
-                                        <td className='d-flex justify-content-evenly align-items-center'>
-                                            <Button onClick={handleShow} className='mx-2' variant="outline-warning">Update</Button>{' '}
-                                            <Button onClick={() => apiDelete(response.userId)} className='mx-2' variant="outline-danger">Delete</Button>{' '}
+                                        <td className='d-flex justify-content-evenly align-items-center '> 
+                                                                {/* setRoleShow(!roleShow) */}
+                                            <Button variant="outline-primary" onClick={() => roleFetchApi(response.id)} >click</Button>
+                                            <Button onClick={handleShow} variant="outline-warning">Update</Button>{' '}
+                                            <Button onClick={() => apiDelete(response.id)} variant="outline-danger">Delete</Button>{' '}
                                         </td>
                                     </tr>
                                     <Modal show={show} onHide={handleClose}>
@@ -136,15 +159,28 @@ function UsersTable() {
                                         </Modal.Body>
                                         <Modal.Footer className='updateForm'>
                                             <Button variant="outline-dark" onClick={handleClose}>Close</Button>
-                                            <Button variant="outline-dark" onClick={() => apiUpdate(response.userId)}>Save Changes</Button>
+                                            <Button variant="outline-dark" onClick={() => apiUpdate(response.id)}>Save Changes</Button>
                                         </Modal.Footer>
                                     </Modal>
+
+                                    {/*  */}
                                 </tbody>
                             ))}
                         </Table>
                     </div>
                 </Col>
             </Container>
+            {fetchRole.map((roleResponse, roleIndex) => (
+                <Modal key={roleIndex} size="sm" show={smShow} onHide={() => setSmShow(false)} aria-labelledby="example-modal-sizes-title-sm">
+                    <Modal.Header closeButton>
+                        <Modal.Title id="example-modal-sizes-title-sm">Position</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Role Name 1: {fetchRole[0].roleName}</p> 
+                        {count==roleIndex ? <p>Role Name 2: {fetchRole[1].roleName}</p>:<></>} 
+                    </Modal.Body>
+                </Modal>
+            ))}
         </>
     )
 }

@@ -7,16 +7,35 @@
     object-fit: contain;
     border: 0;
 }
-@media screen and (max-width : 760px) {
-    .burgerMenu{
-        display: flex !important;
-    }
+.location-text{
+    font-size: 14px;
+}
+/* @media screen and (max-width : 760px) {
+    
+} */
+
+@media screen and (max-width : 767px) {
     .logo{
         width: 100px;
     }
+    .links, .searchbar{
+        display: none;
+    }
+    
+    /* .burgerMenu{
+        display: flex !important;
+    } */
 }
-@media screen and (max-width : 767px) {
-    .links, .searchbar, .icons{
+@media screen and (max-width : 995px) {
+    .location, .icons{
+        display: none;
+    }
+    .burgerMenu{
+        display: flex !important;
+    }
+}
+@media screen and (min-width : 995px) {
+    .burgerLocation{
         display: none;
     }
 }
