@@ -6,8 +6,8 @@ function Footer() {
     return (
         <>
             <Container className='bg-dark text-light pt-5 pb-3' fluid>
-                <Row>
-                    <Col className='text-center'>
+                <Row className='d-flex justify-content-evenly align-items-center '>
+                    <Col xs={6} lg={3} className='text-center'>
                         <h3>Basics</h3>
                         <hr />
                         <div>
@@ -17,7 +17,7 @@ function Footer() {
                             <p>SiteMap</p>
                         </div>
                     </Col>
-                    <Col className='text-center'>
+                    <Col xs={6} lg={3} className='text-center'>
                         <h3>Help</h3>
                         <hr />
                         <div>
@@ -27,7 +27,7 @@ function Footer() {
                             <p>Cancellations</p>
                         </div>
                     </Col>
-                    <Col className='text-center'>
+                    <Col xs={6} lg={3} className='text-center'>
                         <h3>Our Policies</h3>
                         <hr />
                         <div>
@@ -37,7 +37,7 @@ function Footer() {
                             <p>Term Policy</p>
                         </div>
                     </Col>
-                    <Col className='text-center'>
+                    <Col xs={6} lg={3} className='text-center'>
                         <h3>Payments</h3>
                         <hr />
                         <div>

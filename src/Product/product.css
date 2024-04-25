@@ -1,0 +1,44 @@
+/* mobile outer visible name 'filter' */
+.mobile-fiter{
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: wheat;
+}
+
+/* Range */
+.priceRangeUpdate{
+    display: flex !important;
+    justify-content: space-evenly !important;
+    align-items: center !important;
+    border: 1px solid black;
+    background-color: olive;
+    border-radius: 20px;
+}
+/* ends */
+
+/* Ends */
+
+/* sizeUpdate sm, lg, xl block */
+.sizeUpdate span{
+    border: 1px solid black;
+}
+.sizeUpdate span:hover{
+    border: 1px solid black;
+    background-color: darkgrey !important;
+    cursor: pointer;
+}
+.sizeUpdate span:active{
+    background-color: darkslategray !important;
+}
+/* ends */
+
+@media screen and (max-width : 576px) {
+    .filter-parent-block{
+        display: none;
+    }
+}
+@media screen and (min-width : 575px) {
+    .mobile-Filter-parent-block{
+        display: none;
+    }
+}

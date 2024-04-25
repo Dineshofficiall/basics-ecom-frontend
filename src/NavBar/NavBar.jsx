@@ -71,7 +71,7 @@ function NavBar() {
         <Navbar expand="lg" sticky="top" className="d-flex justify-content-between align-items-center p-0">
             {/* sm-6 md-2 */}
             <Col sm={6} md={2} lg={2}  className='text-start'>
-              <Navbar.Brand href="#"><Image src="https://basicslife.com/cdn/shop/files/Untitled-4-01_80x@2x.png?v=1711019726" className='logo' thumbnail /></Navbar.Brand>
+              <Navbar.Brand href="/Home"><Image src="https://basicslife.com/cdn/shop/files/Untitled-4-01_80x@2x.png?v=1711019726" className='logo' thumbnail /></Navbar.Brand>
             </Col>
             {/* sm-none md-none*/}
             <Col lg={2} className='d-flex flex-column justify-content-center align-items-start location ps-lg-4 '>
@@ -81,7 +81,7 @@ function NavBar() {
             {/* sm-none md-4 lg */}
             <Col md={4} lg={3} className='d-flex justify-content-evenly align-items-center links'>
               <Link className='text-decoration-none links' to='/Home'>Home</Link>
-              <Link className='text-decoration-none links' to='/Home'>Products</Link>
+              <Link className='text-decoration-none links' to='/product'>Products</Link>
               <Link className='text-decoration-none links' to='/Home'>About</Link>
             </Col>
             {/* sm-none md-5 lg */}

@@ -4,6 +4,7 @@ import{Routes, Route} from 'react-router-dom'
 
 import Page from './Login-Register/Page'
 import Home from './Home/Home'
+import Product from './Product/Product.jsx'
 import NavBar from './NavBar/NavBar'
 import EmptyPage from './EmptyPage/EmptyPage'
 import Admin from './AdminPage/Admin'
@@ -17,8 +18,14 @@ function App() {
   return (
     <>
         <Routes>
+            {/* NavBar */}
             <Route path='/nav' element={<NavBar />} />
+
+            {/* Home */}
             <Route path='/Home' element={<Home />} />
+
+            {/* Product */}
+            <Route path='/product' element={<Product />} />
               
             {/* default page */}
             <Route path='/' element={<Page />} />
