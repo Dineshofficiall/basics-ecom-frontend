@@ -10,6 +10,10 @@ import '../Product/product.css'
 // logo's
 import { MdStarPurple500, MdKeyboardDoubleArrowDown, MdKeyboardDoubleArrowUp, MdFilterList } from "react-icons/md";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
+import axios from 'axios';
+import { useEffect } from 'react';
+import { TbCurrencyRupee } from "react-icons/tb";
+import { TiStarHalfOutline } from "react-icons/ti";
 function Product() {
     // ratings
     const [ratingsDropDown, setRatingsDropDown] = useState(true);
@@ -24,6 +28,23 @@ function Product() {
     
     // Mobile Responsive Filter
     const [mobileFilterDropDown, setMobileFilterDropDown] = useState(false);
+
+    // apiObj
+    const [productApi, updateProductApi] = useState([]);
+    useEffect(()=>{
+        allProductApi();
+    }, [])
+
+    const allProductApi = ()=>{
+        axios.get('http://localhost:5300/Basics-Products/allProduct')
+        .then((response)=>{
+            console.log(response.data);
+            updateProductApi(response.data);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    }
 
     // pagination
     let active = 2;
@@ -315,17 +336,14 @@ function Product() {
                     {/* Cards */}
                     <Col sm={9} className='py-4'>
                         <Row xs={1} md={2} lg={3} className="g-4">
-                            {Array.from({ length: 9 }).map((_, idx) => (
-                                <Col key={idx}>
+                            {productApi.map((responseObject, index)=>(
+                                <Col key={index}>
                                     <Card>
-                                        <Card.Img variant="top" src="https://storage.prompt-hunt.workers.dev/clfjo2kky0001lc08i7t7rg9b_1" className='object-fit-cover ' style={{height : '30vh'}} />
+                                        <Card.Img variant="top" src={responseObject.productImage[0]} className='object-fit-contain ' style={{height : '30vh'}} />
                                         <Card.Body>
-                                        <Card.Title>Card title</Card.Title>
-                                            <Card.Text>
-                                                This is a longer card with supporting text below as a natural
-                                                lead-in to additional content. This content is a little bit
-                                                longer.
-                                            </Card.Text>
+                                        <Card.Text className='fw-bold fs-6 mb-2 d-flex justify-content-between align-items-center '>{responseObject.productName}<span><Button variant="outline-warning">4<TiStarHalfOutline /></Button>{' '}</span> </Card.Text>
+                                            <Col>Products | {responseObject.categories}</Col>
+                                            <Col className='d-flex justify-content-start align-items-center '>Price : <TbCurrencyRupee />{responseObject.productPrice}</Col>
                                         </Card.Body>
                                     </Card>
                                 </Col>

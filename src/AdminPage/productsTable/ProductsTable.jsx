@@ -26,24 +26,47 @@ function ProductsTable() {
     const [apiObj, updateApiObj] = useState ({
         productName : '',
         productDescription : '',
-        stocksUnit : '',
+        stocksUnit : [''],
         productPrice : '',
         categories : '',
-        productImage : [''],        
+        productImage : [''],
+        productColor : '',
+        productSize : [''],
+        productType : '',
+        productGender : ''
     })
 
-    // updateUserInputs
-        const update = (inputRegisterUserValue) => {
+    // // updateUserInputs
+    //     const update = (inputRegisterUserValue) => {
+    //     const { name, value } = inputRegisterUserValue.target;
+
+    //     // If the input name is productImage, split the value by comma to create an array
+    //     // Otherwise, directly set the value
+    //     // const newValue =name === 'productImage' ? value.split(',') : 
+    //     //                 name === 'productSize' ? value.split(',') : 
+    //     //                 name === 'productType' ? value.split(',') : value;
+
+    //     const newValue =name === 'productImage' || 
+    //                     name === 'productSize' || 
+    //                     name === 'stocksUnit' ? value.split(',') : value;
+
+    //     // Update the state accordingly
+    //     updateApiObj({ ...apiObj, [name]: newValue });
+    //     console.log(apiObj);
+    // };
+
+    const update = (inputRegisterUserValue) => {
         const { name, value } = inputRegisterUserValue.target;
-
-        // If the input name is productImage, split the value by comma to create an array
-        // Otherwise, directly set the value
-        const newValue = name === 'productImage' ? value.split(',') : value;
-
-        // Update the state accordingly
-        updateApiObj({ ...apiObj, [name]: newValue });
-        console.log(apiObj);
+    
+        // Use updater function form of setState to ensure you're working with the most up-to-date state
+        updateApiObj(prevState => ({
+            ...prevState,
+            [name]: name === 'productImage' || 
+                    name === 'productSize' || 
+                    name === 'stocksUnit' ? value.split(',') : value
+        }));
     };
+    
 
     // load once before the page gets load
     useEffect(()=>{
@@ -124,11 +147,15 @@ function ProductsTable() {
                                 <tr className='text-center'>
                                     <th>Id</th>
                                     <th>CATEGORIES</th>
+                                    <th>COLOR</th>
                                     <th>DESCRIPTION</th>
                                     <th>IMAGE</th>
                                     <th>NAME</th>
                                     <th>PRODUCT_PRICE</th>
+                                    <th>SIZE</th>
+                                    <th>TYPE</th>
                                     <th>QUANTITY</th>
+                                    <th>GENDER</th>
                                     <th>ACTIONS</th>
                                 </tr>
                             </thead>
@@ -137,11 +164,15 @@ function ProductsTable() {
                                     <tr className='text-center '>
                                         <td>{response.id}</td>
                                         <td>{response.categories}</td>
+                                        <td>{response.productColor}</td>
                                         <td>{response.productDescription}</td>
                                         <td>{response.productImage}</td>
                                         <td>{response.productName}</td>
                                         <td>{response.productPrice}</td>
+                                        <td>{response.productSize}</td>
+                                        <td>{response.productType}</td>
                                         <td>{response.stocksUnit}</td>
+                                        <td>{response.productGender}</td>
                                         <td className='d-flex justify-content-evenly align-items-center '>
                                             <Button onClick={handleShow} variant="outline-warning">Update</Button>{' '}
                                             <Button onClick={() => apiDelete(response.id)} variant="outline-danger">Delete</Button>{' '}
@@ -188,6 +219,8 @@ function ProductsTable() {
                                             <Button variant="outline-dark" onClick={() => apiUpdate(response.id)}>Save Changes</Button>
                                         </Modal.Footer>
                                     </Modal>
+
+                                    {/* createApi */}
                                     <Modal size="lg" show={lgShow} onHide={() => setLgShow(false)} aria-labelledby="example-modal-sizes-title-lg">
                                         <Modal.Header className='updateForm' closeButton>
                                             <Modal.Title id="example-modal-sizes-title-lg">AddProductData</Modal.Title>
@@ -195,33 +228,50 @@ function ProductsTable() {
                                         <Modal.Body className='updateForm'>
                                             <InputGroup className="mb-3 rounded-pill">
                                                 <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='categories' value={apiObj.categories} onChange={update} placeholder="Enter your categories" />
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='categories' value={apiObj.categories} onChange={update} placeholder="Enter the categories [ex : 'shirt','pant']" />
+                                            </InputGroup>
+                                            <InputGroup className="mb-3 rounded-pill">
+                                                <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productColor' value={apiObj.productColor} onChange={update} placeholder="Enter the productColor [ex : 'red', 'black']" />
                                             </InputGroup>
                                             <InputGroup className="mb-3 rounded-pill">
                                                 <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdDescription /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productDescription' value={apiObj.productDescription} onChange={update} placeholder="Enter your productDescription" />
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productDescription' value={apiObj.productDescription} onChange={update} placeholder="Enter the productDescription [ex : 'abc']" />
                                             </InputGroup>
                                             <InputGroup className="mb-3 rounded-pill">
                                                 <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><BsImage /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productImage' value={apiObj.productImage} onChange={update} placeholder="Enter your productImage" />
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productImage' value={apiObj.productImage} onChange={update} placeholder="Enter your productImage [ex : {'https--','https--'}]" />
                                             </InputGroup>
                                             <InputGroup className="mb-3 rounded-pill">
                                                 <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><BiLogoProductHunt /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productName' value={apiObj.productName} onChange={update} placeholder="Enter your productName" />
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productName' value={apiObj.productName} onChange={update} placeholder="Enter your productName [ex : 'GAP' , 'Banarse']" />
                                             </InputGroup>
                                             <InputGroup className="mb-3 rounded-pill">
                                                 <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><MdOutlinePriceCheck /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productPrice' value={apiObj.productPrice} onChange={update} placeholder="Enter your productPrice" />
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productPrice' value={apiObj.productPrice} onChange={update} placeholder="Enter your productPrice [ex : 34.22]" />
+                                            </InputGroup>
+                                            <InputGroup className="mb-3 rounded-pill">
+                                                <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productSize' value={apiObj.productSize} onChange={update} placeholder="Enter the productSize [ex : {'sm', 'lg'}]" />
+                                            </InputGroup>
+                                            <InputGroup className="mb-3 rounded-pill">
+                                                <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productType' value={apiObj.productType} onChange={update} placeholder="Enter the productType [ex : 'cotton']" />
                                             </InputGroup>
                                             <InputGroup className="mb-3 rounded-pill">
                                                 <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><SiShutterstock /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='stocksUnit' value={apiObj.stocksUnit} onChange={update} placeholder="Enter your stocksUnit" />
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productGender' value={apiObj.productGender} onChange={update} placeholder="Enter your productGender [ex : Type Male OR Female]" />
+                                            </InputGroup>
+                                            <InputGroup className="mb-3 rounded-pill">
+                                                <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><SiShutterstock /></InputGroup.Text>
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='stocksUnit' value={apiObj.stocksUnit} onChange={update} placeholder="Enter your stocksUnit [ex : {02,32,05}]" />
                                             </InputGroup>
                                         </Modal.Body>
                                         <Modal.Footer className='updateForm'>
                                             <Button variant="outline-dark" onClick={addSingleProduct}>Add New Product</Button>
                                         </Modal.Footer>
                                     </Modal>
+                                    {/* ends */}
                                 </tbody>
                             ))}
                         </Table>
