@@ -14,7 +14,9 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { TbCurrencyRupee } from "react-icons/tb";
 import { TiStarHalfOutline } from "react-icons/ti";
+import { useNavigate } from 'react-router-dom';
 function Product() {
+    const navigate = useNavigate();
     // ratings
     const [ratingsDropDown, setRatingsDropDown] = useState(true);
     // colors
@@ -44,6 +46,11 @@ function Product() {
         .catch((error)=>{
             console.log(error);
         })
+    }
+
+    const productDetailRedirect = (productId) =>{
+        console.log(productId);
+        navigate(`/productDetails/${productId}`)
     }
 
     // pagination
@@ -335,15 +342,23 @@ function Product() {
 
                     {/* Cards */}
                     <Col sm={9} className='py-4'>
-                        <Row xs={1} md={2} lg={3} className="g-4">
+                        <Row xs={1} md={2} lg={3} className="gx-3 gy-4">
                             {productApi.map((responseObject, index)=>(
                                 <Col key={index}>
-                                    <Card>
+                                    <Card className='position-relative cards'>
                                         <Card.Img variant="top" src={responseObject.productImage[0]} className='object-fit-contain ' style={{height : '30vh'}} />
                                         <Card.Body>
-                                        <Card.Text className='fw-bold fs-6 mb-2 d-flex justify-content-between align-items-center '>{responseObject.productName}<span><Button variant="outline-warning">4<TiStarHalfOutline /></Button>{' '}</span> </Card.Text>
-                                            <Col>Products | {responseObject.categories}</Col>
-                                            <Col className='d-flex justify-content-start align-items-center '>Price : <TbCurrencyRupee />{responseObject.productPrice}</Col>
+                                            <Col className='d-flex justify-content-between align-items-center '>
+                                                <Card.Text className='fw-bold fs-6 mb-2 d-flex justify-content-between align-items-center '>{responseObject.productName}</Card.Text>
+                                                <Button variant="outline-warning">4<TiStarHalfOutline /></Button>{' '}
+                                            </Col>
+                                            <Card.Text>Baiscs | Product | {responseObject.categories}</Card.Text> 
+                                            <Col className='d-flex justify-content-between align-items-center '> 
+                                                <span>Price : <TbCurrencyRupee />{responseObject.productPrice}</span>
+                                                <Button variant='outline-secondary rounded-pill' className='' onClick={()=> productDetailRedirect(responseObject.id)}>Click Here</Button>{' '}
+                                            </Col>
+                                            <hr />
+                                            <small className='bg-primary p-2 rounded-pill text-light card-offer-btn'>{responseObject.productDiscount}%off</small>
                                         </Card.Body>
                                     </Card>
                                 </Col>
@@ -351,6 +366,10 @@ function Product() {
                         </Row>
                     </Col>
                 </Row>
+            </Container>
+
+            <Container>
+            
             </Container>
 
             {/* Pagination */}

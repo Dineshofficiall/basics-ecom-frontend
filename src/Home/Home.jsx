@@ -6,6 +6,9 @@ import Footer from '../Footer/Footer'
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+// Link
+import { Link, useNavigate } from 'react-router-dom';
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -21,6 +24,8 @@ import './styles2.css';
 import { FreeMode, Pagination } from 'swiper/modules';
 
 function Home() {
+  // useNavigate
+  const navigate = useNavigate();
 
   // offerPeriod
   const [offerDate, updateOfferDate] = useState(new Date("April 26, 2024 00:00:00").getTime())
@@ -62,6 +67,13 @@ function Home() {
       updateMinutes(remainingMinutes);
       updateSeconds(remainingSeconds);
     }, 1000);
+
+
+    // pageRedirect - tops sections
+    const pageDirect = (contentName)=>{
+      console.log(contentName);
+      navigate(`/product/${contentName}`)
+    }
     return (
       <>
         {/* navbar */}
@@ -72,56 +84,54 @@ function Home() {
         <div className="home">
           <Container className='mx-0 px-0' fluid>
             <Carousel fade>
+
+              {/* saree */}
                 <Carousel.Item>
-                  <Image src="https://www.bunaai.com/cdn/shop/files/WEB_BANNER_b0d24f7d-bcdd-4e77-8b74-b2dbf6cb8cfa.jpg?v=1708417432" className='banner-img object-fit-fill object-fit-md-cover object-fit-lg-cover' style={{width:`100%`, height : `45vh`,}} fluid/>
-                  <Carousel.Caption>
-                    <h3>First slide label</h3>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                  </Carousel.Caption>
+                  <Button variant="transparent" className='w-100' onClick={() => pageDirect('Top')}>
+                    <Image src="https://www.bunaai.com/cdn/shop/files/WEB_BANNER_b0d24f7d-bcdd-4e77-8b74-b2dbf6cb8cfa.jpg?v=1708417432" className='banner-img object-fit-fill object-fit-md-cover object-fit-lg-cover' style={{width:`100%`, height : `45vh`,}} fluid/>
+                  </Button>
                 </Carousel.Item>
+
+              {/* Coat */}
                 <Carousel.Item>
-                  <Image src="https://www.bonsoir.co.in/cdn/shop/files/ultimate-banner5.jpg?v=1704271879" className='banner-img object-fit-cover object-fit-md-cover object-fit-fill ' style={{width:`100%`, height : `45vh`}} fluid />
-                  <Carousel.Caption>
-                    <h3>Second slide label</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  </Carousel.Caption>
+                  <Button variant="transparent" className='w-100' onClick={() => pageDirect('Coat')}>
+                    <Image src="https://www.bonsoir.co.in/cdn/shop/files/ultimate-banner5.jpg?v=1704271879" className='banner-img object-fit-cover object-fit-md-cover object-fit-fill ' style={{width:`100%`, height : `45vh`}} fluid />
+                  </Button>
                 </Carousel.Item>
+
+              {/* Bridal */}
                 <Carousel.Item>
-                  <Image src="https://www.geetanjalisalon.com/wp-content/uploads/2023/11/seerat-banner-.jpg" className='banner-img object-fit-cover object-fit-md-cover object-fit-fill ' style={{width:`100%`, height : `45vh`}} fluid />
-                  <Carousel.Caption>
-                    <h3>Second slide label</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  </Carousel.Caption>
+                  <Button variant="transparent" className='w-100' onClick={() => pageDirect('wedGirls')}>
+                    <Image src="https://www.geetanjalisalon.com/wp-content/uploads/2023/11/seerat-banner-.jpg" className='banner-img object-fit-cover object-fit-md-cover object-fit-fill ' style={{width:`100%`, height : `45vh`}} fluid />
+                  </Button>
                 </Carousel.Item>
+
+              {/* girl kurta */}
                 <Carousel.Item>
-                  <Image src="https://www.freshlookfashion.com/slideshow/1669975849_sharara%20suits%20(1).jpg" className='banner-img object-fit-cover object-fit-md-cover object-fit-fill ' style={{width:`100%`, height : `45vh`}} fluid />
-                  <Carousel.Caption>
-                    <h3>Second slide label</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  </Carousel.Caption>
+                  <Button variant="transparent" className='w-100' onClick={() => pageDirect('Kurta')}>
+                    <Image src="https://www.freshlookfashion.com/slideshow/1669975849_sharara%20suits%20(1).jpg" className='banner-img object-fit-cover object-fit-md-cover object-fit-fill ' style={{width:`100%`, height : `45vh`}} fluid />
+                  </Button>
                 </Carousel.Item>
+                
+              {/* Bridal Boys */}
                 <Carousel.Item>
-                  <Image src="https://www.lascoot.com/singla_views/images/1.jpg" className='banner-img object-fit-cover object-fit-md-cover object-fit-fill ' style={{width:`100%`, height : `45vh`}} fluid />
-                  <Carousel.Caption>
-                    <h3>Second slide label</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  </Carousel.Caption>
+                  <Button variant="transparent" className='w-100' onClick={() => pageDirect('wedBoys')}>
+                    <Image src="https://www.lascoot.com/singla_views/images/1.jpg" className='banner-img object-fit-cover object-fit-md-cover object-fit-fill ' style={{width:`100%`, height : `45vh`}} fluid />
+                  </Button>
                 </Carousel.Item>
+
+              {/* boys tshirt */}
                 <Carousel.Item>
-                  <Image src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/264e3629894817.5609864fcd16d.png" className='banner-img object-fit-cover object-fit-md-cover object-fit-fill ' style={{width:`100%`, height : `45vh`}} fluid />
-                  <Carousel.Caption>
-                    <h3>Second slide label</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  </Carousel.Caption>
+                  <Button variant="transparent" className='w-100' onClick={() => pageDirect('tshirt')}>
+                    <Image src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/264e3629894817.5609864fcd16d.png" className='banner-img object-fit-cover object-fit-md-cover object-fit-fill ' style={{width:`100%`, height : `45vh`}} fluid />
+                  </Button>
                 </Carousel.Item>
+
+              {/* kids */}
                 <Carousel.Item>
-                  <Image src="https://marketplace.canva.com/EAFIMHQ5yhE/1/0/1600w/canva-orange-and-teal-summer-sale-kids-fashion-bright-website-banner-L6kUMOWkkho.jpg" className='banner-img object-fit-fill object-fit-md-cover  object-fit-lg-cover' style={{width:`100%`, height : `45vh`}} fluid />
-                  <Carousel.Caption>
-                    <h3>Third slide label</h3>
-                    <p>
-                      Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-                    </p>
-                  </Carousel.Caption>
+                  <Button variant="transparent" className='w-100' onClick={() => pageDirect('Kids')}>
+                    <Image src="https://marketplace.canva.com/EAFIMHQ5yhE/1/0/1600w/canva-orange-and-teal-summer-sale-kids-fashion-bright-website-banner-L6kUMOWkkho.jpg" className='banner-img object-fit-fill object-fit-md-cover  object-fit-lg-cover' style={{width:`100%`, height : `45vh`}} fluid />
+                  </Button>
                 </Carousel.Item>
               </Carousel>
           </Container>
@@ -131,11 +141,14 @@ function Home() {
         {/* block = summerSale and  */}
         <Container className='mt-5'>
           <Row>
+            {/* boys shirt */}
             <Col>
-              <Image src='https://img.freepik.com/free-vector/fashion-sale-with-discount-template_23-2148936503.jpg' fluid/>
+              <Button variant='transparent' onClick={()=> pageDirect('shirt')}><Image src='https://assets.ajio.com/medias/sys_master/images/images/hd7/hcf/14844211527710/10122019-M-MHP-topbanner-NewArrivals-upto50.jpg' fluid/></Button>
             </Col>
+
+            {/* girl kurta */}
             <Col>
-              <Image src="https://images-eu.ssl-images-amazon.com/images/G/31/img2020/fashion/WA_2020/Thedressedit/sizerev/topban.gif" fluid />
+              <Button variant='transparent' onClick={()=> pageDirect('Kurta')}><Image src="https://images-eu.ssl-images-amazon.com/images/G/31/img2020/fashion/WA_2020/Thedressedit/sizerev/topban.gif" fluid /></Button>
             </Col>
           </Row>
         </Container>
@@ -238,22 +251,24 @@ function Home() {
         {/* block = summerSale and  */}
         <Container>
           <Row>
+            {/* girls tshirt */}
             <Col lg={6}>
               <Card className=" bg-light adsBlock">
                 <img src="https://img.freepik.com/free-vector/instagram-puzzle-feed-template-with-sales_23-2148679509.jpg?t=st=1713879548~exp=1713883148~hmac=d8249e759d7e425f6ac7d54f9914c61cef1fdc2a5ed0126d5b5329eb0572d877&w=2000" alt="Card image" />
                   <Card.ImgOverlay className='d-flex justify-content-center align-items-end'>
                     <Card.Body className='d-flex justify-content-center align-items-end cardAds'>
-                      <Button variant="danger" className='w-50'>Click Here</Button>{' '}
+                      <Button variant="danger" className='w-50' onClick={()=>pageDirect('tshirt')}>Click Here</Button>{' '}
                     </Card.Body>
                   </Card.ImgOverlay>
               </Card>
             </Col>
+            {/* mens tshirt */}
             <Col lg={6}>
               <Card>
                 <Card.Img src="https://indiater.com/wp-content/uploads/2019/05/1.jpg" alt="Card image" />
                 <Card.ImgOverlay className='d-flex justify-content-center align-items-center'>
                   <Card.Body className='d-flex justify-content-end align-items-end mb-3 cardAds'>
-                    <Button variant="danger" className='w-50'>Click Here</Button>{' '}
+                    <Button variant="danger" className='w-50' onClick={()=> pageDirect('tshirt')}>Click Here</Button>{' '}
                   </Card.Body>
                 </Card.ImgOverlay>
               </Card>
@@ -352,6 +367,18 @@ function Home() {
               {/* </Row> */}
             </SwiperSlide>
           </Swiper>
+        </Container>
+
+
+        {/* top dress banner */}
+        <Container>
+          <Col sm={12}>
+            <Button variant="transparent" onClick={() => pageDirect('Top')}>
+              <Card className=" bg-light">
+                <Image src='https://www.beyoung.in/api/cache/catalog/products/banner_desktop/womens_topwear_banner_desktop__view_3_8_2022_1920x475.jpg' alt='Image' fluid />
+              </Card>
+            </Button>{' '}
+          </Col>
         </Container>
 
         {/* feedBack */}

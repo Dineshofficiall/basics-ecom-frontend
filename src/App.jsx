@@ -14,6 +14,7 @@ import OrdersTable from './AdminPage/ordersTable/OrdersTable.jsx'
 import ProductsTable from './AdminPage/productsTable/ProductsTable.jsx'
 import SellersTable from './AdminPage/sellersTable/SellersTable.jsx'
 import Footer from './Footer/Footer.jsx'
+import ProductDetailPage from './ProductDetailPage/ProductDetailPage.jsx'
 function App() {
   return (
     <>
@@ -26,6 +27,12 @@ function App() {
 
             {/* Product */}
             <Route path='/product' element={<Product />} />
+
+            {/* Product/name */}
+            <Route path='/product/:name' element={<Product />} />
+
+            {/* ProductDetails */}
+            <Route path='/productDetails/:id' element={<ProductDetailPage />} />
               
             {/* default page */}
             <Route path='/' element={<Page />} />

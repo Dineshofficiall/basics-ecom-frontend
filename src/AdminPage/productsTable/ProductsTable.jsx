@@ -33,28 +33,11 @@ function ProductsTable() {
         productColor : '',
         productSize : [''],
         productType : '',
-        productGender : ''
+        productGender : '',
+        productDiscount : ''
     })
 
-    // // updateUserInputs
-    //     const update = (inputRegisterUserValue) => {
-    //     const { name, value } = inputRegisterUserValue.target;
-
-    //     // If the input name is productImage, split the value by comma to create an array
-    //     // Otherwise, directly set the value
-    //     // const newValue =name === 'productImage' ? value.split(',') : 
-    //     //                 name === 'productSize' ? value.split(',') : 
-    //     //                 name === 'productType' ? value.split(',') : value;
-
-    //     const newValue =name === 'productImage' || 
-    //                     name === 'productSize' || 
-    //                     name === 'stocksUnit' ? value.split(',') : value;
-
-    //     // Update the state accordingly
-    //     updateApiObj({ ...apiObj, [name]: newValue });
-    //     console.log(apiObj);
-    // };
-
+    // create product
     const update = (inputRegisterUserValue) => {
         const { name, value } = inputRegisterUserValue.target;
     
@@ -156,6 +139,7 @@ function ProductsTable() {
                                     <th>TYPE</th>
                                     <th>QUANTITY</th>
                                     <th>GENDER</th>
+                                    <th>DISCOUNT</th>
                                     <th>ACTIONS</th>
                                 </tr>
                             </thead>
@@ -173,6 +157,7 @@ function ProductsTable() {
                                         <td>{response.productType}</td>
                                         <td>{response.stocksUnit}</td>
                                         <td>{response.productGender}</td>
+                                        <td>{response.productDiscount}</td>
                                         <td className='d-flex justify-content-evenly align-items-center '>
                                             <Button onClick={handleShow} variant="outline-warning">Update</Button>{' '}
                                             <Button onClick={() => apiDelete(response.id)} variant="outline-danger">Delete</Button>{' '}
