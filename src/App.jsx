@@ -15,6 +15,9 @@ import ProductsTable from './AdminPage/productsTable/ProductsTable.jsx'
 import SellersTable from './AdminPage/sellersTable/SellersTable.jsx'
 import Footer from './Footer/Footer.jsx'
 import ProductDetailPage from './ProductDetailPage/ProductDetailPage.jsx'
+import AboutProduct from './ProductDetailPage/AboutProduct.jsx'
+import Reviews from './ProductDetailPage/Reviews.jsx'
+import Kart from './ProductDetailPage/Kart.jsx'
 function App() {
   return (
     <>
@@ -32,7 +35,11 @@ function App() {
             <Route path='/product/:name' element={<Product />} />
 
             {/* ProductDetails */}
-            <Route path='/productDetails/:id' element={<ProductDetailPage />} />
+            <Route path='/productDetails/:id' element={<ProductDetailPage />}>
+              <Route path='aboutProduct' element={<AboutProduct />} />
+              <Route path='review' element={<Reviews />} />
+              <Route path='kart' element={<Kart />} />
+            </Route>
               
             {/* default page */}
             <Route path='/' element={<Page />} />
