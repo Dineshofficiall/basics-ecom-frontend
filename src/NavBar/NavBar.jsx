@@ -6,7 +6,7 @@ import {Navbar, Container, Image, Col, Badge, Form, Button, Offcanvas} from 'rea
 import { FaLocationDot } from "react-icons/fa6";
 
 // pageLinks
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // css
 import '../NavBar/navbar.css'
@@ -17,6 +17,9 @@ import { PiHandHeartDuotone } from "react-icons/pi";
 import { BsFillMenuAppFill } from "react-icons/bs";
 import axios from 'axios';
 function NavBar() {
+  // useNavigate
+  const navigate = useNavigate();
+
   // smaller device burger menu
   const [show, setShow] = useState(false);
 
@@ -64,6 +67,10 @@ function NavBar() {
 
     navigator.geolocation.getCurrentPosition(success, error);
   };
+
+  const kartPage = () =>{
+    navigate('/kart')
+  }
   // ends
   return (
     <>
@@ -94,7 +101,7 @@ function NavBar() {
             {/* sm-x md-x lg */}
             <Col lg={2} className='d-flex justify-content-evenly align-items-center fs-5 icons'>
               <Link className='text-decoration-none icons' to='/Home'><FaUserAstronaut /></Link>
-              <Button variant="outline-primary" className='p-1 border-0 rounded-pill fs-5 icons'><BiSolidShoppingBagAlt /><Badge className='p-1 text-dark bg-transparent'>1</Badge></Button>
+              <Button variant="outline-primary" className='p-1 border-0 rounded-pill fs-5 icons' onClick={kartPage}><BiSolidShoppingBagAlt /><Badge className='p-1 text-dark bg-transparent'>1</Badge></Button>
               <Link className='text-decoration-none fs-5 icons' to='/Home'><PiHandHeartDuotone /></Link>
             </Col>
 
@@ -122,7 +129,7 @@ function NavBar() {
                   <hr />
                   <Col className='d-flex justify-content-evenly align-items-center fs-5 '>
                     <Link className='text-decoration-none fs-5' to='/Home'><FaUserAstronaut /></Link>
-                    <Button variant="outline-primary" className='p-1 border-0 fs-5 rounded-pill '><BiSolidShoppingBagAlt /><Badge className='p-1 text-dark bg-transparent'>1</Badge></Button>
+                    <Button variant="outline-primary" className='p-1 border-0 fs-5 rounded-pill ' onClick={kartPage}><BiSolidShoppingBagAlt /><Badge className='p-1 text-dark bg-transparent'>1</Badge></Button>
                     <Link className='text-decoration-none fs-5' to='/Home'><PiHandHeartDuotone /></Link>
                   </Col>
                   <hr />

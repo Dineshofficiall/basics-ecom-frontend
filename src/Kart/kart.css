@@ -1,0 +1,8 @@
+body{
+    background-color: #ffffff !important;
+}
+.kartClear{
+    position: absolute;
+    top: 0;
+    right: 20%;
+}

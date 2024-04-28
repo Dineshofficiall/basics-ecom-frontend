@@ -17,7 +17,7 @@ import Footer from './Footer/Footer.jsx'
 import ProductDetailPage from './ProductDetailPage/ProductDetailPage.jsx'
 import AboutProduct from './ProductDetailPage/AboutProduct.jsx'
 import Reviews from './ProductDetailPage/Reviews.jsx'
-import Kart from './ProductDetailPage/Kart.jsx'
+import Kart from '../src/Kart/Kart.jsx'
 function App() {
   return (
     <>
@@ -35,11 +35,24 @@ function App() {
             <Route path='/product/:name' element={<Product />} />
 
             {/* ProductDetails */}
-            <Route path='/productDetails/:id' element={<ProductDetailPage />}>
+            <Route path='/productDetails' element={<ProductDetailPage />}>
+              <Route path='' element={<AboutProduct />} />
               <Route path='aboutProduct' element={<AboutProduct />} />
               <Route path='review' element={<Reviews />} />
-              <Route path='kart' element={<Kart />} />
             </Route>
+
+            {/* ProductDetails/id */}
+            <Route path='/productDetails/:id' element={<ProductDetailPage />}>
+              <Route path='' element={<AboutProduct />} />
+              <Route path='aboutProduct' element={<AboutProduct />} />
+              <Route path='review' element={<Reviews />} />
+            </Route>
+
+            {/* Kart */}
+            <Route path='/kart' element={<Kart />} />
+
+            {/* Kart/id */}
+            <Route path='/kart/:id' element={<Kart />} />
               
             {/* default page */}
             <Route path='/' element={<Page />} />
