@@ -77,30 +77,36 @@ function ProductDetailPage() {
                 <Row className='my-4 d-flex justify-content-center align-items-start'>
 
                     {/* img block */}
-                    <Col lg={4}>
-                        <Col lg={12} className='d-flex justify-content-center align-items-center mt-3'>
-                            <Image src="https://assets.ajio.com/medias/sys_master/root/20221130/KECd/63873295f997ddfdbdac1468/-473Wx593H-443002269-olivegreen-MODEL.jpg" style={{width : '80%', height : '50vh'}} />
+                    {apiObj!='' ? 
+                      
+                      (<Col lg={4}>
+                       
+                         <Col lg={12} className='d-flex justify-content-center align-items-center mt-3'>
+                            <Image src={apiObj.productImage[0]} style={{width : '80%', height : '50vh'}} />
                         </Col>
                         <Col lg={12} className='d-flex justify-content-evenly align-items-center my-3'>
                             <Col lg={2}>
-                                <Image src="https://assets.ajio.com/medias/sys_master/root/20221130/KECd/63873295f997ddfdbdac1468/-473Wx593H-443002269-olivegreen-MODEL.jpg" style={{width : '100%'}} />
+                                <Image src={apiObj.productImage[0]} style={{width : '100%'}} />
                             </Col>
                             <Col lg={2}>
-                                <Image src="https://assets.ajio.com/medias/sys_master/root/20221130/qX7m/63873417f997ddfdbdac1ebc/-473Wx593H-443002269-olivegreen-MODEL4.jpg" style={{width : '100%'}} />
+                                <Image src={apiObj.productImage[1]} style={{width : '100%'}} />
                             </Col>
                             <Col lg={2}>
-                                <Image src="https://assets.ajio.com/medias/sys_master/root/20221130/qX7m/63873417f997ddfdbdac1ebc/-473Wx593H-443002269-olivegreen-MODEL4.jpg" style={{width : '100%'}} />
+                                <Image src={apiObj.productImage[2]} style={{width : '100%'}} />
                             </Col>
                             <Col lg={2}>
-                                <Image src="https://assets.ajio.com/medias/sys_master/root/20230324/smII/641d7f8c907deb497aaed137/-473Wx593H-443007829-blue-MODEL.jpg" style={{width : '100%'}} />
+                                <Image src={apiObj.productImage[3]} style={{width : '100%'}} />
                             </Col>
                         </Col>
+                       
                     </Col>
+                ):('')
+}
 
                     {/* middle hide */}
-                    <Col lg={5} className='pb-2 position-relative '>
+                    <Col lg={6} className='pb-2 position-relative px-2'>
                         <Col className='fw-bolder my-3 d-flex flex-column align-items-start justify-content-start'>
-                            <h2>Essentials Mens Regular-Fit Long-Sleeve Oxford Shirt</h2>
+                            <h2>{apiObj.productDescription}</h2>
                             <div className='d-flex justify-content-evenly align-items-center w-50 mt-3 '>
                                 <p className='d-flex justify-content-center align-items-center '>4<MdOutlineStarRate /><span className='ms-2'>Ratings</span></p>
                                 <p>|</p>

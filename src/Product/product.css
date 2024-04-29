@@ -54,12 +54,12 @@
     visibility: visible;
 }
 /* Ends */
-@media screen and (max-width : 576px) {
+@media screen and (max-width : 767px) {
     .filter-parent-block{
         display: none;
     }
 }
-@media screen and (min-width : 575px) {
+@media screen and (min-width : 766px) {
     .mobile-Filter-parent-block{
         display: none;
     }

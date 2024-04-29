@@ -2,7 +2,7 @@
 import React, {useState} from 'react'
 import NavBar from '../NavBar/NavBar'
 import Footer from '../Footer/Footer'
-import { Container, Image, Row, Col, Card, Form, Dropdown, Button, Pagination} from 'react-bootstrap';
+import { Container, Image, Row, Col, Card, Form, Dropdown, Button, Accordion, Pagination} from 'react-bootstrap';
 
 // css
 import '../Product/product.css'
@@ -17,17 +17,7 @@ import { TiStarHalfOutline } from "react-icons/ti";
 import { useNavigate } from 'react-router-dom';
 function Product() {
     const navigate = useNavigate();
-    // ratings
-    const [ratingsDropDown, setRatingsDropDown] = useState(true);
-    // colors
-    const [colorDropDown, setColorDropDown] = useState(true);
-    // sizes
-    const [sizeDropDown, setSizeDropDown] = useState(true);
-    // priceDifference
-    const [priceSortDropDown, setPriceSortDropDown] = useState(true);
-    // alphabeticalSortDropDown
-    const [alphabeticalSortDropDown, setAlphabeticalSortDropDown] = useState(true);
-    
+
     // Mobile Responsive Filter
     const [mobileFilterDropDown, setMobileFilterDropDown] = useState(false);
 
@@ -85,7 +75,7 @@ function Product() {
             </Container>
 
             <Container className='my-5'>
-                <Row>
+                <Row className='d-flex justify-content-center align-items-center align-items-md-start '>
 {/* -------------------------------------------------------------------------------- */}
 
                     {/* Mobile filter */}
@@ -97,26 +87,30 @@ function Product() {
 
                             <Dropdown.Menu style={{ width: '100%' }}>
                                 {/* Filters */}
-                                <Col sm={3} className='bg-secondary py-4 '>
-                                    <Row className='d-flex flex-column '>
+                                <Col sm={12} className='py-4 '>
+                                    <Accordion defaultActiveKey={['0']} alwaysOpen>
                                         {/* Range */}
-                                        <Col className='mb-4'>
-                                            <Form.Label>Range</Form.Label>
-                                            <Form.Range />
-                                            <div className='d-flex justify-content-between align-items-center'>
-                                                <span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />1000</span><span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />5000</span>
-                                            </div>
+                                        <Col>
+                                            <Accordion.Item eventKey="0">
+                                                <Accordion.Header>Range</Accordion.Header>
+                                                <Accordion.Body>
+                                                    {/* Range */}
+                                                    <Col className='mb-4'>
+                                                        <div className='d-flex justify-content-between align-items-center'>
+                                                            <span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />1000</span><span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />5000</span>
+                                                        </div>
+                                                    </Col>
+                                                    {/* Ends */}
+                                                </Accordion.Body>
+                                            </Accordion.Item>
                                         </Col>
                                         {/* Ends */}
 
                                         {/* Ratings */}
-                                        <Col className='mb-4'>
-                                            <Dropdown show={ratingsDropDown} style={{ width: '100%', borderRadius : '20px' }}>
-                                                <Dropdown.Toggle variant="transparent" className='fw-bolder rounded-3 border-0 ' id="dropdown-basic" style={{ width: '100%' }}  onClick={() => setRatingsDropDown(!ratingsDropDown)}>
-                                                    Ratings
-                                                </Dropdown.Toggle>
-
-                                                <Dropdown.Menu style={{ width: '100%' }}>
+                                        <Col>
+                                            <Accordion.Item eventKey="1" alwaysOpen>
+                                                <Accordion.Header>Ratings</Accordion.Header>
+                                                <Accordion.Body>
                                                     <div className='d-flex justify-content-start align-items-center py-1 '>
                                                         <Form.Check aria-label="option 1" className='mx-2'/> 4<MdStarPurple500 /><span className='ms-2'>Above</span>
                                                     </div>
@@ -124,38 +118,32 @@ function Product() {
                                                     <div className="d-flex justify-content-start align-items-center py-1">
                                                         <Form.Check aria-label="option 2" className='mx-2'/> 3<MdStarPurple500 /><span className='ms-2'>Above</span>
                                                     </div>
-                                                </Dropdown.Menu>
-                                            </Dropdown>
+                                                </Accordion.Body>
+                                            </Accordion.Item>
                                         </Col>
                                         {/* Ends */}
 
                                         {/* colors */}
-                                        <Col className='mb-4'>
-                                            <Dropdown show={colorDropDown} style={{ width: '100%', borderRadius : '20px' }}>
-                                                <Dropdown.Toggle variant="transparent" className='fw-bolder rounded-3 border-0 ' id="dropdown-basic" style={{ width: '100%' }}  onClick={() => setColorDropDown(!colorDropDown)}>
-                                                    Color
-                                                </Dropdown.Toggle>
-
-                                                <Dropdown.Menu style={{ width: '100%' }}>
+                                        <Col>
+                                            <Accordion.Item eventKey="2" alwaysOpen>
+                                                <Accordion.Header>ProductColor</Accordion.Header>
+                                                <Accordion.Body>
                                                     <div className='d-flex justify-content-evenly align-items-center '>
                                                         <span className='p-2 mb-0 bg-danger text-light rounded-pill'>red</span>
                                                         <span className='p-2 mb-0 text-light rounded-pill' style={{backgroundColor : 'purple'}}>violet</span>
                                                         <span className='p-2 mb-0 bg-primary text-light rounded-pill'>blue</span>
                                                         <span className='p-2 mb-0 bg-black text-light rounded-pill'>black</span>
                                                     </div>
-                                                </Dropdown.Menu>
-                                            </Dropdown>
+                                                </Accordion.Body>
+                                            </Accordion.Item>
                                         </Col>
                                         {/* Ends */}
 
                                         {/* Sizes */}
-                                        <Col className='mb-4'>
-                                            <Dropdown show={sizeDropDown} style={{ width: '100%', borderRadius : '20px' }}>
-                                                <Dropdown.Toggle variant="transparent" className='fw-bolder rounded-3 border-0 ' id="dropdown-basic" style={{ width: '100%' }}  onClick={() => setSizeDropDown(!sizeDropDown)}>
-                                                    Sizes
-                                                </Dropdown.Toggle>
-
-                                                <Dropdown.Menu style={{ width: '100%' }}>
+                                        <Col>
+                                            <Accordion.Item eventKey="3" alwaysOpen>
+                                                <Accordion.Header>Sizes</Accordion.Header>
+                                                <Accordion.Body>
                                                     <div className='d-flex justify-content-evenly align-items-center flex-wrap sizeUpdate'>
                                                         <span className='p-2 mb-0 rounded-pill'>sm</span>
                                                         <span className='p-2 mb-0 rounded-pill'>md</span>
@@ -163,19 +151,16 @@ function Product() {
                                                         <span className='p-2 mb-0 rounded-pill'>xl</span>
                                                         <span className='p-2 mb-0 rounded-pill'>xll</span>
                                                     </div>
-                                                </Dropdown.Menu>
-                                            </Dropdown>
+                                                </Accordion.Body>
+                                            </Accordion.Item>
                                         </Col>
                                         {/* Ends */}
 
                                         {/* Price high to low - low to high */}
-                                        <Col className='mb-4'>
-                                            <Dropdown show={priceSortDropDown} style={{ width: '100%', borderRadius : '20px' }}>
-                                                <Dropdown.Toggle variant="transparent" className='fw-bolder rounded-3 border-0 ' id="dropdown-basic" style={{ width: '100%' }}  onClick={() => setPriceSortDropDown(!priceSortDropDown)}>
-                                                    Price
-                                                </Dropdown.Toggle>
-
-                                                <Dropdown.Menu style={{ width: '100%' }}>
+                                        <Col>
+                                            <Accordion.Item eventKey="4" alwaysOpen>
+                                                <Accordion.Header>Price</Accordion.Header>
+                                                <Accordion.Body>
                                                     <div className='d-flex justify-content-start align-items-center py-1 '>
                                                         <Form.Check aria-label="option 1" className='mx-2'/> High To Low  <span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowDown /></span>
                                                     </div>
@@ -183,19 +168,16 @@ function Product() {
                                                     <div className="d-flex justify-content-start align-items-center py-1">
                                                         <Form.Check aria-label="option 2" className='mx-2'/> Low To High<span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowUp  /></span>
                                                     </div>
-                                                </Dropdown.Menu>
-                                            </Dropdown>
+                                                </Accordion.Body>
+                                            </Accordion.Item>
                                         </Col>
                                         {/* Ends */}
 
                                         {/* Product Alphabetically */}
-                                        <Col className='mb-4'>
-                                            <Dropdown show={alphabeticalSortDropDown} style={{ width: '100%', borderRadius : '20px' }}>
-                                                <Dropdown.Toggle variant="transparent" className='fw-bolder rounded-3 border-0 ' id="dropdown-basic" style={{ width: '100%' }}  onClick={() => setAlphabeticalSortDropDown(!alphabeticalSortDropDown)}>
-                                                Product Alphabetical
-                                                </Dropdown.Toggle>
-
-                                                <Dropdown.Menu style={{ width: '100%' }}>
+                                        <Col>
+                                            <Accordion.Item eventKey="5" alwaysOpen>
+                                                <Accordion.Header>Product Alphabetical</Accordion.Header>
+                                                <Accordion.Body>
                                                     <div className='d-flex justify-content-start align-items-center py-1 '>
                                                         <Form.Check aria-label="option 1" className='mx-2'/> A To Z  <span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowDown /></span>
                                                     </div>
@@ -203,14 +185,14 @@ function Product() {
                                                     <div className="d-flex justify-content-start align-items-center py-1">
                                                         <Form.Check aria-label="option 2" className='mx-2'/> Z To A<span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowUp  /></span>
                                                     </div>
-                                                </Dropdown.Menu>
-                                            </Dropdown>
+                                                </Accordion.Body>
+                                            </Accordion.Item>
                                         </Col>
                                         {/* Ends */}
-                                        <div className='d-flex justify-content-center align-items-center '>
+                                        <div className='d-flex justify-content-center align-items-center mt-4'>
                                             <Button variant="primary" className='w-75'>apply Changes</Button>{' '}
                                         </div>
-                                    </Row>
+                                    </Accordion>
                                 </Col>
                                 {/* Ends */}
                             </Dropdown.Menu>
@@ -222,25 +204,29 @@ function Product() {
 
                     {/* Lap-Filters */}
                     <Col sm={3} className='py-4 filter-parent-block'>
-                        <Row className='d-flex flex-column '>
+                        <Accordion defaultActiveKey={['0']} alwaysOpen>
                             {/* Range */}
                             <Col className='mb-4'>
-                                <Form.Label>Range</Form.Label>
-                                <Form.Range />
-                                <div className='d-flex justify-content-between align-items-center'>
-                                    <span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />1000</span><span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />5000</span>
-                                </div>
+                                <Accordion.Item eventKey="0">
+                                    <Accordion.Header>Range</Accordion.Header>
+                                    <Accordion.Body>
+                                        {/* Range */}
+                                        <Col className='mb-4'>
+                                            <div className='d-flex justify-content-between align-items-center'>
+                                                <span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />1000</span><span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />5000</span>
+                                            </div>
+                                        </Col>
+                                        {/* Ends */}
+                                    </Accordion.Body>
+                                </Accordion.Item>
                             </Col>
                             {/* Ends */}
 
                             {/* Ratings */}
                             <Col className='mb-4'>
-                                <Dropdown show={ratingsDropDown} style={{ width: '100%', borderRadius : '20px' }}>
-                                    <Dropdown.Toggle variant="transparent" className='fw-bolder rounded-3 border-0 ' id="dropdown-basic" style={{ width: '100%' }}  onClick={() => setRatingsDropDown(!ratingsDropDown)}>
-                                        Ratings
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu style={{ width: '100%' }}>
+                                <Accordion.Item eventKey="1" alwaysOpen>
+                                    <Accordion.Header>Ratings</Accordion.Header>
+                                    <Accordion.Body>
                                         <div className='d-flex justify-content-start align-items-center py-1 '>
                                             <Form.Check aria-label="option 1" className='mx-2'/> 4<MdStarPurple500 /><span className='ms-2'>Above</span>
                                         </div>
@@ -248,38 +234,32 @@ function Product() {
                                         <div className="d-flex justify-content-start align-items-center py-1">
                                             <Form.Check aria-label="option 2" className='mx-2'/> 3<MdStarPurple500 /><span className='ms-2'>Above</span>
                                         </div>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                                    </Accordion.Body>
+                                </Accordion.Item>
                             </Col>
                             {/* Ends */}
 
                             {/* colors */}
                             <Col className='mb-4'>
-                                <Dropdown show={colorDropDown} style={{ width: '100%', borderRadius : '20px' }}>
-                                    <Dropdown.Toggle variant="transparent" className='fw-bolder rounded-3 border-0 ' id="dropdown-basic" style={{ width: '100%' }}  onClick={() => setColorDropDown(!colorDropDown)}>
-                                        Color
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu style={{ width: '100%' }}>
+                                <Accordion.Item eventKey="2" alwaysOpen>
+                                    <Accordion.Header>ProductColor</Accordion.Header>
+                                    <Accordion.Body>
                                         <div className='d-flex justify-content-evenly align-items-center '>
                                             <span className='p-2 mb-0 bg-danger text-light rounded-pill'>red</span>
                                             <span className='p-2 mb-0 text-light rounded-pill' style={{backgroundColor : 'purple'}}>violet</span>
                                             <span className='p-2 mb-0 bg-primary text-light rounded-pill'>blue</span>
                                             <span className='p-2 mb-0 bg-black text-light rounded-pill'>black</span>
                                         </div>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                                    </Accordion.Body>
+                                </Accordion.Item>
                             </Col>
                             {/* Ends */}
 
                             {/* Sizes */}
                             <Col className='mb-4'>
-                                <Dropdown show={sizeDropDown} style={{ width: '100%', borderRadius : '20px' }}>
-                                    <Dropdown.Toggle variant="transparent" className='fw-bolder rounded-3 border-0 ' id="dropdown-basic" style={{ width: '100%' }}  onClick={() => setSizeDropDown(!sizeDropDown)}>
-                                        Sizes
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu style={{ width: '100%' }}>
+                                <Accordion.Item eventKey="3" alwaysOpen>
+                                    <Accordion.Header>Sizes</Accordion.Header>
+                                    <Accordion.Body>
                                         <div className='d-flex justify-content-evenly align-items-center flex-wrap sizeUpdate'>
                                             <span className='p-2 mb-0 rounded-pill'>sm</span>
                                             <span className='p-2 mb-0 rounded-pill'>md</span>
@@ -287,19 +267,16 @@ function Product() {
                                             <span className='p-2 mb-0 rounded-pill'>xl</span>
                                             <span className='p-2 mb-0 rounded-pill'>xll</span>
                                         </div>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                                    </Accordion.Body>
+                                </Accordion.Item>
                             </Col>
                             {/* Ends */}
 
                             {/* Price high to low - low to high */}
                             <Col className='mb-4'>
-                                <Dropdown show={priceSortDropDown} style={{ width: '100%', borderRadius : '20px' }}>
-                                    <Dropdown.Toggle variant="transparent" className='fw-bolder rounded-3 border-0 ' id="dropdown-basic" style={{ width: '100%' }}  onClick={() => setPriceSortDropDown(!priceSortDropDown)}>
-                                        Price
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu style={{ width: '100%' }}>
+                                <Accordion.Item eventKey="4" alwaysOpen>
+                                    <Accordion.Header>Price</Accordion.Header>
+                                    <Accordion.Body>
                                         <div className='d-flex justify-content-start align-items-center py-1 '>
                                             <Form.Check aria-label="option 1" className='mx-2'/> High To Low  <span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowDown /></span>
                                         </div>
@@ -307,19 +284,16 @@ function Product() {
                                         <div className="d-flex justify-content-start align-items-center py-1">
                                             <Form.Check aria-label="option 2" className='mx-2'/> Low To High<span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowUp  /></span>
                                         </div>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                                    </Accordion.Body>
+                                </Accordion.Item>
                             </Col>
                             {/* Ends */}
 
                             {/* Product Alphabetically */}
                             <Col className='mb-4'>
-                                <Dropdown show={alphabeticalSortDropDown} style={{ width: '100%', borderRadius : '20px' }}>
-                                    <Dropdown.Toggle variant="transparent" className='fw-bolder rounded-3 border-0 ' id="dropdown-basic" style={{ width: '100%' }}  onClick={() => setAlphabeticalSortDropDown(!alphabeticalSortDropDown)}>
-                                    Product Alphabetical
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu style={{ width: '100%' }}>
+                                <Accordion.Item eventKey="5" alwaysOpen>
+                                    <Accordion.Header>Product Alphabetical</Accordion.Header>
+                                    <Accordion.Body>
                                         <div className='d-flex justify-content-start align-items-center py-1 '>
                                             <Form.Check aria-label="option 1" className='mx-2'/> A To Z  <span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowDown /></span>
                                         </div>
@@ -327,14 +301,14 @@ function Product() {
                                         <div className="d-flex justify-content-start align-items-center py-1">
                                             <Form.Check aria-label="option 2" className='mx-2'/> Z To A<span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowUp  /></span>
                                         </div>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                                    </Accordion.Body>
+                                </Accordion.Item>
                             </Col>
                             {/* Ends */}
                             <div className='d-flex justify-content-center align-items-center '>
                                 <Button variant="primary" className='w-75'>apply Changes</Button>{' '}
                             </div>
-                        </Row>
+                        </Accordion>
                     </Col>
                     {/* Ends */}
 
@@ -357,7 +331,7 @@ function Product() {
                                                 <span>Price : <TbCurrencyRupee />{responseObject.productPrice}</span>
                                                 <Button variant='outline-secondary rounded-pill' className='' onClick={()=> productDetailRedirect(responseObject.id)}>Click Here</Button>{' '}
                                             </Col>
-                                            <hr />
+                                            <hr className='mt-3 mb-0' />
                                             <small className='bg-primary p-2 rounded-pill text-light card-offer-btn'>{responseObject.productDiscount}%off</small>
                                         </Card.Body>
                                     </Card>
