@@ -46,7 +46,7 @@ function Page() {
 
     const submitUserLogin = ()=>{
         if (loginUserObj.mail && loginUserObj.passWord !== ''){
-            axios.post('http://localhost:5300/Basics/User',loginUserObj)
+            axios.post('http://localhost:5300/Basics-Users/User',loginUserObj)
             .then((Response)=>{
                 
                 if (Response.data === "Invalid"){
@@ -54,8 +54,19 @@ function Page() {
                     updateMessage("Please Fill the Inputs")
                 }
                 else{
-                    console.log(Response);
-                    navigate("/Home")
+                    console.log("page Check",Response.data);
+                    if (Response.data[0] === null){
+                        alert(Response.data[1]);
+                    }
+                    else {
+                        if(Response.data[0].mail === "dk426327@gmail.com"){
+                            navigate('/basics-admin-panel')
+                        }
+                        else {
+                            navigate("/Home")
+                            localStorage.setItem("user" , JSON.stringify(Response.data));
+                        }
+                    }
                 }
             })
             .catch((error)=>{
@@ -64,7 +75,7 @@ function Page() {
                 }
             })
         }else {
-            updateMessage("Please Fill All the Inputs")
+            alert("Please Fill All the Inputs")
         }
     }
     // const objectSuccess = ()=>{
@@ -89,7 +100,7 @@ function Page() {
     }
     const submitUserRegister = ()=>{
         
-        axios.post(`http://localhost:5300/Basics/CreateUser/${roleId}`,registerUserObj)
+        axios.post(`http://localhost:5300/Basics-Users/CreateUser/${roleId}`,registerUserObj)
         .then((registerRespose)=>{
             if (registerRespose !== null){
                 alert(registerRespose.data);
@@ -106,7 +117,7 @@ function Page() {
         })
     }
     return (
-        <div className="page-container">
+        <div className="page-container" data-aos="fade-down">
             {page ? (<>
                 <Container className='alerts'>
                     <Alert show={loginResponse} variant="danger" onClose={() => UpdateLoginResponse(false)} dismissible>

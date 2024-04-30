@@ -1,0 +1,36 @@
+.sidebar {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+  height: 100vh;
+}
+
+.sidebar.expanded {
+  width: 250px;
+  position: absolute;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+  position: relative;
+}
+
+.toggle-button {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-button:hover {
+  background-color: #0056b3;
+}

@@ -1,18 +1,23 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios';
 import { Button, Col, Container, FloatingLabel, Form } from 'react-bootstrap';
+import DataContext from '../useContext/DataContext';
 function Reviews() {
+    const users=JSON.parse(localStorage.getItem('user'));
+    const products = useContext(DataContext);
     useEffect(()=>{
         getAllProduct();
+        console.log("ProductId",products);
     }, [])
 
 //  commentVariable
     const [userComment, updateUserComment] = useState({
         comment : '',
-        userId : '',
-        productId : ''
+        userId : users.id,
+        productId : products.id
     });
+
 
 //  onChange comment
     const update = (inputResult) =>{

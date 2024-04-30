@@ -159,7 +159,7 @@ function Home() {
             <h5 className='my-md-4 fw-bolder ms-2'>Special Products for you</h5>
             <div><span className='ms-4'>Ends in :</span><span className='mx-1 bg-danger p-1'>{date} Days</span><span className='mx-1 bg-danger p-1'>{hours}</span> : <span className='mx-1 bg-danger  p-1'>{minutes}</span> : <span className='mx-1 bg-danger p-1'>{seconds}</span></div>
           </Col>
-          <Swiper slidesPerView={4} spaceBetween={40} freeMode={true}
+          <Swiper slidesPerView={'auto'} spaceBetween={40} freeMode={true}
             pagination={{
               clickable: true,
             }}

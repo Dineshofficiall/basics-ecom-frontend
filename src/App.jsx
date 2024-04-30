@@ -22,6 +22,7 @@ function App() {
   return (
     <>
         <Routes>
+
             {/* NavBar */}
             <Route path='/nav' element={<NavBar />} />
 

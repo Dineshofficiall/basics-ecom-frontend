@@ -88,15 +88,19 @@ function UsersTable() {
     const [count, updateCount] = useState(0);
     const roleFetchApi = (fetchId)=>{
         axios.get(`http://localhost:5300/Basics-Role/User-Role-Fetch/${fetchId}`)
-        .then((res)=>{
-            updateFetchRole(res.data)
-            setSmShow(true)
+        .then((res) => {
+            updateFetchRole(res.data);
+            if (res.data.length >= 0) {
+                setSmShow(true);
+            } else {
+                setSmShow(false);
+            }
             updateCount(1);
             console.log(res.data);
         })
-        .catch((err)=>{
+        .catch((err) => {
             console.log(err);
-        })
+        });
     }
     
     return (
@@ -124,8 +128,7 @@ function UsersTable() {
                                         <td>{response.password}</td>
                                         <td>{response.mail}</td>
                                         <td>{response.phoneNumber}</td>
-                                        <td className='d-flex justify-content-evenly align-items-center '> 
-                                                                {/* setRoleShow(!roleShow) */}
+                                        <td className='d-flex justify-content-evenly align-items-center '>
                                             <Button variant="outline-primary" onClick={() => roleFetchApi(response.id)} >click</Button>
                                             <Button onClick={handleShow} variant="outline-warning">Update</Button>{' '}
                                             <Button onClick={() => apiDelete(response.id)} variant="outline-danger">Delete</Button>{' '}

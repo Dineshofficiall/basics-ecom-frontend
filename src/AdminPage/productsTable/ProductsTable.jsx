@@ -26,12 +26,10 @@ function ProductsTable() {
     const [apiObj, updateApiObj] = useState ({
         productName : '',
         productDescription : '',
-        stocksUnit : [''],
         productPrice : '',
         categories : '',
         productImage : [''],
         productColor : '',
-        productSize : [''],
         productType : '',
         productGender : '',
         productDiscount : ''
@@ -121,8 +119,8 @@ function ProductsTable() {
     return (
         <>  
             <Container>
-                <h1 className='my-4'>Products</h1>
-                <p>To add new user: <Button onClick={() => setLgShow(true)}>click</Button></p>
+                <h1 className='my-4 text-center'>Products</h1>
+                <p>To add new product: <Button onClick={() => setLgShow(true)}>click</Button></p>
                 <Col sm={12}>
                     <div className="table-responsive">
                         <Table striped bordered hover>
@@ -135,11 +133,8 @@ function ProductsTable() {
                                     <th>IMAGE</th>
                                     <th>NAME</th>
                                     <th>PRODUCT_PRICE</th>
-                                    <th>SIZE</th>
                                     <th>TYPE</th>
-                                    <th>QUANTITY</th>
                                     <th>GENDER</th>
-                                    <th>DISCOUNT</th>
                                     <th>ACTIONS</th>
                                 </tr>
                             </thead>
@@ -153,9 +148,7 @@ function ProductsTable() {
                                         <td>{response.productImage}</td>
                                         <td>{response.productName}</td>
                                         <td>{response.productPrice}</td>
-                                        <td>{response.productSize}</td>
                                         <td>{response.productType}</td>
-                                        <td>{response.stocksUnit}</td>
                                         <td>{response.productGender}</td>
                                         <td>{response.productDiscount}</td>
                                         <td className='d-flex justify-content-evenly align-items-center '>
@@ -171,32 +164,46 @@ function ProductsTable() {
                                             <p className='fw-bold text-end old-label'>[Old Categories : {response.categories}]</p>
                                             <InputGroup className="mb-3 rounded-pill">
                                                 <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='categories' value={apiObj.categories} onChange={update} placeholder="Enter your categories" />
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='categories' value={apiObj.categories} onChange={update} placeholder="Enter the categories [ex : 'shirt','pant']" />
                                             </InputGroup>
-                                            <p className='fw-bold text-end old-label'>[Old ProductDescription : {response.productDescription}]</p>
+                                            <p className='fw-bold text-end old-label'>[Old Categories : {response.productColor}]</p>
+                                            <InputGroup className="mb-3 rounded-pill">
+                                                <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productColor' value={apiObj.productColor} onChange={update} placeholder="Enter the productColor [ex : 'red', 'black']" />
+                                            </InputGroup>
+                                            <p className='fw-bold text-end old-label'>[Old Categories : {response.productDescription}]</p>
                                             <InputGroup className="mb-3 rounded-pill">
                                                 <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdDescription /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productDescription' value={apiObj.productDescription} onChange={update} placeholder="Enter your productDescription" />
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productDescription' value={apiObj.productDescription} onChange={update} placeholder="Enter the productDescription [ex : 'abc']" />
                                             </InputGroup>
-                                            <p className='fw-bold text-end old-label'>[Old ProductImage : {response.productImage}]</p>
+                                            <p className='fw-bold text-end old-label'>[Old Categories : {response.productImage}]</p>
                                             <InputGroup className="mb-3 rounded-pill">
                                                 <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><BsImage /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productImage' value={apiObj.productImage} onChange={update} placeholder="Enter your productImage" />
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productImage' value={apiObj.productImage} onChange={update} placeholder="Enter your productImage [ex : {'https--','https--'}]" />
                                             </InputGroup>
-                                            <p className='fw-bold text-end old-label'>[Old ProductName : {response.productName}]</p>
+                                            <p className='fw-bold text-end old-label'>[Old Categories : {response.productName}]</p>
                                             <InputGroup className="mb-3 rounded-pill">
                                                 <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><BiLogoProductHunt /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productName' value={apiObj.productName} onChange={update} placeholder="Enter your productName" />
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productName' value={apiObj.productName} onChange={update} placeholder="Enter your productName [ex : 'GAP' , 'Banarse']" />
                                             </InputGroup>
-                                            <p className='fw-bold text-end old-label'>[Old ProductPrice : {response.productPrice}]</p>
+                                            <p className='fw-bold text-end old-label'>[Old Categories : {response.productPrice}]</p>
                                             <InputGroup className="mb-3 rounded-pill">
                                                 <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><MdOutlinePriceCheck /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productPrice' value={apiObj.productPrice} onChange={update} placeholder="Enter your productPrice" />
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productPrice' value={apiObj.productPrice} onChange={update} placeholder="Enter your productPrice [ex : 34.22]" />
                                             </InputGroup>
-                                            <p className='fw-bold text-end old-label'>[Old StocksUnit : {response.stocksUnit}]</p>
+                                            <p className='fw-bold text-end old-label'>[Old Categories : {response.productType}]</p>
+                                            <InputGroup className="mb-3 rounded-pill">
+                                                <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productType' value={apiObj.productType} onChange={update} placeholder="Enter the productType [ex : 'cotton']" />
+                                            </InputGroup>
+                                            <p className='fw-bold text-end old-label'>[Old Categories : {response.productGender}]</p>
                                             <InputGroup className="mb-3 rounded-pill">
                                                 <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><SiShutterstock /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='stocksUnit' value={apiObj.stocksUnit} onChange={update} placeholder="Enter your stocksUnit" />
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productGender' value={apiObj.productGender} onChange={update} placeholder="Enter your productGender [ex : Type Male OR Female]" />
+                                            </InputGroup>
+                                            <InputGroup className="mb-3 rounded-pill">
+                                                <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><SiShutterstock /></InputGroup.Text>
+                                                <Form.Control type="number" className='border-0 py-2 inputbox' name='productDiscount' value={apiObj.productDiscount} onChange={update} placeholder="Enter your productDiscount[% only]" />
                                             </InputGroup>
                                         </Modal.Body>
                                         <Modal.Footer className='updateForm'>
@@ -204,61 +211,52 @@ function ProductsTable() {
                                             <Button variant="outline-dark" onClick={() => apiUpdate(response.id)}>Save Changes</Button>
                                         </Modal.Footer>
                                     </Modal>
-
-                                    {/* createApi */}
-                                    <Modal size="lg" show={lgShow} onHide={() => setLgShow(false)} aria-labelledby="example-modal-sizes-title-lg">
-                                        <Modal.Header className='updateForm' closeButton>
-                                            <Modal.Title id="example-modal-sizes-title-lg">AddProductData</Modal.Title>
-                                        </Modal.Header>
-                                        <Modal.Body className='updateForm'>
-                                            <InputGroup className="mb-3 rounded-pill">
-                                                <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='categories' value={apiObj.categories} onChange={update} placeholder="Enter the categories [ex : 'shirt','pant']" />
-                                            </InputGroup>
-                                            <InputGroup className="mb-3 rounded-pill">
-                                                <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productColor' value={apiObj.productColor} onChange={update} placeholder="Enter the productColor [ex : 'red', 'black']" />
-                                            </InputGroup>
-                                            <InputGroup className="mb-3 rounded-pill">
-                                                <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdDescription /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productDescription' value={apiObj.productDescription} onChange={update} placeholder="Enter the productDescription [ex : 'abc']" />
-                                            </InputGroup>
-                                            <InputGroup className="mb-3 rounded-pill">
-                                                <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><BsImage /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productImage' value={apiObj.productImage} onChange={update} placeholder="Enter your productImage [ex : {'https--','https--'}]" />
-                                            </InputGroup>
-                                            <InputGroup className="mb-3 rounded-pill">
-                                                <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><BiLogoProductHunt /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productName' value={apiObj.productName} onChange={update} placeholder="Enter your productName [ex : 'GAP' , 'Banarse']" />
-                                            </InputGroup>
-                                            <InputGroup className="mb-3 rounded-pill">
-                                                <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><MdOutlinePriceCheck /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productPrice' value={apiObj.productPrice} onChange={update} placeholder="Enter your productPrice [ex : 34.22]" />
-                                            </InputGroup>
-                                            <InputGroup className="mb-3 rounded-pill">
-                                                <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productSize' value={apiObj.productSize} onChange={update} placeholder="Enter the productSize [ex : {'sm', 'lg'}]" />
-                                            </InputGroup>
-                                            <InputGroup className="mb-3 rounded-pill">
-                                                <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productType' value={apiObj.productType} onChange={update} placeholder="Enter the productType [ex : 'cotton']" />
-                                            </InputGroup>
-                                            <InputGroup className="mb-3 rounded-pill">
-                                                <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><SiShutterstock /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='productGender' value={apiObj.productGender} onChange={update} placeholder="Enter your productGender [ex : Type Male OR Female]" />
-                                            </InputGroup>
-                                            <InputGroup className="mb-3 rounded-pill">
-                                                <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><SiShutterstock /></InputGroup.Text>
-                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='stocksUnit' value={apiObj.stocksUnit} onChange={update} placeholder="Enter your stocksUnit [ex : {02,32,05}]" />
-                                            </InputGroup>
-                                        </Modal.Body>
-                                        <Modal.Footer className='updateForm'>
-                                            <Button variant="outline-dark" onClick={addSingleProduct}>Add New Product</Button>
-                                        </Modal.Footer>
-                                    </Modal>
-                                    {/* ends */}
                                 </tbody>
                             ))}
+                            {/* createApi */}
+                            <Modal size="lg" show={lgShow} onHide={() => setLgShow(false)} aria-labelledby="example-modal-sizes-title-lg">
+                                <Modal.Header className='updateForm' closeButton>
+                                    <Modal.Title id="example-modal-sizes-title-lg">AddProductData</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body className='updateForm'>
+                                    <InputGroup className="mb-3 rounded-pill">
+                                        <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
+                                        <Form.Control type="text" className='border-0 py-2 inputbox' name='categories' value={apiObj.categories} onChange={update} placeholder="Enter the categories [ex : 'shirt','pant']" />
+                                    </InputGroup>
+                                    <InputGroup className="mb-3 rounded-pill">
+                                        <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
+                                        <Form.Control type="text" className='border-0 py-2 inputbox' name='productColor' value={apiObj.productColor} onChange={update} placeholder="Enter the productColor [ex : 'red', 'black']" />
+                                    </InputGroup>
+                                    <InputGroup className="mb-3 rounded-pill">
+                                        <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdDescription /></InputGroup.Text>
+                                        <Form.Control type="text" className='border-0 py-2 inputbox' name='productDescription' value={apiObj.productDescription} onChange={update} placeholder="Enter the productDescription [ex : 'abc']" />
+                                    </InputGroup>
+                                    <InputGroup className="mb-3 rounded-pill">
+                                        <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><BsImage /></InputGroup.Text>
+                                        <Form.Control type="text" className='border-0 py-2 inputbox' name='productImage' value={apiObj.productImage} onChange={update} placeholder="Enter your productImage [ex : {'https--','https--'}]" />
+                                    </InputGroup>
+                                    <InputGroup className="mb-3 rounded-pill">
+                                        <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><BiLogoProductHunt /></InputGroup.Text>
+                                        <Form.Control type="text" className='border-0 py-2 inputbox' name='productName' value={apiObj.productName} onChange={update} placeholder="Enter your productName [ex : 'GAP' , 'Banarse']" />
+                                    </InputGroup>
+                                    <InputGroup className="mb-3 rounded-pill">
+                                        <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><MdOutlinePriceCheck /></InputGroup.Text>
+                                        <Form.Control type="text" className='border-0 py-2 inputbox' name='productPrice' value={apiObj.productPrice} onChange={update} placeholder="Enter your productPrice [ex : 34.22]" />
+                                    </InputGroup>
+                                    <InputGroup className="mb-3 rounded-pill">
+                                        <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
+                                        <Form.Control type="text" className='border-0 py-2 inputbox' name='productType' value={apiObj.productType} onChange={update} placeholder="Enter the productType [ex : 'cotton']" />
+                                    </InputGroup>
+                                    <InputGroup className="mb-3 rounded-pill">
+                                        <InputGroup.Text className='border-0 bg-secondary py-2 inputbox-label'><SiShutterstock /></InputGroup.Text>
+                                        <Form.Control type="text" className='border-0 py-2 inputbox' name='productGender' value={apiObj.productGender} onChange={update} placeholder="Enter your productGender [ex : Type Male OR Female]" />
+                                    </InputGroup>
+                                </Modal.Body>
+                                <Modal.Footer className='updateForm'>
+                                    <Button variant="outline-dark" onClick={addSingleProduct}>Add New Product</Button>
+                                </Modal.Footer>
+                            </Modal>
+                            {/* ends */}
                         </Table>
                     </div>
                 </Col>

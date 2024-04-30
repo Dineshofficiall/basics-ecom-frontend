@@ -19,6 +19,7 @@ import { Link, Outlet } from 'react-router-dom'
 // icons
 import { MdOutlineStarRate } from "react-icons/md";
 import { LiaHandHoldingHeartSolid } from "react-icons/lia";
+import DataContext from '../useContext/DataContext';
 
 function ProductDetailPage() {
     const [apiObj, updateApiObj] = useState('');
@@ -30,7 +31,7 @@ function ProductDetailPage() {
     const idByProduct = () =>{
         axios.get(`http://localhost:5300/Basics-Products/singleProduct/${Params.id}`)
         .then((response)=>{
-            console.log(response.data);
+            console.log("Data Products",response.data);
             updateApiObj(response.data);
         })
         .catch((error)=>{
@@ -44,42 +45,17 @@ function ProductDetailPage() {
 
     return (
         <>
+        <DataContext.Provider value={apiObj}>
             <NavBar />
 
             {/* Cards */}
-            {/* <Col sm={9} className='py-4'>
-                {apiObj.productPrice}
-                        <Row xs={1} md={2} lg={3} className="gx-3 gy-4">
-                            {apiObj.map((responseObject, index)=>(
-                                <Col >
-                                    <Card className='position-relative cards'>
-                                        <Card.Img variant="top" src={apiObj.productImage[0]} className='object-fit-contain ' style={{height : '30vh'}} />
-                                        <Card.Body>
-                                            <Col className='d-flex justify-content-between align-items-center '>
-                                                <Card.Text className='fw-bold fs-6 mb-2 d-flex justify-content-between align-items-center '>{apiObj.productName}</Card.Text>
-                                                <Button variant="outline-warning">4</Button>{' '}
-                                            </Col>
-                                            <Card.Text>Baiscs | Product | {apiObj.categories}</Card.Text> 
-                                            <Col className='d-flex justify-content-between align-items-center '> 
-                                                <span>Price : {apiObj.productPrice}</span>
-                                                <Button variant='outline-secondary rounded-pill' className='' onClick={()=> idByProduct(apiObj.id)}>Click Here</Button>{' '}
-                                            </Col>
-                                            <hr />
-                                            <small className='bg-primary p-2 rounded-pill text-light card-offer-btn'>{apiObj.productDiscount}%off</small>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                            ))}
-                        </Row>
-                    </Col> */}
-            {/* productDetails */}
             <Container>
                 <Row className='my-4 d-flex justify-content-center align-items-start'>
 
                     {/* img block */}
                     {apiObj!='' ? 
                       
-                      (<Col lg={4}>
+                    (<Col lg={4}>
                        
                          <Col lg={12} className='d-flex justify-content-center align-items-center mt-3'>
                             <Image src={apiObj.productImage[0]} style={{width : '80%', height : '50vh'}} />
@@ -100,8 +76,7 @@ function ProductDetailPage() {
                         </Col>
                        
                     </Col>
-                ):('')
-}
+                    ):('')}
 
                     {/* middle hide */}
                     <Col lg={6} className='pb-2 position-relative px-2'>
@@ -132,7 +107,7 @@ function ProductDetailPage() {
                             </Col>
                             <hr />
                             <Col lg={12}>
-                                <Outlet />
+                                <Outlet/>
                             </Col>
                         </Col>
                         <Col className='whislists p-0'>
@@ -144,6 +119,7 @@ function ProductDetailPage() {
 
             {/* footer */}
             <Footer />
+        </DataContext.Provider>
         </>
     );
 }
