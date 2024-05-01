@@ -14,7 +14,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { TbCurrencyRupee } from "react-icons/tb";
 import { TiStarHalfOutline } from "react-icons/ti";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 function Product() {
     const navigate = useNavigate();
 
@@ -59,9 +59,9 @@ function Product() {
             <NavBar />
 
             <Container className='bg-warning'>
-                <Image src="https://thegenuineleather.com/wp-content/uploads/2023/11/suede-jackets-banner-wepp-scaled.webp" className='banner-img object-fit-fill object-fit-md-cover object-fit-lg-cover' style={{width:`100%`, height : `45vh`,}} fluid />
+                <Image src="https://thegenuineleather.com/wp-content/uploads/2023/11/suede-jackets-banner-wepp-scaled.webp" className=' object-fit-fill object-fit-md-cover object-fit-lg-cover' style={{width:`100%`, height : `45vh`,}} fluid />
                 <div className='ms-4'>
-                    <span className='bg-info p-3 fw-bolder rounded-start-pill'>Home</span><span className='bg-danger p-3 fw-bolder rounded-end-pill '>Products..</span>
+                    <span className='bg-success p-3 fw-bolder rounded-start-pill'><Link className='text-decoration-none text-warning fw-bold links' to='/Home'>Home</Link></span><span className='bg-warning p-3 fw-bolder rounded-end-pill '><Link className='text-decoration-none text-success  links' to='/product'>Products..</Link></span>
                 </div>
             </Container>
 

@@ -98,7 +98,7 @@ function ProductDetailPage() {
                             </div>
                         </Col>
                         <Col className='mt-4'>
-                            <Button variant='outline-dark' className='w-50' onClick={pageDirectKart}>Add to cart</Button>
+                            <Button variant='outline-dark' className='w-50' onClick={()=>   pageDirectKart}>Add to cart</Button>
                         </Col>
                         <Col className='mt-4'>
                             <Col className='d-flex justify-content-start align-items-center py-2'>

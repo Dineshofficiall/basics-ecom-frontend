@@ -18,6 +18,7 @@ import ProductDetailPage from './ProductDetailPage/ProductDetailPage.jsx'
 import AboutProduct from './ProductDetailPage/AboutProduct.jsx'
 import Reviews from './ProductDetailPage/Reviews.jsx'
 import Kart from '../src/Kart/Kart.jsx'
+import About from './AboutPage/About.jsx'
 function App() {
   return (
     <>
@@ -48,6 +49,9 @@ function App() {
               <Route path='aboutProduct' element={<AboutProduct />} />
               <Route path='review' element={<Reviews />} />
             </Route>
+
+            {/* About */}
+            <Route path='/about' element={<About />}/>
 
             {/* Kart */}
             <Route path='/kart' element={<Kart />} />

@@ -89,7 +89,7 @@ function NavBar() {
             <Col md={4} lg={3} className='d-flex justify-content-evenly align-items-center links'>
               <Link className='text-decoration-none links' to='/Home'>Home</Link>
               <Link className='text-decoration-none links' to='/product'>Products</Link>
-              <Link className='text-decoration-none links' to='/Home'>About</Link>
+              <Link className='text-decoration-none links' to='/about'>About</Link>
             </Col>
             {/* sm-none md-5 lg */}
             <Col md={4} lg={3}>

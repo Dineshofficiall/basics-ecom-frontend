@@ -155,15 +155,15 @@ function Home() {
 
         {/* Special Products */}
         <Container className='my-5 cardsBlock px-5 pb-4'>
-          <Col sm={12} className='d-flex flex-column align-items-center justify-content-center flex-md-row  justify-content-md-start align-items-md-center my-4 my-md-0 '>
-            <h5 className='my-md-4 fw-bolder ms-2'>Special Products for you</h5>
-            <div><span className='ms-4'>Ends in :</span><span className='mx-1 bg-danger p-1'>{date} Days</span><span className='mx-1 bg-danger p-1'>{hours}</span> : <span className='mx-1 bg-danger  p-1'>{minutes}</span> : <span className='mx-1 bg-danger p-1'>{seconds}</span></div>
+          <Col sm={12} className='d-flex flex-column align-items-center justify-content-center flex-md-row  justify-content-md-start align-items-md-center  my-md-3 mt-md-4'>
+            <h5 className='fw-bolder ms-md-2 my-0'>Special Products for you</h5>
+            <div className='py-2 py-md-0 '><span className='ms-md-4'>Ends in :</span><span className='mx-md-1 bg-danger p-1'>{date} Days</span><span className='mx-md-1 bg-danger p-md-1'>{hours}</span> : <span className='mx-1 bg-danger  p-1'>{minutes}</span> : <span className='mx-1 bg-danger p-1'>{seconds}</span></div>
           </Col>
           <Swiper slidesPerView={'auto'} spaceBetween={40} freeMode={true}
-            pagination={{
-              clickable: true,
-            }}
-            modules={[FreeMode, Pagination]} className="mySwiper">
+            // pagination={{
+            //   clickable: true,
+            // }}
+            modules={[FreeMode, Pagination]} className="mySwiper py-4 py-lg-4">
             <SwiperSlide>
               {/* <Row xs={1} md={2} className="g-4"> */}
               <Col>
@@ -278,19 +278,20 @@ function Home() {
 
         {/* Best Products */}
         <Container className='my-5 cardsBlock px-5 pb-4'>
-          <Col sm={12} className='d-flex flex-column align-items-center justify-content-center flex-md-row  justify-content-md-start align-items-md-center my-4 my-md-0 '>
-            <h5 className='my-md-4 fw-bolder ms-2'>Best Product</h5>
+          <Col sm={12} className='d-flex flex-column align-items-center justify-content-center flex-md-row  justify-content-md-start align-items-md-center  my-md-3 mt-md-4'>
+            <h5 className='fw-bolder ms-md-2 my-0'>Special Products for you</h5>
+            <div className='py-2 py-md-0 '><span className='ms-md-4'>Ends in :</span><span className='mx-md-1 bg-danger p-1'>{date} Days</span><span className='mx-md-1 bg-danger p-md-1'>{hours}</span> : <span className='mx-1 bg-danger  p-1'>{minutes}</span> : <span className='mx-1 bg-danger p-1'>{seconds}</span></div>
           </Col>
-          <Swiper slidesPerView={4} spaceBetween={40} freeMode={true}
-            pagination={{
-              clickable: true,
-            }}
-            modules={[FreeMode, Pagination]} className="mySwiper">
+          <Swiper slidesPerView={'auto'} spaceBetween={40} freeMode={true}
+            // pagination={{
+            //   clickable: true,
+            // }}
+            modules={[FreeMode, Pagination]} className="mySwiper py-4 py-lg-4">
             <SwiperSlide>
               {/* <Row xs={1} md={2} className="g-4"> */}
               <Col>
                 <Card>
-                  <Card.Img variant="top" src="https://swiperjs.com/demos/images/nature-5.jpg"  />
+                  <Card.Img variant="top" src="https://swiperjs.com/demos/images/nature-5.jpg" style={{height:'25vh'}} />
                   <Card.Body>
                     <Card.Title>Card title</Card.Title>
                     <Card.Text>
@@ -306,7 +307,7 @@ function Home() {
               {/* <Row xs={1} md={2} className="g-4"> */}
               <Col>
                 <Card>
-                  <Card.Img variant="top" src="https://swiperjs.com/demos/images/nature-6.jpg"  />
+                  <Card.Img variant="top" src="https://swiperjs.com/demos/images/nature-6.jpg" style={{height:'25vh'}} />
                   <Card.Body>
                     <Card.Title>Card title</Card.Title>
                     <Card.Text>
@@ -322,7 +323,7 @@ function Home() {
               {/* <Row xs={1} md={2} className="g-4"> */}
               <Col>
                 <Card>
-                  <Card.Img variant="top" src="https://swiperjs.com/demos/images/nature-7.jpg"  />
+                  <Card.Img variant="top" src="https://swiperjs.com/demos/images/nature-7.jpg" style={{height:'25vh'}} />
                   <Card.Body>
                     <Card.Title>Card title</Card.Title>
                     <Card.Text>
@@ -338,7 +339,7 @@ function Home() {
               {/* <Row xs={1} md={2} className="g-4"> */}
               <Col>
                 <Card>
-                  <Card.Img variant="top" src="https://swiperjs.com/demos/images/nature-8.jpg"  />
+                  <Card.Img variant="top" src="https://swiperjs.com/demos/images/nature-8.jpg" style={{height:'25vh'}} />
                   <Card.Body>
                     <Card.Title>Card title</Card.Title>
                     <Card.Text>
@@ -354,7 +355,7 @@ function Home() {
               {/* <Row xs={1} md={2} className="g-4"> */}
               <Col>
                 <Card>
-                  <Card.Img variant="top" src="https://swiperjs.com/demos/images/nature-9.jpg"  />
+                  <Card.Img variant="top" src="https://swiperjs.com/demos/images/nature-9.jpg" style={{height:'25vh'}} />
                   <Card.Body>
                     <Card.Title>Card title</Card.Title>
                     <Card.Text>
@@ -382,15 +383,13 @@ function Home() {
         </Container>
 
         {/* feedBack */}
-        <Container className='my-5 cardsBlock pb-3'>
-          <Col sm={12} className='text-center my-4 my-md-0 '>
-            <h5 className='my-md-4 fw-bolder ms-2'>Customer FeedBack</h5>
-          </Col>
-          <Swiper slidesPerView={3} spaceBetween={40} freeMode={true}
-            pagination={{
-              clickable: true,
-            }}
-            modules={[FreeMode, Pagination]} className="mySwiper">
+        <Container className='my-5 cardsBlock px-5 pb-4'>
+            <h5 className='fw-bolder text-center mt-4'>FeedBack</h5>
+          <Swiper slidesPerView={'auto'} spaceBetween={40} freeMode={true}
+            // pagination={{
+            //   clickable: true,
+            // }}
+            modules={[FreeMode, Pagination]} className="mySwiper p-0">
             <SwiperSlide>
               {/* <Row xs={1} md={2} className="g-4"> */}
               <Col>
