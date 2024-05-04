@@ -1,8 +1,11 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react'
+import React, { useContext } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 
 function AboutProduct() {
+    // product id Display
+    // const dataContext = useContext();
+    // const localProductId = dataContext.productId;
     return (
         <>
             <Container>

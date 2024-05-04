@@ -15,7 +15,11 @@ import { AiOutlinePhone } from "react-icons/ai";
 import {useNavigate} from 'react-router-dom'
 
 import axios from 'axios'
+import { useDataContext } from '../useContext/DataContext';
 function Page() {
+    // useContext
+      const DataContext = useDataContext();
+
     // message
     const [message, updateMessage] = useState('');
 
@@ -63,8 +67,10 @@ function Page() {
                             navigate('/basics-admin-panel')
                         }
                         else {
-                            navigate("/Home")
-                            localStorage.setItem("user" , JSON.stringify(Response.data));
+                            const res = Response.data[0];
+                            console.log("checking res ==> ", res);
+                            DataContext.login(res);
+                            navigate("/Home");
                         }
                     }
                 }

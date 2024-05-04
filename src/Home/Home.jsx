@@ -24,6 +24,7 @@ import './styles2.css';
 import { FreeMode, Pagination } from 'swiper/modules';
 
 function Home() {
+
   // useNavigate
   const navigate = useNavigate();
 

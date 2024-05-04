@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React,{useEffect, useState} from 'react'
-import {Navbar, Container, Image, Col, Badge, Form, Button, Offcanvas} from 'react-bootstrap/';
+import {Navbar, Modal, Container, Image, Col, Badge, Form, Button, Offcanvas, Row} from 'react-bootstrap/';
 
 // icons
 import { FaLocationDot } from "react-icons/fa6";
@@ -16,7 +16,12 @@ import { FaUserAstronaut } from "react-icons/fa6";
 import { PiHandHeartDuotone } from "react-icons/pi";
 import { BsFillMenuAppFill } from "react-icons/bs";
 import axios from 'axios';
+import { useDataContext } from '../useContext/DataContext';
+// import Page from '../Login-Register/Page';
 function NavBar() {
+  // useContext
+  const dataContext = useDataContext();
+
   // useNavigate
   const navigate = useNavigate();
 
@@ -27,8 +32,6 @@ function NavBar() {
   const handleShow = () => setShow(true);
 
   const [status, setStatus] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
 
   const [locationResult, updateLocationResult] = useState(false)
   const fetchLocationData = () => {
@@ -43,8 +46,6 @@ function NavBar() {
             const stateData = data.principalSubdivision;
             const cityData = data.locality;
             setStatus(`${cityData}, ${stateData}`);
-            setCity(cityData);
-            setState(stateData);
 
             // result if true then show
             updateLocationResult(true);
@@ -68,9 +69,35 @@ function NavBar() {
     navigator.geolocation.getCurrentPosition(success, error);
   };
 
+  // Profile
+  const [profileShow, setProfileShow] = useState(false);
+
+  const handleProfileClose = () => setProfileShow(false);
+  const handleProfileShow = () => setProfileShow(true);
+
+  // profileValidation if the userObj not present then this block of code execute
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
+  const handleCloseProfileModal = () => setIsProfileModalOpen(false);
+  const handleOpenProfileModal = () => setIsProfileModalOpen(true);
+
+  const logingUser = () =>{
+    handleCloseProfileModal();
+    navigate('/');
+  }
+  // validation ends
+
+
   const kartPage = () =>{
     navigate('/kart')
   }
+
+  // logout
+  const logout = ()=>{
+    dataContext.logout();
+    navigate('/');
+  }
+
   // ends
   return (
     <>
@@ -99,10 +126,23 @@ function NavBar() {
               </Form>
             </Col>
             {/* sm-x md-x lg */}
+            {/* profile kart whishlist */}
             <Col lg={2} className='d-flex justify-content-evenly align-items-center fs-5 icons'>
-              <Link className='text-decoration-none icons' to='/Home'><FaUserAstronaut /></Link>
-              <Button variant="outline-primary" className='p-1 border-0 rounded-pill fs-5 icons' onClick={kartPage}><BiSolidShoppingBagAlt /><Badge className='p-1 text-dark bg-transparent'>1</Badge></Button>
-              <Link className='text-decoration-none fs-5 icons' to='/Home'><PiHandHeartDuotone /></Link>
+              {dataContext.userObject !== null ?
+                <Button variant="transparent" onClick={handleProfileShow}>
+                  <FaUserAstronaut />
+                </Button>
+              :
+                <Button variant="transparent" onClick={handleOpenProfileModal}>
+                  <FaUserAstronaut />
+                </Button>
+              }
+              {dataContext.kartPage === null ?
+                <Button variant="outline-primary" className='p-1 border-0 rounded-pill fs-5 icons' onClick={kartPage}><BiSolidShoppingBagAlt /><Badge className='p-1 text-dark bg-transparent'>1</Badge></Button>
+              :
+                <Link className='p-1 border-0 rounded-pill fs-5 icons text-dark' to='/emptyKart'><BiSolidShoppingBagAlt /></Link>
+              }
+              <Link className='text-decoration-none fs-5 icons text-dark ' to='/Home'><PiHandHeartDuotone /></Link>
             </Col>
 
             {/* ------------------------------------------------------------------- */}
@@ -144,6 +184,53 @@ function NavBar() {
             </Col>
             {/* ends */}
         </Navbar>
+        <Col>
+          <Offcanvas show={profileShow} onHide={handleProfileClose} placement="end" >
+            <Offcanvas.Header closeButton>
+              <Offcanvas.Title>My Account</Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+              <Row>
+                <Col sm={12} className='d-flex justify-content-start align-items-center mt-2 mb-3'>
+                  <Image src='https://t4.ftcdn.net/jpg/04/21/43/95/360_F_421439576_zzg0kGw1QZ6S6WDAS4qgglRPP4wxddjS.jpg' className='object-fit-cover ' style={{width : '22%', height : '12vh', borderRadius : '100%'}}/>
+                  <div className='ms-4'>
+                    <h5>Your Name</h5>
+                    <h6>Mail id</h6>
+                  </div>
+                </Col>
+                <hr />
+                <Col sm={12} className='px-3 profile-section'>
+                  <p>Coupan</p>
+                  <p>Wallet</p>
+                  <p>Saved Cards</p>
+                  <p>Saved Address</p>
+                  <p>Orders</p>
+                </Col>
+                <hr />
+              </Row>
+            </Offcanvas.Body>
+            <Button variant='outline-danger' onClick={logout}>Logout</Button>
+          </Offcanvas>
+        </Col>
+        <Col>
+        <Modal show={isProfileModalOpen} onHide={handleCloseProfileModal} animation={false}>
+          <Modal.Header closeButton>
+              <Modal.Title>Login Failed!</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <h5>Oops you are not login</h5>
+              <h6>Please Login!!</h6>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseProfileModal}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={logingUser}>
+                Login
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Col>
       </Container>
       <hr className='my-1'/>
     </>

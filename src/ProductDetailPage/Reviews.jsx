@@ -1,21 +1,26 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Button, Col, Container, FloatingLabel, Form } from 'react-bootstrap';
-import DataContext from '../useContext/DataContext';
+import { useDataContext } from '../useContext/DataContext';
 function Reviews() {
-    const users=JSON.parse(localStorage.getItem('user'));
-    const products = useContext(DataContext);
+
+    // useContext
+    const dataContext = useDataContext();
+    
+    let usersId = dataContext.userObject;
+    const productsId = dataContext.productId
+
+    // useEffect
     useEffect(()=>{
         getAllProduct();
-        console.log("ProductId",products);
     }, [])
 
 //  commentVariable
     const [userComment, updateUserComment] = useState({
         comment : '',
-        userId : users.id,
-        productId : products.id
+        userId : '',
+        productId : productsId
     });
 
 
@@ -33,8 +38,8 @@ function Reviews() {
     }
 
 //  send singleProduct
-    const submit = () =>{
-        axios.post(`http://localhost:5300/Basics-Comments/createNewComment${userComment}`)
+    const commentApi = () =>{
+        axios.post(`http://localhost:5300/Basics-Comments/createNewComment`, userComment)
         .then((res)=>{
             console.log(res);
         })
@@ -43,19 +48,27 @@ function Reviews() {
         })
     }
 
-    // allProduct
+    // userPrefferedProduct
     const getAllProduct = () =>{
-        axios.get("http://localhost:5300/Basics-Comments/allComment")
-        .then((res)=>{
-            console.log(res);
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
+        // axios.get(`http://localhost:5300/Basics-Comments/allComment${productsId}`)
+        // .then((res)=>{
+        //     console.log(res);
+        // })
+        // .catch((err)=>{
+        //     console.log(err);
+        // })
+    }
+
+    const submit = ()=>{
+        updateUserComment({
+            userId : usersId
+        });
+        console.log(usersId);
+        commentApi();
     }
     return (
         <>
-            <Container>
+            <Container>                
                 <Col lg={12}>
                     <FloatingLabel controlId="floatingTextarea2" label="Comments">
                         <Form.Control as="textarea"

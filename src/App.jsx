@@ -19,9 +19,13 @@ import AboutProduct from './ProductDetailPage/AboutProduct.jsx'
 import Reviews from './ProductDetailPage/Reviews.jsx'
 import Kart from '../src/Kart/Kart.jsx'
 import About from './AboutPage/About.jsx'
+import { DataContextProvider } from './useContext/DataContext.jsx'
+import EmptyKart from './Kart/EmptyKart.jsx'
+import RequiresAuth from './RequiresAuth/RequiresAuth.jsx'
 function App() {
   return (
     <>
+      <DataContextProvider>
         <Routes>
 
             {/* NavBar */}
@@ -54,10 +58,13 @@ function App() {
             <Route path='/about' element={<About />}/>
 
             {/* Kart */}
-            <Route path='/kart' element={<Kart />} />
+            <Route path='/kart' element={<RequiresAuth><Kart /></RequiresAuth>} />
+
+            {/* Empty Kart */}
+            <Route path='/emptyKart' element={<EmptyKart />}/>
 
             {/* Kart/id */}
-            <Route path='/kart/:id' element={<Kart />} />
+            <Route path='/kart/:id' element={<RequiresAuth><Kart /></RequiresAuth>} />
               
             {/* default page */}
             <Route path='/' element={<Page />} />
@@ -69,7 +76,7 @@ function App() {
             <Route path='/foot' element={<Footer />} />
             
             {/* admin */}
-            <Route path='/basics-admin-panel' element={<Admin />} >
+            <Route path='/basics-admin-panel' element={<RequiresAuth><Admin /></RequiresAuth>}>
               {/* <Route path='admin' element={<AdminTable />} /> */}
               <Route path='users' element={<UserTable />} />
               <Route path='orders' element={<OrdersTable />} />
@@ -77,6 +84,7 @@ function App() {
               <Route path='sellers' element={<SellersTable />} />
             </Route>
         </Routes>
+      </DataContextProvider>
     </>
   )
 }

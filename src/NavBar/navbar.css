@@ -10,10 +10,10 @@
 .location-text{
     font-size: 14px;
 }
-/* @media screen and (max-width : 760px) {
-    
-} */
-
+.profile-section  p{
+    margin: 35px 0 !important;
+    cursor: pointer;
+}
 @media screen and (max-width : 767px) {
     .logo{
         width: 100px;

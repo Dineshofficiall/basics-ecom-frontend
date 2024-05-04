@@ -19,14 +19,28 @@ import { Link, Outlet } from 'react-router-dom'
 // icons
 import { MdOutlineStarRate } from "react-icons/md";
 import { LiaHandHoldingHeartSolid } from "react-icons/lia";
-import DataContext from '../useContext/DataContext';
+import { useDataContext } from '../useContext/DataContext';
 
 function ProductDetailPage() {
+
+    // const navigate = useNavigate();
+
     const [apiObj, updateApiObj] = useState('');
     const Params = useParams();
+
+    // useContext
+    const dataContext = useDataContext();
+    const productId = Params.id;
+    
+
+    // useEffect
     useEffect(()=>{
         idByProduct();
+        dataContext.addProduct(productId);
     }, [])
+
+    // const [kartObj, updateKartObj] = useState(null)
+    
 
     const idByProduct = () =>{
         axios.get(`http://localhost:5300/Basics-Products/singleProduct/${Params.id}`)
@@ -39,13 +53,14 @@ function ProductDetailPage() {
         })
     }
     
-    const pageDirectKart = ()=>{
-        
+    const pageDirectKart = (pId)=>{
+        console.log(pId);
     }
 
     return (
         <>
-        <DataContext.Provider value={apiObj}>
+
+        {/* context */}
             <NavBar />
 
             {/* Cards */}
@@ -56,8 +71,8 @@ function ProductDetailPage() {
                     {apiObj!='' ? 
                       
                     (<Col lg={4}>
-                       
-                         <Col lg={12} className='d-flex justify-content-center align-items-center mt-3'>
+                        
+                        <Col lg={12} className='d-flex justify-content-center align-items-center mt-3'>
                             <Image src={apiObj.productImage[0]} style={{width : '80%', height : '50vh'}} />
                         </Col>
                         <Col lg={12} className='d-flex justify-content-evenly align-items-center my-3'>
@@ -98,7 +113,7 @@ function ProductDetailPage() {
                             </div>
                         </Col>
                         <Col className='mt-4'>
-                            <Button variant='outline-dark' className='w-50' onClick={()=>   pageDirectKart}>Add to cart</Button>
+                            <Button variant='outline-dark' className='w-50' onClick={()=>   pageDirectKart(apiObj.id)}>Add to cart</Button>
                         </Col>
                         <Col className='mt-4'>
                             <Col className='d-flex justify-content-start align-items-center py-2'>
@@ -119,7 +134,6 @@ function ProductDetailPage() {
 
             {/* footer */}
             <Footer />
-        </DataContext.Provider>
         </>
     );
 }
