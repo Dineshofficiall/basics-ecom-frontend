@@ -21,6 +21,7 @@ import { useDataContext } from '../useContext/DataContext';
 function NavBar() {
   // useContext
   const dataContext = useDataContext();
+  const userProfile = dataContext.userObject;
 
   // useNavigate
   const navigate = useNavigate();
@@ -184,6 +185,7 @@ function NavBar() {
             </Col>
             {/* ends */}
         </Navbar>
+        {userProfile !== null ?
         <Col>
           <Offcanvas show={profileShow} onHide={handleProfileClose} placement="end" >
             <Offcanvas.Header closeButton>
@@ -194,8 +196,8 @@ function NavBar() {
                 <Col sm={12} className='d-flex justify-content-start align-items-center mt-2 mb-3'>
                   <Image src='https://t4.ftcdn.net/jpg/04/21/43/95/360_F_421439576_zzg0kGw1QZ6S6WDAS4qgglRPP4wxddjS.jpg' className='object-fit-cover ' style={{width : '22%', height : '12vh', borderRadius : '100%'}}/>
                   <div className='ms-4'>
-                    <h5>Your Name</h5>
-                    <h6>Mail id</h6>
+                    <h5>{userProfile.userName}</h5>
+                    <h6>{userProfile.mail}</h6>
                   </div>
                 </Col>
                 <hr />
@@ -212,6 +214,10 @@ function NavBar() {
             <Button variant='outline-danger' onClick={logout}>Logout</Button>
           </Offcanvas>
         </Col>
+        :
+        ""
+        }
+
         <Col>
         <Modal show={isProfileModalOpen} onHide={handleCloseProfileModal} animation={false}>
           <Modal.Header closeButton>

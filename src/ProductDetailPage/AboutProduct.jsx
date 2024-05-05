@@ -1,34 +1,62 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useContext } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import { Col, Container } from 'react-bootstrap'
+import { useDataContext } from '../useContext/DataContext';
 
 function AboutProduct() {
     // product id Display
-    // const dataContext = useContext();
-    // const localProductId = dataContext.productId;
+    const dataContext = useDataContext();
+    
+
+    useEffect (()=>{
+        aboutProductApi();
+        // console.log("DataContext Product id ===>", localProductId);
+    }, [])
+
+
+    const [aboutDetails, updateAboutDetails] = useState();
+    const aboutProductApi = () =>{
+        const localProductId = dataContext.productId;
+        console.log(localProductId);
+        axios.get(`http://localhost:5300/Basics-Products/singleProduct/${localProductId}`)
+        .then((response)=>{
+            console.log("About Products ===>",response.data);
+            updateAboutDetails(response.data);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+        
+    }
     return (
         <>
             <Container>
-                <Row>
-                    <Col lg={12}>
-                        <div className='d-flex justify-content-between align-items-center '>
-                            <p>Brand : Basics</p>
-                            <p>Color : Yellow</p>
-                        </div>
-                        <div className='d-flex justify-content-between align-items-center '>
-                            <p>Category : Shirt</p>
-                            <p>Material : Polyster</p>
-                        </div>
-                        <div className='d-flex justify-content-between align-items-center '>
-                            <p>Gender : Male</p>
-                            <p>Discount : 50%</p>
-                        </div>
-                    </Col>
+                {aboutDetails ? (
                     <Col>
-                        <h6>Description</h6>
-                        <p className='px-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, error exercitationem. Et, ut placeat explicabo asperiores accusantium libero animi aliquam? Et.</p>
+                        <Col lg={12}>
+                            <div className='d-flex justify-content-between align-items-center '>
+                                <p>Brand : {aboutDetails.productName}</p>
+                                <p>Color : {aboutDetails.productColor}</p>
+                            </div>
+                            <div className='d-flex justify-content-between align-items-center '>
+                                <p>Category : {aboutDetails.categories}</p>
+                                <p>Material : {aboutDetails.productType}</p>
+                            </div>
+                            <div className='d-flex justify-content-between align-items-center '>
+                                <p>Gender : {aboutDetails.productGender}</p>
+                                <p>Discount : {aboutDetails.productDiscount}</p>
+                            </div>
+                        </Col>
+                        <hr />
+                        <Col>
+                            <p>Description : {aboutDetails.productDescription}</p>
+                        </Col>
+                        
                     </Col>
-                </Row>
+                ) : (
+                    <p>Loading...</p>
+                )}
             </Container>
         </>
     )

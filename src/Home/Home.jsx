@@ -29,7 +29,7 @@ function Home() {
   const navigate = useNavigate();
 
   // offerPeriod
-  const [offerDate, updateOfferDate] = useState(new Date("April 26, 2024 00:00:00").getTime())
+  const [offerDate, updateOfferDate] = useState(new Date("May 26, 2024 00:00:00").getTime())
   
   // currentDate Variable
   const [currentTime, updateCurrentTime] = useState()
@@ -156,7 +156,7 @@ function Home() {
 
         {/* Special Products */}
         <Container className='my-5 cardsBlock px-5 pb-4'>
-          <Col sm={12} className='d-flex flex-column align-items-center justify-content-center flex-md-row  justify-content-md-start align-items-md-center  my-md-3 mt-md-4'>
+          <Col sm={12} className='d-flex flex-column align-items-center justify-content-center flex-md-row  justify-content-md-start align-items-md-center  my-md-3 mt-md-4 pt-4'>
             <h5 className='fw-bolder ms-md-2 my-0'>Special Products for you</h5>
             <div className='py-2 py-md-0 '><span className='ms-md-4'>Ends in :</span><span className='mx-md-1 bg-danger p-1'>{date} Days</span><span className='mx-md-1 bg-danger p-md-1'>{hours}</span> : <span className='mx-1 bg-danger  p-1'>{minutes}</span> : <span className='mx-1 bg-danger p-1'>{seconds}</span></div>
           </Col>
@@ -279,9 +279,8 @@ function Home() {
 
         {/* Best Products */}
         <Container className='my-5 cardsBlock px-5 pb-4'>
-          <Col sm={12} className='d-flex flex-column align-items-center justify-content-center flex-md-row  justify-content-md-start align-items-md-center  my-md-3 mt-md-4'>
-            <h5 className='fw-bolder ms-md-2 my-0'>Special Products for you</h5>
-            <div className='py-2 py-md-0 '><span className='ms-md-4'>Ends in :</span><span className='mx-md-1 bg-danger p-1'>{date} Days</span><span className='mx-md-1 bg-danger p-md-1'>{hours}</span> : <span className='mx-1 bg-danger  p-1'>{minutes}</span> : <span className='mx-1 bg-danger p-1'>{seconds}</span></div>
+          <Col sm={12} className='d-flex flex-column align-items-center justify-content-center flex-md-row  justify-content-md-start align-items-md-center  my-md-3 mt-md-4 pt-4'>
+            <h5 className='fw-bolder ms-md-2 my-0'>Best Products for you</h5>
           </Col>
           <Swiper slidesPerView={'auto'} spaceBetween={40} freeMode={true}
             // pagination={{
@@ -385,7 +384,7 @@ function Home() {
 
         {/* feedBack */}
         <Container className='my-5 cardsBlock px-5 pb-4'>
-            <h5 className='fw-bolder text-center mt-4'>FeedBack</h5>
+            <h5 className='fw-bolder text-center mt-4 pt-4'>FeedBack</h5>
           <Swiper slidesPerView={'auto'} spaceBetween={40} freeMode={true}
             // pagination={{
             //   clickable: true,

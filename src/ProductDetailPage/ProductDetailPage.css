@@ -3,3 +3,9 @@
     top: 6px;
     right: 1.5px;
 }
+
+/* productDetail images */
+.product-img {
+    cursor: pointer !important;
+    transition: 1s !important;
+}

@@ -1,10 +1,12 @@
 import { createContext, useContext, useState } from "react";
+import { json } from "react-router-dom";
 
 const DataContext = createContext();
 
 export const DataContextProvider = ({children})=>{
     // userId-obj
-    const [userObject, updateUserObject] = useState(null);
+    
+    const [userObject, updateUserObject] = useState(JSON.parse(localStorage.getItem('user')) ?? null);
 
     // each product id would store temporary if the user clicks it changes dynamically
     const [productId, updateProduct] = useState();
@@ -14,11 +16,15 @@ export const DataContextProvider = ({children})=>{
 
     // login
     const login = (obj)=>{
+        console.log('calling login...', obj);
+        localStorage.setItem('user', JSON.stringify(obj));
         updateUserObject(obj);
     }
 
     // logout
     const logout = ()=>{
+        console.log('calling logout...');
+        localStorage.removeItem('user');
         updateUserObject(null);
     }
 

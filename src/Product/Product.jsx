@@ -1,8 +1,8 @@
 // eslint-disable-next-line no-unused-vars
-import React, {useState} from 'react'
+import React, { useRef, useState } from 'react';
 import NavBar from '../NavBar/NavBar'
 import Footer from '../Footer/Footer'
-import { Container, Image, Row, Col, Card, Form, Dropdown, Button, Accordion, Pagination} from 'react-bootstrap';
+import { Container, Image, Row, Col, Card, Form, Dropdown, Button, Accordion} from 'react-bootstrap';
 
 // css
 import '../Product/product.css'
@@ -15,6 +15,8 @@ import { useEffect } from 'react';
 import { TbCurrencyRupee } from "react-icons/tb";
 import { TiStarHalfOutline } from "react-icons/ti";
 import { Link, useNavigate } from 'react-router-dom';
+
+
 function Product() {
     const navigate = useNavigate();
 
@@ -43,17 +45,6 @@ function Product() {
         navigate(`/productDetails/${productId}`)
     }
 
-    // pagination
-    let active = 2;
-    let items = [];
-    for (let number = 1; number <= 5; number++) {
-    items.push(
-        <Pagination.Item key={number} active={number === active}>
-        {number}
-        </Pagination.Item>,
-    );
-    }
-
     return (
         <>
             <NavBar />
@@ -63,15 +54,6 @@ function Product() {
                 <div className='ms-4'>
                     <span className='bg-success p-3 fw-bolder rounded-start-pill'><Link className='text-decoration-none text-warning fw-bold links' to='/Home'>Home</Link></span><span className='bg-warning p-3 fw-bolder rounded-end-pill '><Link className='text-decoration-none text-success  links' to='/product'>Products..</Link></span>
                 </div>
-            </Container>
-
-            {/* swipper block categories */}
-            <Container>
-                <Row>
-                    <Col>
-                        
-                    </Col>
-                </Row>
             </Container>
 
             <Container className='my-5'>
@@ -347,11 +329,11 @@ function Product() {
             </Container>
 
             {/* Pagination */}
-            <Container>
+            {/* <Container>
                 <div className='d-flex justify-content-center align-items-center '>
                     <Pagination size="sm" className='mx-1'>{items}</Pagination>
                 </div>
-            </Container>
+            </Container> */}
 
             {/* Footer */}
             <Footer />

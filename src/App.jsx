@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react'
+import React, { useEffect } from 'react'
 import{Routes, Route} from 'react-router-dom'
 
 import Page from './Login-Register/Page'
@@ -23,9 +23,12 @@ import { DataContextProvider } from './useContext/DataContext.jsx'
 import EmptyKart from './Kart/EmptyKart.jsx'
 import RequiresAuth from './RequiresAuth/RequiresAuth.jsx'
 function App() {
+
+  useEffect(() => {
+    console.log('Loading app ....')
+  }, [])
   return (
     <>
-      <DataContextProvider>
         <Routes>
 
             {/* NavBar */}
@@ -84,7 +87,6 @@ function App() {
               <Route path='sellers' element={<SellersTable />} />
             </Route>
         </Routes>
-      </DataContextProvider>
     </>
   )
 }
