@@ -12,18 +12,33 @@ function Reviews() {
     // useContext
     const dataContext = useDataContext();
     
-    let usersId = dataContext.userObject;
+    let usersId = dataContext.userObject.id;
     const productsId = dataContext.productId
 
+
+    // userComments
+    const [comments, updateComments] = useState(null);
     // useEffect
     useEffect(()=>{
-        getAllProduct();
-    }, [])
+
+        const fetchComments = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5300/Basics-Comments/allComment/${productsId}`);
+                updateComments(response.data); // Update comments with fetched data
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+            }
+        };
+    
+        if (productsId !== null) {
+            fetchComments(); // Only fetch comments if productsId is not null
+        }
+    }, [productsId])
 
 //  commentVariable
     const [userComment, updateUserComment] = useState({
         comment : '',
-        userId : null,
+        userId : usersId,
         productId : productsId
     });
 
@@ -60,16 +75,6 @@ function Reviews() {
         })
     }
 
-    // userPrefferedProduct
-    const getAllProduct = () =>{
-        // axios.get(`http://localhost:5300/Basics-Comments/allComment${productsId}`)
-        // .then((res)=>{
-        //     console.log(res);
-        // })
-        // .catch((err)=>{
-        //     console.log(err);
-        // })
-    }
     
     // modal
     const [show, setShow] = useState(false);
@@ -79,12 +84,7 @@ function Reviews() {
     // ends
 
     
-    const submit = ()=>{
-        updateUserComment({
-            userId : usersId
-        });
-        console.log(usersId);
-        
+    const submit = ()=>{        
         commentApi();
     }
 
@@ -151,10 +151,24 @@ function Reviews() {
                     </Modal.Footer>
                 </Modal>
 
-                <Col lg={12} className='bg-secondary p-2'>
-                    <p className='fw-bold'>UserName : </p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam vel commodi et in! Maiores laboriosam illo vel dignissimos aspernatur animi rem impedit voluptates quas repellendus.</p>
+                {/* <Col lg={12} className='bg-secondary p-2'>
+                    <p className='fw-bold'>User Comments:</p>
+                    {comments && comments.map((comment, index) => (
+                        <p key={index}>{comment}</p>
+                    ))}
                     <hr />
+                </Col> */}
+
+                <Col lg={12} className=' p-2'>
+                    <p className='fw-bold'>User Comments:</p>
+                    {comments && comments.map(comment => (
+                        <div key={comment.id}>
+                            <p>User ID: {comment.userId}</p>
+                            <p>Comment: {comment.comment}</p>
+                            {/* Add additional fields as needed */}
+                            <hr />
+                        </div>
+                    ))}
                 </Col>
             </Container>
         </>

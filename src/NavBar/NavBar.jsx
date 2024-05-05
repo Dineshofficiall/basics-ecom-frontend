@@ -105,7 +105,7 @@ function NavBar() {
       <Container fluid>
         <Navbar expand="lg" sticky="top" className="d-flex justify-content-between align-items-center p-0">
             {/* sm-6 md-2 */}
-            <Col sm={6} md={2} lg={2}  className='text-start'>
+            <Col sm={9} md={2} lg={2}  className='text-start'>
               <Navbar.Brand href="/Home"><Image src="https://basicslife.com/cdn/shop/files/Untitled-4-01_80x@2x.png?v=1711019726" className='logo' thumbnail /></Navbar.Brand>
             </Col>
             {/* sm-none md-none*/}
@@ -128,7 +128,7 @@ function NavBar() {
             </Col>
             {/* sm-x md-x lg */}
             {/* profile kart whishlist */}
-            <Col lg={2} className='d-flex justify-content-evenly align-items-center fs-5 icons'>
+            <Col sm={1} lg={2} className='d-flex justify-content-evenly align-items-center fs-5 icons'>
               {dataContext.userObject !== null ?
                 <Button variant="transparent" onClick={handleProfileShow}>
                   <FaUserAstronaut />
@@ -149,7 +149,7 @@ function NavBar() {
             {/* ------------------------------------------------------------------- */}
 
             {/* burger menu */}
-            <Col sm={6} md={1} className='burgerMenu pe-2 pe-md-0 d-flex justify-content-end justify-content-md-evenly  align-items-center'>
+            <Col sm={1} md={1} className='burgerMenu pe-2 pe-md-0 d-flex justify-content-end justify-content-md-evenly  align-items-center'>
               <Button variant="secondary" onClick={handleShow}><BsFillMenuAppFill /></Button>
 
               <Offcanvas show={show} onHide={handleClose} placement={"end"}>

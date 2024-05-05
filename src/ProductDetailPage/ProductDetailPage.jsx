@@ -49,17 +49,15 @@ function ProductDetailPage() {
 
         idByProduct();
 
-    const productId = Params.id;
-    console.log(productId);
-    setLoaded(true);
-    
-    dataContext.addProduct(productId);
+        const productId = Params.id;
+        console.log(productId);
+        setLoaded(true);
+        
+        dataContext.addProduct(productId);
+
     }, [Params.id, dataContext])
 
     // const [kartObj, updateKartObj] = useState(null)
-    
-
-    
     
     // kart page
     const pageDirectKart = (pId)=>{
@@ -80,7 +78,6 @@ function ProductDetailPage() {
         {
             return (
                 <>
-        
                 {/* context */}
                     <NavBar />
         
@@ -134,7 +131,7 @@ function ProductDetailPage() {
                                     </div>
                                 </Col>
                                 <Col className='mt-4'>
-                                    <Button variant='outline-dark' className='w-50' onClick={()=>   pageDirectKart(apiObj.id)}>Add to cart</Button>
+                                    <Button variant='outline-dark' className='w-50' onClick={()=>pageDirectKart(apiObj.id)}>Add to cart</Button>
                                 </Col>
                                 <Col className='mt-4'>
                                     <Col className='d-flex justify-content-start align-items-center py-2'>
@@ -157,11 +154,10 @@ function ProductDetailPage() {
                     <Footer />
                 </>
             );
-        }
-
-        else {
-            return (<div>Loading...</div>)
-        }
+    }
+    else {
+        return (<div>Loading...</div>)
+    }
 }
 
 export default ProductDetailPage

@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Col, Container, Image, Row, Button, Navbar } from 'react-bootstrap'
 
 import '../Kart/kart.css'
@@ -9,8 +9,51 @@ import { HiMiniPlusSmall, HiMiniMinusSmall  } from "react-icons/hi2";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import axios from 'axios';
+import { useDataContext } from '../useContext/DataContext';
+import { useParams } from 'react-router-dom';
 
 function Kart() {
+
+    // useContext
+    const dataContext = useDataContext();
+
+    // params
+    const params = useParams();
+
+    // kart object backend to create
+    const [kartObj, setKartObj] = useState({
+        productId : params.id,
+        userId : dataContext.userObject.id
+    });
+    
+    useEffect(()=>{
+        console.log("productId kart =====> ", params.id, "userId =====>", dataContext.userObject.id);
+    
+        const kartApi = ()=>{
+            axios.post(`http://localhost:5300/basics-kart/createKart`, kartObj)
+            .then((res)=>{
+                console.log(res.data);
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
+        }
+
+        kartApi();
+
+        const allKartProducts = ()=>{
+            axios.get(`http://localhost:5300/basics-kart/getAllKartData/${dataContext.userObject.id}`)
+            .then((res)=>{
+                console.log(res.data);
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
+        }
+
+        allKartProducts();
+    }, [])
+
     // button quantity
     const [quantity, UpdateQuantity] = useState(0);
 
