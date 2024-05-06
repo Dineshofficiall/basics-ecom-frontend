@@ -29,6 +29,7 @@ function Kart() {
     const [loading, setLoading] = useState(true);
 
     const [userKartObj, updateUserKartObj] = useState();
+
     useEffect(()=>{
         console.log("productId kart =====> ", params.id, "userId =====>", dataContext.userObject.id);
     
@@ -45,7 +46,7 @@ function Kart() {
                     setLoading(false);
                 }, 300)
             } catch (error) {
-                console.error('error fetching allkartReponse');
+                console.error('error fetching allkartReponse', error);
                 setLoading(false);
             }
 
@@ -63,7 +64,7 @@ function Kart() {
 
     }, [dataContext.userObject.id, kartObj, params.id])
 
-    const kartApi = () =>{
+    // const kartApi = () =>{
 
         // try {
         //     setTimeout(async ()=>{
@@ -74,14 +75,14 @@ function Kart() {
         // } catch (error) {
         //     console.error('error fetching kart', error);
         // }
-        axios.post(`http://localhost:5300/basics-kart/createKart`, kartObj)
-        .then((res)=>{
-            console.log(res.data);
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
-    }
+        // axios.post(`http://localhost:5300/basics-kart/createKart`, kartObj)
+        // .then((res)=>{
+        //     console.log(res.data);
+        // })
+        // .catch((err)=>{
+        //     console.log(err);
+        // })
+    // }
 
     // button quantity
     const [quantity, UpdateQuantity] = useState(0);

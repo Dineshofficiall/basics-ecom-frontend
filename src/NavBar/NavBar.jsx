@@ -83,8 +83,8 @@ function NavBar() {
   const handleOpenProfileModal = () => setIsProfileModalOpen(true);
 
   const logingUser = () =>{
-    handleCloseProfileModal();
     navigate('/');
+    handleCloseProfileModal();
   }
   // validation ends
 
@@ -137,6 +137,7 @@ function NavBar() {
                 <Button variant="transparent" onClick={handleOpenProfileModal}>
                   <FaUserAstronaut />
                 </Button>
+                
               }
               {dataContext.kartPage === null ?
                 <Button variant="outline-primary" className='p-1 border-0 rounded-pill fs-5 icons' onClick={kartPage}><BiSolidShoppingBagAlt /><Badge className='p-1 text-dark bg-transparent'>1</Badge></Button>
@@ -185,7 +186,7 @@ function NavBar() {
             </Col>
             {/* ends */}
         </Navbar>
-        {userProfile !== null ?
+        {userProfile !== null &&
         <Col>
           <Offcanvas show={profileShow} onHide={handleProfileClose} placement="end" >
             <Offcanvas.Header closeButton>
@@ -214,8 +215,8 @@ function NavBar() {
             <Button variant='outline-danger' onClick={logout}>Logout</Button>
           </Offcanvas>
         </Col>
-        :
-        ""
+        // :
+        // ""
         }
 
         <Col>

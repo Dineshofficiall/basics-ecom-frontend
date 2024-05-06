@@ -64,6 +64,8 @@ function Page() {
                     }
                     else {
                         if(Response.data[0].mail === "dk426327@gmail.com"){
+                            const res = Response.data[0];
+                            DataContext.login(res);
                             navigate('/basics-admin-panel')
                         }
                         else {
