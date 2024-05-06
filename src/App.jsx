@@ -19,7 +19,6 @@ import AboutProduct from './ProductDetailPage/AboutProduct.jsx'
 import Reviews from './ProductDetailPage/Reviews.jsx'
 import Kart from '../src/Kart/Kart.jsx'
 import About from './AboutPage/About.jsx'
-import { DataContextProvider } from './useContext/DataContext.jsx'
 import EmptyKart from './Kart/EmptyKart.jsx'
 import RequiresAuth from './RequiresAuth/RequiresAuth.jsx'
 function App() {

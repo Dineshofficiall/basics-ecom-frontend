@@ -11,7 +11,7 @@ import Footer from '../Footer/Footer'
 import './ProductDetailPage.css'
 
 // bootstrap
-import { Container, Row, Col, Image, Button } from 'react-bootstrap';
+import { Container, Row, Col, Image, Button, Spinner } from 'react-bootstrap';
 
 // nestedRoute
 import { Link, Outlet } from 'react-router-dom'
@@ -20,6 +20,7 @@ import { Link, Outlet } from 'react-router-dom'
 import { MdOutlineStarRate } from "react-icons/md";
 import { LiaHandHoldingHeartSolid } from "react-icons/lia";
 import { useDataContext } from '../useContext/DataContext';
+import { FaIndianRupeeSign } from "react-icons/fa6";
 
 function ProductDetailPage() {
     // navigate
@@ -33,21 +34,44 @@ function ProductDetailPage() {
     const dataContext = useDataContext();
     const userobj = dataContext.userObject;
 
+
+    const [loading, setLoading] =useState(true);
     // useEffect
     useEffect(()=>{
 
-        const idByProduct = () =>{
-            axios.get(`http://localhost:5300/Basics-Products/singleProduct/${Params.id}`)
-            .then((response)=>{
-                // console.log("Data Products",response.data);
-                updateApiObj(response.data);
-            })
-            .catch((error)=>{
-                console.log(error);
-            })
-        }
+        // const idByProduct = () =>{
+        //     axios.get(`http://localhost:5300/Basics-Products/singleProduct/${Params.id}`)
+        //     .then((response)=>{
+        //         // console.log("Data Products",response.data);
+        //         updateApiObj(response.data);
+        //     })
+        //     .catch((error)=>{
+        //         console.log(error);
+        //     })
+        const idByProduct = async () =>{
+            try {
+                setTimeout( async ()=>{
+                    const singleProductResponse = await axios.get(`http://localhost:5300/Basics-Products/singleProduct/${Params.id}`);
+                    updateApiObj(singleProductResponse.data);
+                    setLoading(false);
+                }, 450)
 
-        idByProduct();
+            } catch (error) {
+                console.error("error fetching single product", error);
+                setLoading(false);
+            }
+            // axios.get(`http://localhost:5300/Basics-Products/singleProduct/${Params.id}`)
+            // .then((response)=>{
+            //     // console.log("Data Products",response.data);
+            //     updateApiObj(response.data);
+            // })
+            // .catch((error)=>{
+            //     console.log(error);
+            // })
+        }
+        if (apiObj !== null) {
+            idByProduct();
+        }
 
         const productId = Params.id;
         console.log(productId);
@@ -55,19 +79,39 @@ function ProductDetailPage() {
         
         dataContext.addProduct(productId);
 
-    }, [Params.id, dataContext])
+    }, [Params.id, apiObj, dataContext])
 
     // const [kartObj, updateKartObj] = useState(null)
     
     // kart page
-    const pageDirectKart = (pId)=>{
-        if (userobj !== null){
-            navigate(`/kart/${pId}`);
+
+    const [kartObj, setKartObj] = useState({
+        productId : Params.id,
+        userId : userobj ? userobj.id : null
+    });
+    const pageDirectKart = ()=>{
+        if (userobj !== null && userobj.id !== null) {
+            kartApi();
+            navigate(`/kart`);
         }
         else {
             if(confirm('Please Login')){
                 navigate('/');
             }
+        }
+    }
+    const kartApi = async ()=>{
+        try {
+            setTimeout(async ()=>{
+                setLoading(true);
+                const createKartResponse = await axios.post(`http://localhost:5300/basics-kart/createKart`, kartObj);
+                console.log(createKartResponse);
+                setLoading(false);
+            }, 450)
+        } catch (error) {
+            setLoading(true);
+            console.log("add to cart operation failed", error);
+            setLoading(false);
         }
     }
 
@@ -78,6 +122,7 @@ function ProductDetailPage() {
         {
             return (
                 <>
+                {!loading && <>
                 {/* context */}
                     <NavBar />
         
@@ -93,17 +138,17 @@ function ProductDetailPage() {
                                 <Col lg={12} className='d-flex justify-content-center align-items-center mt-3'>
                                     <Image src={apiObj.productImage[image]} className='product-img' style={{width : '80%', height : '50vh'}} />
                                 </Col>
-                                <Col lg={12} className='d-flex justify-content-evenly align-items-center my-3'>
-                                    <Col lg={2}>
+                                <Col lg={12} className='d-flex justify-content-evenly align-items-center gap-3   my-3'>
+                                    <Col sm={2} lg={2}>
                                         <Image src={apiObj.productImage[0]} className='product-img' style={{width : '100%'}} onClick={()=>{updateImage(0)}}/>
                                     </Col>
-                                    <Col lg={2}>
+                                    <Col sm={2} lg={2}>
                                         <Image src={apiObj.productImage[1]} className='product-img' style={{width : '100%'}} onClick={()=>{updateImage(1)}}/>
                                     </Col>
-                                    <Col lg={2}>
+                                    <Col sm={2} lg={2}>
                                         <Image src={apiObj.productImage[2]} className='product-img' style={{width : '100%'}} onClick={()=>{updateImage(2)}}/>
                                     </Col>
-                                    <Col lg={2}>
+                                    <Col sm={2} lg={2}>
                                         <Image src={apiObj.productImage[3]} className='product-img' style={{width : '100%'}} onClick={()=>{updateImage(3)}}/>
                                     </Col>
                                 </Col>
@@ -115,13 +160,17 @@ function ProductDetailPage() {
                             <Col lg={6} className='pb-2 position-relative px-2'>
                                 <Col className='fw-bolder my-3 d-flex flex-column align-items-start justify-content-start'>
                                     <h2>{apiObj.productDescription}</h2>
-                                    <div className='d-flex justify-content-evenly align-items-center w-50 mt-3 '>
+                                    <div className='ps-3 mt-3 d-flex justify-content-start align-items-center '>
+                                        <h5>MRP : </h5>
+                                        <h5 className='d-flex justify-content-center align-items-center'><span className='fs-6 mx-1' style={{paddingBottom : '1px'}}><FaIndianRupeeSign /></span>{apiObj.productPrice}</h5>
+                                    </div>
+                                    <div className='d-flex justify-content-start align-items-center w-50 mt-2 ps-3'>
                                         <p className='d-flex justify-content-center align-items-center '>4<MdOutlineStarRate /><span className='ms-2'>Ratings</span></p>
-                                        <p>|</p>
+                                        <p className='mx-2'>|</p>
                                         <p className='d-flex align-items-center justify-content-center'>2000<span className='mx-2'>~</span>review</p>
                                     </div>
                                 </Col>
-                                <Col style={{width : "40%"}}>
+                                <Col style={{width : "40%"}} className='ps-3'>
                                     <h6>Choose Size</h6>
                                     <div className='d-flex justify-content-evenly align-items-center'>
                                         <span className='p-2 px-3 bg-info'>S</span>
@@ -131,7 +180,7 @@ function ProductDetailPage() {
                                     </div>
                                 </Col>
                                 <Col className='mt-4'>
-                                    <Button variant='outline-dark' className='w-50' onClick={()=>pageDirectKart(apiObj.id)}>Add to cart</Button>
+                                    <Button variant='outline-dark' className='w-50' onClick={pageDirectKart}>Add to cart</Button>
                                 </Col>
                                 <Col className='mt-4'>
                                     <Col className='d-flex justify-content-start align-items-center py-2'>
@@ -152,6 +201,12 @@ function ProductDetailPage() {
         
                     {/* footer */}
                     <Footer />
+                    </>
+                    }
+
+                    {loading && <Container className='d-flex justify-content-center align-items-center ' style={{height : '100vh', width : '100%'}}>
+                        <Spinner animation="border" className='fs-2 ' style={{padding : '30px'}} variant="danger" />
+                    </Container>}
                 </>
             );
     }
