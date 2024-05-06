@@ -2,7 +2,7 @@
 import React, { useRef, useState } from 'react';
 import NavBar from '../NavBar/NavBar'
 import Footer from '../Footer/Footer'
-import { Container, Image, Row, Col, Card, Form, Dropdown, Button, Accordion} from 'react-bootstrap';
+import { Container, Image, Row, Col, Card, Form, Dropdown, Button, Accordion, Spinner} from 'react-bootstrap';
 
 // css
 import '../Product/product.css'
@@ -25,20 +25,48 @@ function Product() {
 
     // apiObj
     const [productApi, updateProductApi] = useState([]);
+    const [loading, setLoading] =useState(true);
     useEffect(()=>{
-        allProductApi();
+        // allProductApi();
+        const allProductApi = async ()=>{
+
+            try {
+                setTimeout( async ()=>{
+                    const allProductsResponse = await axios.get('http://localhost:5300/Basics-Products/allProduct');
+                    updateProductApi(allProductsResponse.data);
+                    setLoading(false);
+                }, 500)
+            } catch (error) {
+                console.error('error getting allProduct', error);
+                setLoading(false);
+            }
+
+            // axios.get('http://localhost:5300/Basics-Products/allProduct')
+            // .then((response)=>{
+            //     setLoading(true);
+            //     updateProductApi(response.data);
+            //     setLoading(false);
+            // })
+            // .catch((error)=>{
+            //     console.log(error);
+            // })
+        };
+
+        if (productApi !== null) {
+            allProductApi(); 
+        }
     }, [])
 
-    const allProductApi = ()=>{
-        axios.get('http://localhost:5300/Basics-Products/allProduct')
-        .then((response)=>{
-            console.log(response.data);
-            updateProductApi(response.data);
-        })
-        .catch((error)=>{
-            console.log(error);
-        })
-    }
+    // const allProductApi = ()=>{
+    //     axios.get('http://localhost:5300/Basics-Products/allProduct')
+    //     .then((response)=>{
+    //         console.log(response.data);
+    //         updateProductApi(response.data);
+    //     })
+    //     .catch((error)=>{
+    //         console.log(error);
+    //     })
+    // }
 
     const productDetailRedirect = (productId) =>{
         console.log(productId);
@@ -47,6 +75,8 @@ function Product() {
 
     return (
         <>
+        {!loading && 
+            <>
             <NavBar />
 
             <Container className='bg-warning'>
@@ -323,20 +353,15 @@ function Product() {
                     </Col>
                 </Row>
             </Container>
-
-            <Container>
-            
-            </Container>
-
-            {/* Pagination */}
-            {/* <Container>
-                <div className='d-flex justify-content-center align-items-center '>
-                    <Pagination size="sm" className='mx-1'>{items}</Pagination>
-                </div>
-            </Container> */}
+            {/* ends */}
 
             {/* Footer */}
             <Footer />
+            </>}
+
+            {loading && <Container className='d-flex justify-content-center align-items-center ' style={{height : '100vh', width : '100%'}}>
+            <Spinner animation="border" className='fs-2 ' style={{padding : '30px'}} variant="danger" />
+        </Container>}
         </>
     );
 }
