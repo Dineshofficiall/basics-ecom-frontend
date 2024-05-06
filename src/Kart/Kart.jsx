@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useContext, useEffect, useState } from 'react'
-import { Col, Container, Image, Row, Button, Navbar } from 'react-bootstrap'
+import { Col, Container, Image, Row, Button, Navbar, Spinner } from 'react-bootstrap'
 
 import '../Kart/kart.css'
 
@@ -26,33 +26,62 @@ function Kart() {
         userId : dataContext.userObject.id
     });
     
+    const [loading, setLoading] = useState(true);
+
+    const [userKartObj, updateUserKartObj] = useState();
     useEffect(()=>{
         console.log("productId kart =====> ", params.id, "userId =====>", dataContext.userObject.id);
     
-        const kartApi = ()=>{
-            axios.post(`http://localhost:5300/basics-kart/createKart`, kartObj)
-            .then((res)=>{
-                console.log(res.data);
-            })
-            .catch((err)=>{
-                console.log(err);
-            })
+        
+        // if (kartObj !== null) {
+        //     kartApi();
+        // }
+        
+        const allKartProducts = async ()=>{
+            try {
+                setTimeout(async ()=>{
+                    const allKartProductsReponse = await axios.get(`http://localhost:5300/basics-kart/getAllKartData/${dataContext.userObject.id}`);
+                    console.log(allKartProductsReponse.data);
+                    setLoading(false);
+                }, 300)
+            } catch (error) {
+                console.error('error fetching allkartReponse');
+                setLoading(false);
+            }
+
+            // axios.get(`http://localhost:5300/basics-kart/getAllKartData/${dataContext.userObject.id}`)
+            // .then((res)=>{
+            //     console.log(res.data);
+            // })
+            // .catch((err)=>{
+            //     console.log(err);
+            // })
+        }
+        if (dataContext.userObject.id !== null) {
+            allKartProducts();
         }
 
-        kartApi();
+    }, [dataContext.userObject.id, kartObj, params.id])
 
-        const allKartProducts = ()=>{
-            axios.get(`http://localhost:5300/basics-kart/getAllKartData/${dataContext.userObject.id}`)
-            .then((res)=>{
-                console.log(res.data);
-            })
-            .catch((err)=>{
-                console.log(err);
-            })
-        }
+    const kartApi = () =>{
 
-        allKartProducts();
-    }, [])
+        // try {
+        //     setTimeout(async ()=>{
+        //         const kartResponse = await axios.post(`http://localhost:5300/basics-kart/createKart`, kartObj);
+        //         updateUserKartObj(kartResponse);
+        //         setLoading(false);
+        //     }, 400)
+        // } catch (error) {
+        //     console.error('error fetching kart', error);
+        // }
+        axios.post(`http://localhost:5300/basics-kart/createKart`, kartObj)
+        .then((res)=>{
+            console.log(res.data);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
 
     // button quantity
     const [quantity, UpdateQuantity] = useState(0);
@@ -125,6 +154,7 @@ function Kart() {
     
     return (
         <>
+        {!userKartObj && 
             <div className='parent'>
                 <Container className='mt-5 d-flex justify-content-between align-items-center '>
                     <Col className='d-flex justify-content-start align-items-center '>
@@ -192,6 +222,11 @@ function Kart() {
                     </Row>
                 </Container>
             </div>
+        }
+
+        {loading && <Container className='d-flex justify-content-center align-items-center ' style={{height : '100vh', width : '100%'}}>
+            <Spinner animation="border" className='fs-2 ' style={{padding : '30px'}} variant="danger" />
+        </Container>}
         </>
     )
 }

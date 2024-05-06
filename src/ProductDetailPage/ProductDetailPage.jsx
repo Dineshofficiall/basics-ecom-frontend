@@ -11,7 +11,7 @@ import Footer from '../Footer/Footer'
 import './ProductDetailPage.css'
 
 // bootstrap
-import { Container, Row, Col, Image, Button } from 'react-bootstrap';
+import { Container, Row, Col, Image, Button, Spinner } from 'react-bootstrap';
 
 // nestedRoute
 import { Link, Outlet } from 'react-router-dom'
@@ -33,21 +33,35 @@ function ProductDetailPage() {
     const dataContext = useDataContext();
     const userobj = dataContext.userObject;
 
+
+    const [loading, setLoading] =useState(true);
     // useEffect
     useEffect(()=>{
 
-        const idByProduct = () =>{
-            axios.get(`http://localhost:5300/Basics-Products/singleProduct/${Params.id}`)
-            .then((response)=>{
-                // console.log("Data Products",response.data);
-                updateApiObj(response.data);
-            })
-            .catch((error)=>{
-                console.log(error);
-            })
-        }
+        const idByProduct = async () =>{
+            try {
+                setTimeout( async ()=>{
+                    const singleProductResponse = await axios.get(`http://localhost:5300/Basics-Products/singleProduct/${Params.id}`);
+                    updateApiObj(singleProductResponse.data);
+                    setLoading(false);
+                }, 450)
 
-        idByProduct();
+            } catch (error) {
+                console.error("error fetching single product", error);
+                setLoading(false);
+            }
+            // axios.get(`http://localhost:5300/Basics-Products/singleProduct/${Params.id}`)
+            // .then((response)=>{
+            //     // console.log("Data Products",response.data);
+            //     updateApiObj(response.data);
+            // })
+            // .catch((error)=>{
+            //     console.log(error);
+            // })
+        }
+        if (apiObj !== null) {
+            idByProduct();
+        }
 
         const productId = Params.id;
         console.log(productId);
@@ -55,7 +69,7 @@ function ProductDetailPage() {
         
         dataContext.addProduct(productId);
 
-    }, [Params.id, dataContext])
+    }, [Params.id, apiObj, dataContext])
 
     // const [kartObj, updateKartObj] = useState(null)
     
@@ -79,6 +93,7 @@ function ProductDetailPage() {
             return (
                 <>
                 {/* context */}
+                    {!loading && <>
                     <NavBar />
         
                     {/* Cards */}
@@ -152,6 +167,12 @@ function ProductDetailPage() {
         
                     {/* footer */}
                     <Footer />
+                    </>
+                    }
+
+                    {loading && <Container className='d-flex justify-content-center align-items-center ' style={{height : '100vh', width : '100%'}}>
+                        <Spinner animation="border" className='fs-2 ' style={{padding : '30px'}} variant="danger" />
+                    </Container>}
                 </>
             );
     }
