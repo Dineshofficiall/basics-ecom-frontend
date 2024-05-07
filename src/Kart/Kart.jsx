@@ -12,24 +12,25 @@ import axios from 'axios';
 import { useDataContext } from '../useContext/DataContext';
 
 function Kart() {
-
     // useContext
     const dataContext = useDataContext();
+    const [kartData, updateKartData] = useState([]);
+    useEffect(() => {
+        const allKartProducts = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5300/basics-kart/getAllKartData/${dataContext.userObject.id}`);
+                const kartProducts = response.data.map(list => list.products).flat(); // Flatten the array if needed
+                console.log(kartProducts);
+                updateKartData(kartProducts);
+            } catch (error) {
+                console.error('Error fetching kart data:', error);
+            }
+        };
     
-    useEffect(()=>{
-
-        const allKartProducts = ()=>{
-            axios.get(`http://localhost:5300/basics-kart/getAllKartData/${dataContext.userObject.id}`)
-            .then((res)=>{
-                console.log(res.data);
-            })
-            .catch((err)=>{
-                console.log(err);
-            })
+        if (!kartData.length) {
+            allKartProducts();
         }
-
-        allKartProducts();
-    }, [])
+    }, [dataContext.userObject.id, kartData]);
 
     // button quantity
     const [quantity, UpdateQuantity] = useState(0);
@@ -92,13 +93,16 @@ function Kart() {
         };
 
         const error = () => {
-        setStatus('Unable to retrieve your location, Please allow your location');
-        alert("Unable to retrieve your location, Please allow your location");
+            setStatus('Unable to retrieve your location, Please allow your location');
+            alert("Unable to retrieve your location, Please allow your location");
         };
 
         navigator.geolocation.getCurrentPosition(success, error);
     };
 
+    // const kartDelete = (kartProductId)=>{
+    //     axios.delete(`http://localhost:5300/`)
+    // }
     
     return (
         <>
@@ -116,31 +120,33 @@ function Kart() {
 
                 <Container>
                     <hr />
-                    <Row>
-                        <Col lg={12} className='d-flex justify-content-center position-relative '>
-                            <Col lg={6} className='d-flex align-items-center '>
-                                <Col  className='d-flex justify-content-evenly align-items-center '>
-                                    <Image src='https://assets.ajio.com/medias/sys_master/root/20221130/KECd/63873295f997ddfdbdac1468/-473Wx593H-443002269-olivegreen-MODEL.jpg' className='object-fit-contain ' style={{height : '13em' ,width : '45%'}} />
-                                    <div>
-                                        <h6>Product Name : Basics Green Strips</h6>
-                                        <p>Selected Size : Xl (extra Larger)</p>
-                                    </div>
+                    {kartData.map((res, index)=>(
+                        <Row key={index}>
+                            <Col lg={12} className='d-flex justify-content-center position-relative '>
+                                <Col lg={6} className='d-flex align-items-center '>
+                                    <Col  className='d-flex justify-content-evenly align-items-center '>
+                                        <Image src={res.productImage[0]} className='object-fit-contain ' style={{height : '13em' ,width : '45%'}} />
+                                        <div>
+                                            <h6>Product Name : {res.productName}</h6>
+                                            <p>Selected Size : Xl (extra Larger)</p>
+                                        </div>
+                                    </Col>
                                 </Col>
-                            </Col>
-                            
-                            <Col lg={6} className='d-flex justify-content-end align-items-center'>
-                                <Col className='d-flex flex-column justify-content-center align-items-center '>
-                                    <p>Price : $544</p>
-                                    <div>
-                                        <Button className='p-1 px-2' variant="outline-danger" onClick={decrement}><HiMiniMinusSmall /></Button>{' '}
-                                            <span className='p-1 mx-1'>{quantity}</span>
-                                        <Button className='p-1 px-2' variant="outline-success" onClick={increament}><HiMiniPlusSmall /></Button>{' '}
-                                    </div>
+                                
+                                <Col lg={6} className='d-flex justify-content-end align-items-center'>
+                                    <Col className='d-flex flex-column justify-content-center align-items-center '>
+                                        <p>Price : ${res.productPrice}</p>
+                                        <div>
+                                            <Button className='p-1 px-2' variant="outline-danger" onClick={decrement}><HiMiniMinusSmall /></Button>{' '}
+                                                <span className='p-1 mx-1'>{quantity}</span>
+                                            <Button className='p-1 px-2' variant="outline-success" onClick={increament}><HiMiniPlusSmall /></Button>{' '}
+                                        </div>
+                                    </Col>
                                 </Col>
+                                <Button variant='outline-danger' className='kartClear p-1' onClick={()=>{kartDelete(res.id)}}><IoClose /></Button>
                             </Col>
-                            <Button variant='outline-danger' className='kartClear p-1'><IoClose /></Button>
-                        </Col>
-                    </Row>
+                        </Row>
+                    ))}
                 </Container>
                 
                 <Container>
