@@ -14,8 +14,24 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { TbCurrencyRupee } from "react-icons/tb";
 import { TiStarHalfOutline } from "react-icons/ti";
+
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Link
 import { Link, useNavigate } from 'react-router-dom';
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/free-mode';
+
+// import required modules
+import { FreeMode, Pagination } from 'swiper/modules';
+
+// css
+import '../Product/styles2.css'
 
 function Product() {
     const navigate = useNavigate();
@@ -26,6 +42,7 @@ function Product() {
     // apiObj
     const [productApi, updateProductApi] = useState([]);
     const [loading, setLoading] =useState(true);
+    const [category, updateCategory] = useState([]);
     useEffect(()=>{
         // allProductApi();
         const allProductApi = async ()=>{
@@ -34,39 +51,23 @@ function Product() {
                 setTimeout( async ()=>{
                     const allProductsResponse = await axios.get('http://localhost:5300/Basics-Products/allProduct');
                     updateProductApi(allProductsResponse.data);
+
+                    const responseCategory = [...new Set(allProductsResponse.data.map(item => item.categories))];
+                    updateCategory(responseCategory)
+                    console.log("category ===> ",responseCategory);
+
                     setLoading(false);
                 }, 500)
             } catch (error) {
                 console.error('error getting allProduct', error);
                 setLoading(false);
             }
-
-            // axios.get('http://localhost:5300/Basics-Products/allProduct')
-            // .then((response)=>{
-            //     setLoading(true);
-            //     updateProductApi(response.data);
-            //     setLoading(false);
-            // })
-            // .catch((error)=>{
-            //     console.log(error);
-            // })
         };
 
         if (productApi !== null) {
             allProductApi(); 
         }
     }, [])
-
-    // const allProductApi = ()=>{
-    //     axios.get('http://localhost:5300/Basics-Products/allProduct')
-    //     .then((response)=>{
-    //         console.log(response.data);
-    //         updateProductApi(response.data);
-    //     })
-    //     .catch((error)=>{
-    //         console.log(error);
-    //     })
-    // }
 
     const productDetailRedirect = (productId) =>{
         console.log(productId);
@@ -85,6 +86,24 @@ function Product() {
                     <span className='bg-success p-3 fw-bolder rounded-start-pill'><Link className='text-decoration-none text-warning fw-bold links' to='/Home'>Home</Link></span><span className='bg-warning p-3 fw-bolder rounded-end-pill '><Link className='text-decoration-none text-success  links' to='/product'>Products..</Link></span>
                 </div>
             </Container>
+
+            {/* Special Products */}
+            <Container className='my-5 cardsBlock px-5 pb-4 productCategories'>
+                <Col sm={12} className='my-md-3 mt-md-4 pt-4'>
+                    <h5 className='fw-bolder ms-md-2 my-0'>Categories</h5>
+                </Col>
+                <Swiper slidesPerView={'auto'} spaceBetween={40} freeMode={true}
+                    modules={[FreeMode, Pagination]} className="mySwiper py-4 py-lg-4">
+                    {Array.isArray(category) && category.map((res, index)=>(
+                        <SwiperSlide key={index} className='bg-transparent'>
+                            <Col className='rounded-pill perCategory'>
+                                <h4 className='m-0 py-3'>{res}</h4>
+                            </Col>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </Container>
+            {/* ends */}
 
             <Container className='my-5'>
                 <Row className='d-flex justify-content-center align-items-center align-items-md-start '>

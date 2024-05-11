@@ -20,16 +20,17 @@ function Kart() {
             try {
                 const response = await axios.get(`http://localhost:5300/basics-kart/getAllKartData/${dataContext.userObject.id}`);
                 const kartProducts = response.data.map(list => list.products).flat(); // Flatten the array if needed
-                console.log(kartProducts);
+                // console.log("", kartProducts); 
                 updateKartData(kartProducts);
             } catch (error) {
                 console.error('Error fetching kart data:', error);
             }
         };
     
-        if (!kartData.length) {
-            allKartProducts();
+        if (dataContext.userObject.id && kartData.length === 0) {
+            allKartProducts(); // Fetch cart data when userObject.id is available and kartData is empty
         }
+    
     }, [dataContext.userObject.id, kartData]);
 
     // button quantity
@@ -100,9 +101,15 @@ function Kart() {
         navigator.geolocation.getCurrentPosition(success, error);
     };
 
-    // const kartDelete = (kartProductId)=>{
-    //     axios.delete(`http://localhost:5300/`)
-    // }
+    const kartDelete = (kartProductId)=>{
+        axios.delete(`http://localhost:5300/basics-kart/deleteById/${kartProductId}`)
+        .then((res)=>{
+            alert(res);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    }
     
     return (
         <>
@@ -121,7 +128,7 @@ function Kart() {
                 <Container>
                     <hr />
                     {kartData.map((res, index)=>(
-                        <Row key={index}>
+                        <Row key={index} className='my-3'>
                             <Col lg={12} className='d-flex justify-content-center position-relative '>
                                 <Col lg={6} className='d-flex align-items-center '>
                                     <Col  className='d-flex justify-content-evenly align-items-center '>

@@ -16,6 +16,13 @@
 }
 /* ends */
 
+.productCategories{
+    background: linear-gradient(180deg, #FDFCFB, #e8e3df) !important;
+}
+.productCategories .perCategory{
+    background: linear-gradient(180deg, #E6E6FA, #e2d5ff);
+}
+
 /* Ends */
 
 /* sizeUpdate sm, lg, xl block */
