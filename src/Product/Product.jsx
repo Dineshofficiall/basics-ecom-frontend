@@ -87,8 +87,8 @@ function Product() {
                 </div>
             </Container>
 
-            {/* Special Products */}
-            <Container className='my-5 cardsBlock px-5 pb-4 productCategories'>
+            {/* category */}
+            <Container className='my-5 px-5 pb-4 productCategories'>
                 <Col sm={12} className='my-md-3 mt-md-4 pt-4'>
                     <h5 className='fw-bolder ms-md-2 my-0'>Categories</h5>
                 </Col>
@@ -96,7 +96,7 @@ function Product() {
                     modules={[FreeMode, Pagination]} className="mySwiper py-4 py-lg-4">
                     {Array.isArray(category) && category.map((res, index)=>(
                         <SwiperSlide key={index} className='bg-transparent'>
-                            <Col className='rounded-pill perCategory'>
+                            <Col className='perCategory'>
                                 <h4 className='m-0 py-3'>{res}</h4>
                             </Col>
                         </SwiperSlide>

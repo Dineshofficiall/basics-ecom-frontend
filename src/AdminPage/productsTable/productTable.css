@@ -1,3 +1,8 @@
+.updateModel{
+    /* height: 100%; */
+    overflow-y: scroll;
+    /* background-color: aqua !important; */
+}
 /* .updateForm{
     background: linear-gradient(45deg, #f9ad20, rgb(255, 234, 185) );
 }

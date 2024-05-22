@@ -16,22 +16,25 @@ function Kart() {
     const dataContext = useDataContext();
     const [kartData, updateKartData] = useState([]);
     useEffect(() => {
-        const allKartProducts = async () => {
-            try {
-                const response = await axios.get(`http://localhost:5300/basics-kart/getAllKartData/${dataContext.userObject.id}`);
-                const kartProducts = response.data.map(list => list.products).flat(); // Flatten the array if needed
-                // console.log("", kartProducts); 
-                updateKartData(kartProducts);
-            } catch (error) {
-                console.error('Error fetching kart data:', error);
-            }
-        };
-    
-        if (dataContext.userObject.id && kartData.length === 0) {
-            allKartProducts(); // Fetch cart data when userObject.id is available and kartData is empty
+        // if (dataContext.userObject.id && kartData.length === 0) {
+        //     allKartProducts(); // Fetch cart data when userObject.id is available and kartData is empty
+        // }
+        allKartProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+
+    // all kart products
+    const allKartProducts = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5300/basics-kart/getAllKartData/${dataContext.userObject.id}`);
+            const kartProducts = response.data.map(list => list.products).flat(); // Flatten the array if needed
+            console.log("", kartProducts); 
+            updateKartData(kartProducts);
+        } catch (error) {
+            console.error('Error fetching kart data:', error);
         }
-    
-    }, [dataContext.userObject.id, kartData]);
+    };
 
     // button quantity
     const [quantity, UpdateQuantity] = useState(0);
@@ -50,14 +53,12 @@ function Kart() {
         if (quantity > 0) {
             UpdateQuantity(quantity - 1);
             updateItemTotal((quantity - 1) * 533);
-        }
-        
+        } 
     }
     const increament = ()=>{
         UpdateQuantity(quantity + 1);
         updateItemTotal((quantity + 1) * 533);
     }
-
 
     const [status, setStatus] = useState('');
     const [city, setCity] = useState('');
@@ -104,7 +105,7 @@ function Kart() {
     const kartDelete = (kartProductId)=>{
         axios.delete(`http://localhost:5300/basics-kart/deleteById/${kartProductId}`)
         .then((res)=>{
-            alert(res);
+            allKartProducts();
         })
         .catch((error)=>{
             console.log(error);

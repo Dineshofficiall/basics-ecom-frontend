@@ -102,12 +102,12 @@ function ProductDetailPage() {
     }
     const kartApi = async ()=>{
         try {
-            setTimeout(async ()=>{
+            // setTimeout(async ()=>{
                 setLoading(true);
                 const createKartResponse = await axios.post(`http://localhost:5300/basics-kart/createKart`, kartObj);
                 console.log(createKartResponse);
                 setLoading(false);
-            }, 450)
+            // }, 450)
         } catch (error) {
             setLoading(true);
             console.log("add to cart operation failed", error);

@@ -140,7 +140,7 @@ function Home() {
         {/* ends */}
 
         {/* block = summerSale and  */}
-        <Container className='mt-5'>
+        <Container className='mt-5' >
           <Row>
             {/* boys shirt */}
             <Col>
