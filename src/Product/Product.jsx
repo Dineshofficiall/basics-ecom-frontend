@@ -44,30 +44,41 @@ function Product() {
     const [loading, setLoading] =useState(true);
     const [category, updateCategory] = useState([]);
     useEffect(()=>{
-        // allProductApi();
-        const allProductApi = async ()=>{
-
-            try {
-                setTimeout( async ()=>{
-                    const allProductsResponse = await axios.get('http://localhost:5300/Basics-Products/allProduct');
-                    updateProductApi(allProductsResponse.data);
-
-                    const responseCategory = [...new Set(allProductsResponse.data.map(item => item.categories))];
-                    updateCategory(responseCategory)
-                    console.log("category ===> ",responseCategory);
-
-                    setLoading(false);
-                }, 500)
-            } catch (error) {
-                console.error('error getting allProduct', error);
-                setLoading(false);
-            }
-        };
-
         if (productApi !== null) {
             allProductApi(); 
         }
     }, [])
+    const allProductApi = async ()=>{
+
+        try {
+            setTimeout( async ()=>{
+                const allProductsResponse = await axios.get('http://localhost:5300/Basics-Products/allProduct');
+                updateProductApi(allProductsResponse.data);
+
+                const responseCategory = [...new Set(allProductsResponse.data.map(item => item.categories))];
+                updateCategory(responseCategory)
+                console.log("category ===> ",responseCategory);
+
+                setLoading(false);
+            }, 500)
+        } catch (error) {
+            console.error('error getting allProduct', error);
+            setLoading(false);
+        }
+    };
+
+    // getCategoryWise
+    const selectedCategory = (catName) =>{
+        axios.get(`http://localhost:5300/Basics-Products/category/${catName}`)
+        .then((response) =>{
+            setLoading(true);
+            updateProductApi(response.data);
+            setLoading(false);
+        })
+        .catch((error) =>{
+            console.log(error);
+        })
+    }
 
     const productDetailRedirect = (productId) =>{
         console.log(productId);
@@ -97,7 +108,7 @@ function Product() {
                     {Array.isArray(category) && category.map((res, index)=>(
                         <SwiperSlide key={index} className='bg-transparent'>
                             <Col className='perCategory'>
-                                <h4 className='m-0 py-3'>{res}</h4>
+                                <Button variant='transparent' onClick={()=>selectedCategory(res)} className='m-0 py-3'>{res}</Button>
                             </Col>
                         </SwiperSlide>
                     ))}

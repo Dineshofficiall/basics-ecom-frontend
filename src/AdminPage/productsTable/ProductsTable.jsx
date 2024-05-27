@@ -99,11 +99,12 @@ function ProductsTable() {
 
     // userUpdateByClick
     const apiUpdate = (id) =>{
-        axios.put(`http://localhost:5300/Basics-Products/User-Update/${id}`,apiObj)
+        axios.put(`http://localhost:5300/Basics-Products/updateProduct/${id}`,apiObj)
         .then((response) =>{
-            console.log(response);
+            console.log(response.data);
             setShow(false)
             confirm("SuccessFully Updated Please Refresh the Page");
+            getAllData();
         })
         .catch((error) => {
             console.log(id);
@@ -118,6 +119,7 @@ function ProductsTable() {
             .then((response) => {
                 console.log('Delete request successful:', response);
                 updateApiObj(response.data);
+                getAllData();
             })
             .catch((error) => {
                 console.log(id);

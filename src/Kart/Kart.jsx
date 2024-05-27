@@ -16,9 +16,9 @@ function Kart() {
     const dataContext = useDataContext();
     const [kartData, updateKartData] = useState([]);
     useEffect(() => {
-        // if (dataContext.userObject.id && kartData.length === 0) {
-        //     allKartProducts(); // Fetch cart data when userObject.id is available and kartData is empty
-        // }
+        if (dataContext.userObject.id && kartData.length === 0) {
+            allKartProducts(); // Fetch cart data when userObject.id is available and kartData is empty
+        }
         allKartProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -29,7 +29,6 @@ function Kart() {
         try {
             const response = await axios.get(`http://localhost:5300/basics-kart/getAllKartData/${dataContext.userObject.id}`);
             const kartProducts = response.data.map(list => list.products).flat(); // Flatten the array if needed
-            console.log("", kartProducts); 
             updateKartData(kartProducts);
         } catch (error) {
             console.error('Error fetching kart data:', error);
