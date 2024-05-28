@@ -43,29 +43,33 @@ function Product() {
     const [productApi, updateProductApi] = useState([]);
     const [loading, setLoading] =useState(true);
     const [category, updateCategory] = useState([]);
+    const [color, updateColor] = useState([]);
     useEffect(()=>{
-        if (productApi !== null) {
-            allProductApi(); 
-        }
-    }, [])
-    const allProductApi = async ()=>{
+        const allProductApi = async () => {
+            try {
 
-        try {
-            setTimeout( async ()=>{
+                // all product
                 const allProductsResponse = await axios.get('http://localhost:5300/Basics-Products/allProduct');
                 updateProductApi(allProductsResponse.data);
-
-                const responseCategory = [...new Set(allProductsResponse.data.map(item => item.categories))];
-                updateCategory(responseCategory)
-                console.log("category ===> ",responseCategory);
+                
+                // category
+                const uniqueCategories = [...new Set(allProductsResponse.data.map(item => item.categories))];
+                updateCategory(uniqueCategories);
+                
+                // colorCategory
+                const uniqueColors = [...new Set(allProductsResponse.data.map(item => item.productColor))];
+                updateColor(uniqueColors);
 
                 setLoading(false);
-            }, 500)
-        } catch (error) {
-            console.error('error getting allProduct', error);
-            setLoading(false);
-        }
-    };
+
+            } catch (error) {
+                console.error('Error getting all products:', error);
+                setLoading(false);
+            }
+        };
+
+        allProductApi();
+    }, [])
 
     // getCategoryWise
     const selectedCategory = (catName) =>{
@@ -77,6 +81,40 @@ function Product() {
         })
         .catch((error) =>{
             console.log(error);
+        })
+    };
+
+    const [rangeValue, setRangeValue] = useState(1000);
+    const handleRange = (event)=>{
+        setRangeValue(event.target.value);
+    }
+    const filterSubmit = ()=>{
+        axios.get(`http://localhost:5300/Basics-Products/getColorByProduct/${colorName}`)
+    }
+
+    const selectedColor = (colorName) =>{
+        axios.get(`http://localhost:5300/Basics-Products/getColorByProduct/${colorName}`)
+        .then((response)=>{
+            setLoading(true);
+            updateProductApi(response.data);
+            setLoading(false);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    }
+
+    const priceHighToLow = () =>{
+        axios.get(`http://localhost:5300/Basics-Products/getProductHighToLowPrice`)
+        .then((response)=>{
+            updateProductApi(response.data);
+        })
+    }
+
+    const priceLowToHigh = () =>{
+        axios.get(`http://localhost:5300/Basics-Products/getProductLowToHighPrice`)
+        .then((response)=>{
+            updateProductApi(response.data);
         })
     }
 
@@ -108,7 +146,7 @@ function Product() {
                     {Array.isArray(category) && category.map((res, index)=>(
                         <SwiperSlide key={index} className='bg-transparent'>
                             <Col className='perCategory'>
-                                <Button variant='transparent' onClick={()=>selectedCategory(res)} className='m-0 py-3'>{res}</Button>
+                                <Button variant='transparent' className='category=btn' onClick={()=>selectedCategory(res)}>{res}</Button>
                             </Col>
                         </SwiperSlide>
                     ))}
@@ -215,22 +253,7 @@ function Product() {
                                         </Col>
                                         {/* Ends */}
 
-                                        {/* Product Alphabetically */}
-                                        <Col>
-                                            <Accordion.Item eventKey="5" alwaysOpen>
-                                                <Accordion.Header>Product Alphabetical</Accordion.Header>
-                                                <Accordion.Body>
-                                                    <div className='d-flex justify-content-start align-items-center py-1 '>
-                                                        <Form.Check aria-label="option 1" className='mx-2'/> A To Z  <span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowDown /></span>
-                                                    </div>
-                                                    <hr className='my-1'/>
-                                                    <div className="d-flex justify-content-start align-items-center py-1">
-                                                        <Form.Check aria-label="option 2" className='mx-2'/> Z To A<span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowUp  /></span>
-                                                    </div>
-                                                </Accordion.Body>
-                                            </Accordion.Item>
-                                        </Col>
-                                        {/* Ends */}
+                                        
                                         <div className='d-flex justify-content-center align-items-center mt-4'>
                                             <Button variant="primary" className='w-75'>apply Changes</Button>{' '}
                                         </div>
@@ -253,9 +276,22 @@ function Product() {
                                     <Accordion.Header>Range</Accordion.Header>
                                     <Accordion.Body>
                                         {/* Range */}
-                                        <Col className='mb-4'>
+                                        <Col className='mb-4 d-flex flex-column justify-content-evenly pt-3 ' >
                                             <div className='d-flex justify-content-between align-items-center'>
-                                                <span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />1000</span><span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />5000</span>
+                                                <span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />{rangeValue}</span><span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />5000</span>
+                                            </div>
+                                            <div className='mt-3'>
+                                                <Form>
+                                                    <Form controlId='customRange'>
+                                                        <Form.Range
+                                                            min={1000}
+                                                            max={5000}
+                                                            value={rangeValue}
+                                                            onChange={handleRange}
+                                                        >
+                                                        </Form.Range>
+                                                    </Form>
+                                                </Form>
                                             </div>
                                         </Col>
                                         {/* Ends */}
@@ -270,11 +306,11 @@ function Product() {
                                     <Accordion.Header>Ratings</Accordion.Header>
                                     <Accordion.Body>
                                         <div className='d-flex justify-content-start align-items-center py-1 '>
-                                            <Form.Check aria-label="option 1" className='mx-2'/> 4<MdStarPurple500 /><span className='ms-2'>Above</span>
+                                            <Form.Check aria-label="option 1" className='mx-2 custom-checkbox'/> 4<MdStarPurple500 /><span className='ms-2'>Above</span>
                                         </div>
                                         <hr className='my-1'/>
                                         <div className="d-flex justify-content-start align-items-center py-1">
-                                            <Form.Check aria-label="option 2" className='mx-2'/> 3<MdStarPurple500 /><span className='ms-2'>Above</span>
+                                            <Form.Check aria-label="option 2" className='mx-2 custom-checkbox'/> 3<MdStarPurple500 /><span className='ms-2'>Above</span>
                                         </div>
                                     </Accordion.Body>
                                 </Accordion.Item>
@@ -286,11 +322,10 @@ function Product() {
                                 <Accordion.Item eventKey="2" alwaysOpen>
                                     <Accordion.Header>ProductColor</Accordion.Header>
                                     <Accordion.Body>
-                                        <div className='d-flex justify-content-evenly align-items-center '>
-                                            <span className='p-2 mb-0 bg-danger text-light rounded-pill'>red</span>
-                                            <span className='p-2 mb-0 text-light rounded-pill' style={{backgroundColor : 'purple'}}>violet</span>
-                                            <span className='p-2 mb-0 bg-primary text-light rounded-pill'>blue</span>
-                                            <span className='p-2 mb-0 bg-black text-light rounded-pill'>black</span>
+                                        <div className='d-flex justify-content-between align-items-center flex-wrap'>
+                                            {Array.isArray(color) && color.map((res, index) => (
+                                                <Button key={index} variant='outline-dark' className='text-dark my-2 rounded-pill' style={{ backgroundColor: res }} onClick={()=>selectedColor(res)}>{res}</Button>
+                                            ))}
                                         </div>
                                     </Accordion.Body>
                                 </Accordion.Item>
@@ -320,35 +355,20 @@ function Product() {
                                     <Accordion.Header>Price</Accordion.Header>
                                     <Accordion.Body>
                                         <div className='d-flex justify-content-start align-items-center py-1 '>
-                                            <Form.Check aria-label="option 1" className='mx-2'/> High To Low  <span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowDown /></span>
+                                            <Form.Check onClick={()=>priceHighToLow()} aria-label="option 1" className='mx-2 custom-checkbox'/> High To Low  <span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowDown /></span>
                                         </div>
                                         <hr className='my-1'/>
                                         <div className="d-flex justify-content-start align-items-center py-1">
-                                            <Form.Check aria-label="option 2" className='mx-2'/> Low To High<span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowUp  /></span>
+                                            <Form.Check onClick={()=>priceLowToHigh()} aria-label="option 2" className='mx-2 custom-checkbox'/> Low To High<span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowUp  /></span>
                                         </div>
                                     </Accordion.Body>
                                 </Accordion.Item>
                             </Col>
                             {/* Ends */}
 
-                            {/* Product Alphabetically */}
-                            <Col className='mb-4'>
-                                <Accordion.Item eventKey="5" alwaysOpen>
-                                    <Accordion.Header>Product Alphabetical</Accordion.Header>
-                                    <Accordion.Body>
-                                        <div className='d-flex justify-content-start align-items-center py-1 '>
-                                            <Form.Check aria-label="option 1" className='mx-2'/> A To Z  <span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowDown /></span>
-                                        </div>
-                                        <hr className='my-1'/>
-                                        <div className="d-flex justify-content-start align-items-center py-1">
-                                            <Form.Check aria-label="option 2" className='mx-2'/> Z To A<span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowUp  /></span>
-                                        </div>
-                                    </Accordion.Body>
-                                </Accordion.Item>
-                            </Col>
-                            {/* Ends */}
+
                             <div className='d-flex justify-content-center align-items-center '>
-                                <Button variant="primary" className='w-75'>apply Changes</Button>{' '}
+                                <Button variant="primary" className='w-75' onClick={filterSubmit()}>apply Changes</Button>{' '}
                             </div>
                         </Accordion>
                     </Col>

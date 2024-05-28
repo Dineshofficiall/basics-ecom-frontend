@@ -8,12 +8,16 @@
 }
 .productCategories .perCategory{
     background: linear-gradient(180deg, #E6E6FA, #e2d5ff);
+    box-shadow: 0 1px 10px 0px rgba(0, 0, 0, 0.2), 0 1px 10px 1px rgba(6, 6, 6, 0.4);
     border-radius: 50px;
     margin-left: 10px;
 }
-.perCategory h4{
-    border-radius: 50px;
-    box-shadow: 0 1px 10px 0px rgba(0, 0, 0, 0.2), 0 1px 10px 1px rgba(6, 6, 6, 0.4);
+.perCategory button{
+    border: none;
+}
+.perCategory button:hover{
+    color: rgb(237, 125, 6) !important;
+    transition: all .2s ease-out;
 }
 /* Ends */
 
@@ -73,6 +77,19 @@
     visibility: visible;
 }
 /* Ends */
+
+/* categories CheckBox for Prices */
+.custom-checkbox .form-check-input{
+    border: 1px solid black;
+    background-color: rgb(27, 27, 27) !important;
+    box-shadow: none !important;
+}
+.custom-checkbox .form-check-input:checked {
+    background-color: #02f606 !important; /* Your desired color */
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+/* ends */
 
 
 @media screen and (max-width : 767px) {
