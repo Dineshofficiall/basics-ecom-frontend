@@ -90,11 +90,39 @@
     box-shadow: none !important;
 }
 /* ends */
-
+.filter-parent-block .slider{
+    width: 100% ;
+    height: 15px ;
+    padding: 8px;
+    background-color: #818181;
+    border: 1px solid black;
+    border-radius: 50px;
+    position: relative;
+}
+.filter-parent-block .slider .thumb {
+    width: 17px;
+    height: 17px ;
+    cursor: grab;
+    background-color: #25fe03 !important;
+    border-radius: 50% !important;
+    border: 1px solid #020202 !important;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    outline: none;
+}
 
 @media screen and (max-width : 767px) {
     .filter-parent-block{
         display: none;
+    }
+    .filter-parent-block .slider {
+        height: 8px !important;
+    }
+
+    .filter-parent-block .slider .thumb {
+        width: 20px !important;
+        height: 20px !important;
     }
 }
 @media screen and (min-width : 766px) {

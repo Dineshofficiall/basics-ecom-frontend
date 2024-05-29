@@ -32,6 +32,10 @@ import { FreeMode, Pagination } from 'swiper/modules';
 
 // css
 import '../Product/styles2.css'
+import Slider from 'react-slider';
+
+const MIN = 1000;
+const MAX = 5000;
 
 function Product() {
     const navigate = useNavigate();
@@ -44,6 +48,8 @@ function Product() {
     const [loading, setLoading] =useState(true);
     const [category, updateCategory] = useState([]);
     const [color, updateColor] = useState([]);
+    const [dressSize, setDressSize] = useState([]);
+
     useEffect(()=>{
         const allProductApi = async () => {
             try {
@@ -59,6 +65,10 @@ function Product() {
                 // colorCategory
                 const uniqueColors = [...new Set(allProductsResponse.data.map(item => item.productColor))];
                 updateColor(uniqueColors);
+
+                // productSizes
+                const uniqueDressSize = [...new Set(allProductsResponse.data.map(item => item.productSize))];
+                setDressSize(uniqueDressSize);
 
                 setLoading(false);
 
@@ -84,13 +94,19 @@ function Product() {
         })
     };
 
-    const [rangeValue, setRangeValue] = useState(1000);
-    const handleRange = (event)=>{
-        setRangeValue(event.target.value);
-    }
+    const [values, setValues] = useState([MIN, MAX]);
+    
     const filterSubmit = ()=>{
-        axios.get(`http://localhost:5300/Basics-Products/getColorByProduct/${colorName}`)
-    }
+        axios.get(`http://localhost:5300/Basics-Products/getProductRange/${values[0]}/${values[1]}`)
+        .then((response)=>{
+            setLoading(true);
+            updateProductApi(response.data);
+            setLoading(false);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    };
 
     const selectedColor = (colorName) =>{
         axios.get(`http://localhost:5300/Basics-Products/getColorByProduct/${colorName}`)
@@ -273,26 +289,21 @@ function Product() {
                             {/* Range */}
                             <Col className='mb-4'>
                                 <Accordion.Item eventKey="0">
-                                    <Accordion.Header>Range</Accordion.Header>
+                                    <Accordion.Header>Price Range</Accordion.Header>
                                     <Accordion.Body>
                                         {/* Range */}
                                         <Col className='mb-4 d-flex flex-column justify-content-evenly pt-3 ' >
                                             <div className='d-flex justify-content-between align-items-center'>
-                                                <span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />{rangeValue}</span><span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />5000</span>
+                                                <span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />{values[0]}</span><span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />{values[1]}</span>
                                             </div>
-                                            <div className='mt-3'>
-                                                <Form>
-                                                    <Form controlId='customRange'>
-                                                        <Form.Range
-                                                            min={1000}
-                                                            max={5000}
-                                                            value={rangeValue}
-                                                            onChange={handleRange}
-                                                        >
-                                                        </Form.Range>
-                                                    </Form>
-                                                </Form>
-                                            </div>
+                                            <Slider 
+                                                className='slider mt-3'
+                                                onChange={setValues}
+                                                value={values}
+                                                min={MIN}
+                                                max={MAX}
+                                                aria-labelledby="price-range-slider"
+                                            />
                                         </Col>
                                         {/* Ends */}
                                     </Accordion.Body>
@@ -368,7 +379,7 @@ function Product() {
 
 
                             <div className='d-flex justify-content-center align-items-center '>
-                                <Button variant="primary" className='w-75' onClick={filterSubmit()}>apply Changes</Button>{' '}
+                                <Button variant="primary" className='w-75' onClick={()=>filterSubmit()}>apply Changes</Button>{' '}
                             </div>
                         </Accordion>
                     </Col>
