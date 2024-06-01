@@ -4,10 +4,20 @@
     box-sizing: border-box;
     outline: none;
 }
-/* .swiper {
-    width: 600px;
-    height: 300px !important;
-} */
-
-
+.adsBlock{
+    cursor: pointer;
+}
+.adsBlock img{
+    width: 75% !important;
+}
+@media screen and (max-width : 426px) {
+    .banner img{
+        height: 33vh !important;
+    }
+    .bottomAds img{
+        height: 25vh;
+        object-fit: cover;
+        object-position: center;
+    }
+}
 /* https://dribbble.com/shots/18071369/attachments/13262060?mode=media */
