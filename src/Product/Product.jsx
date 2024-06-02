@@ -20,7 +20,7 @@ import { TiStarHalfOutline } from "react-icons/ti";
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Link
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -39,6 +39,8 @@ const MAX = 5000;
 
 function Product() {
     const navigate = useNavigate();
+
+    const Params = useParams();
 
     // Mobile Responsive Filter
     const [mobileFilterDropDown, setMobileFilterDropDown] = useState(false);
@@ -79,7 +81,26 @@ function Product() {
         };
 
         allProductApi();
-    }, [])
+
+        // searchParams
+        const searchResult = ()=>{
+            axios.get(`http://localhost:5300/Basics-Products/searchByName/${Params.name}`)
+            .then((response)=>{
+                console.log("Search Products ====> ", response.data);
+                updateProductApi(response.data);
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        }
+        if (Params.name){
+            console.log(Params.name);
+            searchResult();
+        }
+        else {
+            console.log("error ===> params ===> ", Params.name);
+        }
+    }, [Params.name])
 
     // getCategoryWise
     const selectedCategory = (catName) =>{
@@ -418,6 +439,7 @@ function Product() {
                             ))}
                         </Row>
                     </Col>
+                    {/* ends */}
                 </Row>
             </Container>
             {/* ends */}

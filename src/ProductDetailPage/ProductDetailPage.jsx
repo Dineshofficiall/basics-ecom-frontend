@@ -79,7 +79,7 @@ function ProductDetailPage() {
         
         dataContext.addProduct(productId);
 
-    }, [Params.id, apiObj, dataContext])
+    }, [Params.id, dataContext])
 
     // const [kartObj, updateKartObj] = useState(null)
     

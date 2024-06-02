@@ -88,6 +88,16 @@ function NavBar() {
   }
   // validation ends
 
+  // search redirect
+  const [search, setSearch] = useState (null);
+  const searchProducts = ()=>{
+    if (search && search.length > 3){
+      const trimmedSearch = search.trim().toLowerCase();
+      alert(trimmedSearch);
+      navigate(`/product/${trimmedSearch}`);
+    }
+  }
+
 
   const kartPage = () =>{
     navigate('/kart')
@@ -121,9 +131,9 @@ function NavBar() {
             </Col>
             {/* sm-none md-5 lg */}
             <Col md={4} lg={3}>
-              <Form className="d-flex searchbar">
-                  <Form.Control type="search" placeholder="Search by categories..." className="mx-1 rounded-pill searchbar" aria-label="Search"/>
-                  <Button variant="outline-secondary rounded-pill" className='searchbar'><BiSearchAlt /></Button>
+              <Form className="d-flex searchbar" onSubmit={(e)=>{e.preventDefault(); searchProducts();}}>
+                  <Form.Control type="search" placeholder="Search by categories..." className="mx-1 rounded-pill searchbar" onChange={(temp)=>setSearch(temp.target.value)} aria-label="Search"/>
+                  <Button variant="outline-secondary rounded-pill" onClick={searchProducts} className='searchbar'><BiSearchAlt /></Button>
               </Form>
             </Col>
             {/* sm-x md-x lg */}
