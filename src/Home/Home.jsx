@@ -29,22 +29,31 @@ import { TiStarHalfOutline } from 'react-icons/ti';
 function Home() {
   
   const [discountDress, setDiscountDress] = useState([]);
+  const [feedback, setFeedback] = useState([]);
   useEffect(() => {
     // Discount Product
-    const discountProucts = ()=>{
-      axios.get('http://localhost:5300/Basics-Products/getDiscountProduct')
-      .then((response)=>{
-        setDiscountDress(response.data);
-        console.log(response.data);
-      })
-      .catch((error)=>{
-        console.log(error);
-      })
-    }
-    discountProucts();
-    // if (!discountDress) {
-    //   discountProucts();
-    // }
+      const discountProucts = ()=>{
+        axios.get('http://localhost:5300/Basics-Products/getDiscountProduct')
+        .then((response)=>{
+          setDiscountDress(response.data);
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
+      }
+      discountProucts();
+
+      const feedback = ()=>{
+        axios.get('http://localhost:5300/basics-feedback/allFeedback')
+        .then((response)=>{
+          setFeedback(response.data);
+          console.log("afdasfasd",response.data);
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
+      }
+      feedback();
   }, []);
 
   // useNavigate
@@ -178,7 +187,7 @@ function Home() {
             spaceBetween={40} 
             freeMode={true}
             modules={[FreeMode, Pagination]} 
-            className="mySwiper py-4 py-lg-4 px-4 px-md-5"
+            className="mySwiper py-4 py-lg-4 px-4 px-md-4"
           >
             {discountDress.map((res, index) => (
               <SwiperSlide key={index} style={{height : '45vh'}}>
@@ -223,12 +232,12 @@ function Home() {
         </Container>
 
         {/* Best Products */}
-        <Container className='my-5 cardsBlock px-xl-5 pb-lg-4'>
+        <Container className='my-5 cardsBlock px-lg-5 pb-lg-4'>
           <Col sm={12} className='d-flex flex-column align-items-center justify-content-center flex-md-row  justify-content-md-start align-items-md-center  my-md-3 mt-md-4 pt-4'>
             <h5 className='fw-bolder ms-md-2 my-0'>Best Products for you</h5>
           </Col>
           <Swiper slidesPerView={'auto'} spaceBetween={40} freeMode={true}
-            modules={[FreeMode, Pagination]} className="mySwiper py-4 py-lg-4 px-4 px-md-5">
+            modules={[FreeMode, Pagination]} className="mySwiper py-4 py-lg-4 px-4 px-md-4">
             <SwiperSlide>
               {/* <Row xs={1} md={2} className="g-4"> */}
               <Col>
@@ -322,108 +331,36 @@ function Home() {
 
         {/* feedBack */}
         <Container className='my-5 cardsBlock px-md-5 pb-md-3 '>
-            <h5 className='fw-bolder text-center mt-md-4 pt-4 '>FeedBack</h5>
-          <Swiper slidesPerView={'auto'} spaceBetween={40} freeMode={true}
-            pagination={{
-              clickable: true,
-            }}
-            modules={[FreeMode, Pagination]} className="mySwiper p-0 px-4 px-md-0 ">
-            <SwiperSlide>
-              {/* <Row xs={1} md={2} className="g-4"> */}
-              <Col>
-                <Card>
-                  <Col className='d-flex justify-content-start align-items-center '>
-                    <Image src='https://img.freepik.com/free-photo/side-view-woman-posing-with-trendy-hairstyle_23-2149883734.jpg?size=626&ext=jpg&ga=GA1.1.783361277.1699509797&semt=ais' style={{maxHeight:'3vh', width:'15%'}} alt='Card Img' fluid></Image>
-                    <Card.Title className='d-flex flex-column align-items-start justify-content-center mt-2 '><span className='ms-3 fs-5 fw-medium '>HariPrasath</span><span className='ms-3 fs-6 fw-bolder '>User</span></Card.Title>
-                  </Col>
-                  <hr className='mt-0'/>
-                  <Card.Body>
-                    <Card.Text>
-                      Some quick example text to build on the card title and make up the
-                      bulk of the cards content.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-              {/* </Row> */}
-            </SwiperSlide>
-            <SwiperSlide>
-              {/* <Row xs={1} md={2} className="g-4"> */}
-              <Col>
-                <Card>
-                  <Col className='d-flex justify-content-start align-items-center '>
-                    <Image src='https://img.freepik.com/free-photo/side-view-woman-posing-with-trendy-hairstyle_23-2149883734.jpg?size=626&ext=jpg&ga=GA1.1.783361277.1699509797&semt=ais' style={{maxHeight:'9vh', width:'15%'}} alt='Card Img' fluid></Image>
-                    <Card.Title className='d-flex flex-column align-items-start justify-content-center mt-2 '><span className='ms-3 fs-5 fw-medium '>HariPrasath</span><span className='ms-3 fs-6 fw-bolder '>User</span></Card.Title>
-                  </Col>
-                  <hr className='mt-0'/>
-                  <Card.Body>
-                    <Card.Text>
-                      Some quick example text to build on the card title and make up the
-                      bulk of the cards content.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-              {/* </Row> */}
-            </SwiperSlide>
-            <SwiperSlide>
-              {/* <Row xs={1} md={2} className="g-4"> */}
-              <Col>
-                <Card>
-                  <Col className='d-flex justify-content-start align-items-center '>
-                    <Image src='https://img.freepik.com/free-photo/side-view-woman-posing-with-trendy-hairstyle_23-2149883734.jpg?size=626&ext=jpg&ga=GA1.1.783361277.1699509797&semt=ais' style={{maxHeight:'9vh', width:'15%'}} alt='Card Img' fluid></Image>
-                    <Card.Title className='d-flex flex-column align-items-start justify-content-center mt-2 '><span className='ms-3 fs-5 fw-medium '>HariPrasath</span><span className='ms-3 fs-6 fw-bolder '>User</span></Card.Title>
-                  </Col>
-                  <hr className='mt-0'/>
-                  <Card.Body>
-                    <Card.Text>
-                      Some quick example text to build on the card title and make up the
-                      bulk of the cards content.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-              {/* </Row> */}
-            </SwiperSlide>
-            <SwiperSlide>
-              {/* <Row xs={1} md={2} className="g-4"> */}
-              <Col>
-                <Card>
-                  <Col className='d-flex justify-content-start align-items-center '>
-                    <Image src='https://img.freepik.com/free-photo/side-view-woman-posing-with-trendy-hairstyle_23-2149883734.jpg?size=626&ext=jpg&ga=GA1.1.783361277.1699509797&semt=ais' style={{maxHeight:'9vh', width:'15%'}} alt='Card Img' fluid></Image>
-                    <Card.Title className='d-flex flex-column align-items-start justify-content-center mt-2 '><span className='ms-3 fs-5 fw-medium '>HariPrasath</span><span className='ms-3 fs-6 fw-bolder '>User</span></Card.Title>
-                  </Col>
-                  <hr className='mt-0'/>
-                  <Card.Body>
-                    <Card.Text>
-                      Some quick example text to build on the card title and make up the
-                      bulk of the cards content.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-              {/* </Row> */}
-            </SwiperSlide>
-            <SwiperSlide>
-              {/* <Row xs={1} md={2} className="g-4"> */}
-              <Col>
-                <Card>
-                  <Col className='d-flex justify-content-start align-items-center '>
-                    <Image src='https://img.freepik.com/free-photo/side-view-woman-posing-with-trendy-hairstyle_23-2149883734.jpg?size=626&ext=jpg&ga=GA1.1.783361277.1699509797&semt=ais' style={{maxHeight:'9vh', width:'15%'}} alt='Card Img' fluid></Image>
-                    <Card.Title className='d-flex flex-column align-items-start justify-content-center mt-2 '><span className='ms-3 fs-5 fw-medium '>HariPrasath</span><span className='ms-3 fs-6 fw-bolder '>User</span></Card.Title>
-                  </Col>
-                  <hr className='mt-0'/>
-                  <Card.Body>
-                    <Card.Text>
-                      Some quick example text to build on the card title and make up the
-                      bulk of the cards content.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-              {/* </Row> */}
-            </SwiperSlide>
+          <h5 className='fw-bolder text-center mt-md-4 pt-4 '>FeedBack</h5>
+          {feedback.length >= 0 ? (
+            <Swiper 
+              slidesPerView={'auto'} 
+              spaceBetween={40} 
+              freeMode={true}
+              pagination={{
+                clickable: true,
+              }}
+              modules={[FreeMode, Pagination]} 
+              className="mySwiper p-0 px-4 px-md-0 "
+            >
+            {feedback.map((res, index)=>{
+              <SwiperSlide key={index}>
+                <Col>
+                  <Card>
+                    <Col className='d-flex justify-content-start align-items-center '>
+                      <Image src='https://img.freepik.com/free-photo/side-view-woman-posing-with-trendy-hairstyle_23-2149883734.jpg?size=626&ext=jpg&ga=GA1.1.783361277.1699509797&semt=ais' style={{maxHeight:'3vh', width:'15%'}} alt='Card Img' fluid></Image>
+                      <Card.Title className='d-flex flex-column align-items-start justify-content-center mt-2 '><span className='ms-3 fs-6 fw-medium '>{res.userName}</span><span className='ms-3 fw-bold' style={{fontSize : '12px'}}>User</span></Card.Title>
+                    </Col>
+                    <hr className='mt-0'/>
+                    <Card.Body>
+                      <Card.Text className='fs-6'>{res.feedback}</Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </SwiperSlide>
+            })}
           </Swiper>
+          ) : <p>loading</p>}
         </Container>
         {/* ends */}
 

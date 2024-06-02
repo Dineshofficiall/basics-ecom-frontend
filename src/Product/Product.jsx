@@ -145,15 +145,15 @@ function Product() {
             <NavBar />
 
             <Container className='bg-warning'>
-                <Image src="https://thegenuineleather.com/wp-content/uploads/2023/11/suede-jackets-banner-wepp-scaled.webp" className=' object-fit-fill object-fit-md-cover object-fit-lg-cover' style={{width:`100%`, height : `45vh`,}} fluid />
+                <Image src="https://thegenuineleather.com/wp-content/uploads/2023/11/suede-jackets-banner-wepp-scaled.webp" className=' object-fit-fill object-fit-md-cover object-fit-lg-cover' style={{width:`100%`}} fluid />
                 <div className='ms-4'>
                     <span className='bg-success p-3 fw-bolder rounded-start-pill'><Link className='text-decoration-none text-warning fw-bold links' to='/Home'>Home</Link></span><span className='bg-warning p-3 fw-bolder rounded-end-pill '><Link className='text-decoration-none text-success  links' to='/product'>Products..</Link></span>
                 </div>
             </Container>
 
             {/* category */}
-            <Container className='my-5 px-5 pb-4 productCategories'>
-                <Col sm={12} className='my-md-3 mt-md-4 pt-4'>
+            <Container className='my-5 px-4 px-md-4 px-xl-5 pb-2 pb-xl-3 productCategories'>
+                <Col sm={12} className='my-lg-3 mt-md-4 pt-4'>
                     <h5 className='fw-bolder ms-md-2 my-0'>Categories</h5>
                 </Col>
                 <Swiper slidesPerView={'auto'} spaceBetween={40} freeMode={true}
@@ -185,15 +185,23 @@ function Product() {
                                 <Col sm={12} className='py-4 '>
                                     <Accordion defaultActiveKey={['0']} alwaysOpen>
                                         {/* Range */}
-                                        <Col>
+                                        <Col className='mb-4'>
                                             <Accordion.Item eventKey="0">
-                                                <Accordion.Header>Range</Accordion.Header>
+                                                <Accordion.Header>Price Range</Accordion.Header>
                                                 <Accordion.Body>
                                                     {/* Range */}
-                                                    <Col className='mb-4'>
+                                                    <Col className='mb-4 d-flex flex-column justify-content-evenly pt-3 ' >
                                                         <div className='d-flex justify-content-between align-items-center'>
-                                                            <span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />1000</span><span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />5000</span>
+                                                            <span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />{values[0]}</span><span className='p-2 priceRangeUpdate'><HiOutlineCurrencyRupee />{values[1]}</span>
                                                         </div>
+                                                        <Slider 
+                                                            className='slider mt-3'
+                                                            onChange={setValues}
+                                                            value={values}
+                                                            min={MIN}
+                                                            max={MAX}
+                                                            aria-labelledby="price-range-slider"
+                                                        />
                                                     </Col>
                                                     {/* Ends */}
                                                 </Accordion.Body>
@@ -202,16 +210,16 @@ function Product() {
                                         {/* Ends */}
 
                                         {/* Ratings */}
-                                        <Col>
+                                        <Col className='mb-4'>
                                             <Accordion.Item eventKey="1" alwaysOpen>
                                                 <Accordion.Header>Ratings</Accordion.Header>
                                                 <Accordion.Body>
                                                     <div className='d-flex justify-content-start align-items-center py-1 '>
-                                                        <Form.Check aria-label="option 1" className='mx-2'/> 4<MdStarPurple500 /><span className='ms-2'>Above</span>
+                                                        <Form.Check aria-label="option 1" className='mx-2 custom-checkbox'/> 4<MdStarPurple500 /><span className='ms-2'>Above</span>
                                                     </div>
                                                     <hr className='my-1'/>
                                                     <div className="d-flex justify-content-start align-items-center py-1">
-                                                        <Form.Check aria-label="option 2" className='mx-2'/> 3<MdStarPurple500 /><span className='ms-2'>Above</span>
+                                                        <Form.Check aria-label="option 2" className='mx-2 custom-checkbox'/> 3<MdStarPurple500 /><span className='ms-2'>Above</span>
                                                     </div>
                                                 </Accordion.Body>
                                             </Accordion.Item>
@@ -219,15 +227,14 @@ function Product() {
                                         {/* Ends */}
 
                                         {/* colors */}
-                                        <Col>
+                                        <Col className='mb-4'>
                                             <Accordion.Item eventKey="2" alwaysOpen>
                                                 <Accordion.Header>ProductColor</Accordion.Header>
                                                 <Accordion.Body>
-                                                    <div className='d-flex justify-content-evenly align-items-center '>
-                                                        <span className='p-2 mb-0 bg-danger text-light rounded-pill'>red</span>
-                                                        <span className='p-2 mb-0 text-light rounded-pill' style={{backgroundColor : 'purple'}}>violet</span>
-                                                        <span className='p-2 mb-0 bg-primary text-light rounded-pill'>blue</span>
-                                                        <span className='p-2 mb-0 bg-black text-light rounded-pill'>black</span>
+                                                    <div className='d-flex justify-content-between align-items-center flex-wrap'>
+                                                        {Array.isArray(color) && color.map((res, index) => (
+                                                            <Button key={index} variant='outline-dark' className='text-dark my-2 rounded-pill' style={{ backgroundColor: res }} onClick={()=>selectedColor(res)}>{res}</Button>
+                                                        ))}
                                                     </div>
                                                 </Accordion.Body>
                                             </Accordion.Item>
@@ -235,7 +242,7 @@ function Product() {
                                         {/* Ends */}
 
                                         {/* Sizes */}
-                                        <Col>
+                                        <Col className='mb-4'>
                                             <Accordion.Item eventKey="3" alwaysOpen>
                                                 <Accordion.Header>Sizes</Accordion.Header>
                                                 <Accordion.Body>
@@ -252,25 +259,25 @@ function Product() {
                                         {/* Ends */}
 
                                         {/* Price high to low - low to high */}
-                                        <Col>
+                                        <Col className='mb-4'>
                                             <Accordion.Item eventKey="4" alwaysOpen>
                                                 <Accordion.Header>Price</Accordion.Header>
                                                 <Accordion.Body>
                                                     <div className='d-flex justify-content-start align-items-center py-1 '>
-                                                        <Form.Check aria-label="option 1" className='mx-2'/> High To Low  <span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowDown /></span>
+                                                        <Form.Check onClick={()=>priceHighToLow()} aria-label="option 1" className='mx-2 custom-checkbox'/> High To Low  <span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowDown /></span>
                                                     </div>
                                                     <hr className='my-1'/>
                                                     <div className="d-flex justify-content-start align-items-center py-1">
-                                                        <Form.Check aria-label="option 2" className='mx-2'/> Low To High<span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowUp  /></span>
+                                                        <Form.Check onClick={()=>priceLowToHigh()} aria-label="option 2" className='mx-2 custom-checkbox'/> Low To High<span className='ms-2 fs-5 pb-1'><MdKeyboardDoubleArrowUp  /></span>
                                                     </div>
                                                 </Accordion.Body>
                                             </Accordion.Item>
                                         </Col>
                                         {/* Ends */}
 
-                                        
-                                        <div className='d-flex justify-content-center align-items-center mt-4'>
-                                            <Button variant="primary" className='w-75'>apply Changes</Button>{' '}
+
+                                        <div className='d-flex justify-content-center align-items-center '>
+                                            <Button variant="primary" className='w-75' onClick={()=>filterSubmit()}>apply Changes</Button>{' '}
                                         </div>
                                     </Accordion>
                                 </Col>
@@ -283,7 +290,7 @@ function Product() {
 {/* -------------------------------------------------------------------------------- */}
 
                     {/* Lap-Filters */}
-                    <Col sm={3} className='py-4 filter-parent-block'>
+                    <Col sm={4} lg={3} className='py-4 filter-parent-block'>
                         <Accordion defaultActiveKey={['0']} alwaysOpen>
                             {/* Range */}
                             <Col className='mb-4'>
@@ -387,7 +394,7 @@ function Product() {
 {/* -------------------------------------------------------------------------------- */}
 
                     {/* Cards */}
-                    <Col sm={9} className='py-4'>
+                    <Col sm={8} lg={9} className='py-4'>
                         <Row xs={1} md={2} lg={3} className="gx-3 gy-4">
                             {productApi.map((responseObject, index)=>(
                                 <Col key={index} onClick={()=> productDetailRedirect(responseObject.id)}>
