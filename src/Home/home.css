@@ -10,6 +10,23 @@
 .adsBlock img{
     width: 75% !important;
 }
+.testimonials-outerblock{
+    overflow: hidden;
+    background-color: #babecc;
+    box-shadow: 10px 10px 20px #686869, -10px -10px 20px #ffffff;
+    border-radius: 20px;
+}
+.testimonial{
+    position: relative;
+    overflow: hidden;
+}
+.testimonial img{
+    height: 11em;
+    width: 15%;
+    border-radius: 58%;
+    object-fit: cover;
+    object-position: center;
+}
 @media screen and (max-width : 426px) {
     .banner img{
         height: 33vh !important;

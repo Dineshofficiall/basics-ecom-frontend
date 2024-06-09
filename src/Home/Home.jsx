@@ -31,7 +31,7 @@ function Home() {
   const [discountDress, setDiscountDress] = useState([]);
   const [feedback, setFeedback] = useState([]);
   useEffect(() => {
-    // Discount Product
+      // Discount Product
       const discountProucts = ()=>{
         axios.get('http://localhost:5300/Basics-Products/getDiscountProduct')
         .then((response)=>{
@@ -40,20 +40,20 @@ function Home() {
         .catch((error)=>{
           console.log(error);
         })
-      }
+      };
       discountProucts();
 
-      const feedback = ()=>{
-        axios.get('http://localhost:5300/basics-feedback/allFeedback')
-        .then((response)=>{
-          setFeedback(response.data);
-          console.log("afdasfasd",response.data);
-        })
-        .catch((error)=>{
-          console.log(error);
-        })
+      const fetchFeedback = async () => {
+      try {
+        const response = await axios.get('http://localhost:5300/basics-feedback/allFeedback');
+        setFeedback(response.data);
+        console.log("feedback ===> ", response.data);
+      } catch (error) {
+        console.error(error);
       }
-      feedback();
+    };
+
+    fetchFeedback();
   }, []);
 
   // useNavigate
@@ -330,41 +330,25 @@ function Home() {
         </Container>
 
         {/* feedBack */}
-        <Container className='my-5 cardsBlock px-md-5 pb-md-3 '>
-          <h5 className='fw-bolder text-center mt-md-4 pt-4 '>FeedBack</h5>
-          {feedback.length >= 0 ? (
-            <Swiper 
-              slidesPerView={'auto'} 
-              spaceBetween={40} 
-              freeMode={true}
-              pagination={{
-                clickable: true,
-              }}
-              modules={[FreeMode, Pagination]} 
-              className="mySwiper p-0 px-4 px-md-0 "
-            >
-            {feedback.map((res, index)=>{
-              <SwiperSlide key={index}>
-                <Col>
-                  <Card>
-                    <Col className='d-flex justify-content-start align-items-center '>
-                      <Image src='https://img.freepik.com/free-photo/side-view-woman-posing-with-trendy-hairstyle_23-2149883734.jpg?size=626&ext=jpg&ga=GA1.1.783361277.1699509797&semt=ais' style={{maxHeight:'3vh', width:'15%'}} alt='Card Img' fluid></Image>
-                      <Card.Title className='d-flex flex-column align-items-start justify-content-center mt-2 '><span className='ms-3 fs-6 fw-medium '>{res.userName}</span><span className='ms-3 fw-bold' style={{fontSize : '12px'}}>User</span></Card.Title>
-                    </Col>
-                    <hr className='mt-0'/>
-                    <Card.Body>
-                      <Card.Text className='fs-6'>{res.feedback}</Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </SwiperSlide>
-            })}
-          </Swiper>
-          ) : <p>loading</p>}
+        <Container className='p-0 pt-5 my-5 testimonials-outerblock'>
+          <h3 className='m-0 fw-bold text-center'>FeedBack</h3>
+          <Carousel>
+            {feedback.map((item, index) => (
+              <Carousel.Item key={index} style={{ height: '55vh' }}>
+                <div className='testimonial d-flex justify-content-center align-items-center py-3 mt-3'>
+                  <Image src='https://thegenuineleather.com/wp-content/uploads/2023/11/suede-jackets-banner-wepp-scaled.webp' />
+                </div>
+                <div className='text-center mt-3'>
+                  <h3 className='fw-medium'>{item.users.userName}</h3>
+                  <p className='fs-6'>{item.feedback}</p>
+                </div>
+              </Carousel.Item>
+            ))}
+          </Carousel>
         </Container>
         {/* ends */}
 
-          <Footer />
+        <Footer />
       </>
     )
 }
