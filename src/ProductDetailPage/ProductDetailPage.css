@@ -9,3 +9,7 @@
     cursor: pointer !important;
     transition: 1s !important;
 }
+
+.productDetailSize span{
+    cursor: pointer;
+}

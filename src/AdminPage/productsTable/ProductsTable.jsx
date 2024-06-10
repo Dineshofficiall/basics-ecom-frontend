@@ -10,8 +10,11 @@ import { SiShutterstock } from "react-icons/si";
 
 // css
 import '../productsTable/productTable.css'
+import { useNavigate } from 'react-router-dom';
 
 function ProductsTable() {
+    const navigate = useNavigate();
+
     // list of userData
     const [apiObjData, updateApiObjData] = useState ([]);
 
@@ -25,7 +28,6 @@ function ProductsTable() {
     const [selectedProductId, setSelectProductId] = useState(null);
 
     const updateModel = (id) => {
-        // const product = apiObjData.find(product => product.id === id);
         if(id !== null){
             setSelectProductId(id);
             console.log("Your Selected id ===> ",id);
@@ -131,10 +133,14 @@ function ProductsTable() {
         }
     }
 
+    const ProductionQuantityLimits = (productId) =>{
+        navigate(`/quantity/${productId}`);
+    } 
+
     return (
         <>  
             <Container>
-                <h1 className='my-4 text-center'>Products</h1>
+                <h1 className='my-4 text-center'>Products Quantity</h1>
                 <p>To add new product: <Button onClick={() => setLgShow(true)}>click</Button></p>
                 <Col sm={12}>
                     <div className="table-responsive">
@@ -150,6 +156,7 @@ function ProductsTable() {
                                     <th>PRODUCT_PRICE</th>
                                     <th>TYPE</th>
                                     <th>GENDER</th>
+                                    <th>QUANTITY</th>
                                     <th>DISCOUNT</th>
                                     <th>ACTIONS</th>
                                 </tr>
@@ -166,8 +173,11 @@ function ProductsTable() {
                                         <td>{response.productPrice}</td>
                                         <td>{response.productType}</td>
                                         <td>{response.productGender}</td>
+                                        <td className='d-flex justify-content-evenly align-items-center ' style={{width : '150px', height : '185px'}}>
+                                            <Button variant='outline-primary' onClick={()=>ProductionQuantityLimits(response.id)} >View</Button>
+                                        </td>
                                         <td>{response.productDiscount}</td>
-                                        <td className='d-flex justify-content-evenly align-items-center ' style={{width : '200px', height : '185px'}}>
+                                        <td className='d-flex justify-content-evenly align-items-center ' style={{width : '220px', height : '185px'}}>
                                             <Button onClick={()=>updateModel(response.id)} variant="outline-warning">Update</Button>
                                             <Button onClick={() => apiDelete(response.id)} variant="outline-danger">Delete</Button>
                                         </td>

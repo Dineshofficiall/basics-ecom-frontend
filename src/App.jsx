@@ -21,6 +21,7 @@ import Kart from '../src/Kart/Kart.jsx'
 import About from './AboutPage/About.jsx'
 import EmptyKart from './Kart/EmptyKart.jsx'
 import RequiresAuth from './RequiresAuth/RequiresAuth.jsx'
+import ProductsSize from './AdminPage/productSizeTable/ProductsSize.jsx'
 function App() {
 
   useEffect(() => {
@@ -85,6 +86,7 @@ function App() {
               <Route path='products' element={<ProductsTable />} />
               <Route path='sellers' element={<SellersTable />} />
             </Route>
+            <Route path='/quantity/:id' element={<ProductsSize />}/>
         </Routes>
     </>
   )

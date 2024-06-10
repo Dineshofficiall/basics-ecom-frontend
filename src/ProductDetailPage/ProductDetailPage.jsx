@@ -26,7 +26,7 @@ function ProductDetailPage() {
     // navigate
     const navigate = useNavigate();
 
-    const [apiObj, updateApiObj] = useState('');
+    const [apiObj, updateApiObj] = useState([]);
     const [loaded, setLoaded] = useState(false);
     const Params = useParams();
 
@@ -39,35 +39,15 @@ function ProductDetailPage() {
     // useEffect
     useEffect(()=>{
 
-        // const idByProduct = () =>{
-        //     axios.get(`http://localhost:5300/Basics-Products/singleProduct/${Params.id}`)
-        //     .then((response)=>{
-        //         // console.log("Data Products",response.data);
-        //         updateApiObj(response.data);
-        //     })
-        //     .catch((error)=>{
-        //         console.log(error);
-        //     })
         const idByProduct = async () =>{
             try {
-                setTimeout( async ()=>{
-                    const singleProductResponse = await axios.get(`http://localhost:5300/Basics-Products/singleProduct/${Params.id}`);
-                    updateApiObj(singleProductResponse.data);
-                    setLoading(false);
-                }, 450)
-
+                const singleProductResponse = await axios.get(`http://localhost:5300/Basics-Products/getProductDetail/${Params.id}`);
+                updateApiObj(singleProductResponse.data);
+                setLoading(false);
             } catch (error) {
                 console.error("error fetching single product", error);
                 setLoading(false);
             }
-            // axios.get(`http://localhost:5300/Basics-Products/singleProduct/${Params.id}`)
-            // .then((response)=>{
-            //     // console.log("Data Products",response.data);
-            //     updateApiObj(response.data);
-            // })
-            // .catch((error)=>{
-            //     console.log(error);
-            // })
         }
         if (apiObj !== null) {
             idByProduct();
@@ -81,10 +61,14 @@ function ProductDetailPage() {
 
     }, [Params.id, dataContext])
 
-    // const [kartObj, updateKartObj] = useState(null)
-    
-    // kart page
+    // selectedSize
+    const[productSize, setProductSize] = useState (null);
+    const selectedSize = (size) =>{
+        setProductSize(size);
+    }
 
+    // const [kartObj, updateKartObj] = useState(null)
+    // kart page
     const [kartObj, setKartObj] = useState({
         productId : Params.id,
         userId : userobj ? userobj.id : null
@@ -136,21 +120,14 @@ function ProductDetailPage() {
                             (<Col lg={4}>
                                 
                                 <Col lg={12} className='d-flex justify-content-center align-items-center mt-3'>
-                                    <Image src={apiObj.productImage[image]} className='product-img' style={{width : '80%', height : '50vh'}} />
+                                    <Image src={apiObj.products.productImage[image]} className='product-img' style={{width : '80%', height : '50vh'}} />
                                 </Col>
                                 <Col lg={12} className='d-flex justify-content-evenly align-items-center gap-3   my-3'>
-                                    <Col sm={2} lg={2}>
-                                        <Image src={apiObj.productImage[0]} className='product-img' style={{width : '100%'}} onClick={()=>{updateImage(0)}}/>
-                                    </Col>
-                                    <Col sm={2} lg={2}>
-                                        <Image src={apiObj.productImage[1]} className='product-img' style={{width : '100%'}} onClick={()=>{updateImage(1)}}/>
-                                    </Col>
-                                    <Col sm={2} lg={2}>
-                                        <Image src={apiObj.productImage[2]} className='product-img' style={{width : '100%'}} onClick={()=>{updateImage(2)}}/>
-                                    </Col>
-                                    <Col sm={2} lg={2}>
-                                        <Image src={apiObj.productImage[3]} className='product-img' style={{width : '100%'}} onClick={()=>{updateImage(3)}}/>
-                                    </Col>
+                                    {apiObj.products.productImage.map((imgSrc, index) => (
+                                        <Col key={index} sm={2} lg={2}>
+                                            <Image src={imgSrc} className='product-img' style={{ width: '100%' }} onClick={() => updateImage(index)} />
+                                        </Col>
+                                    ))}
                                 </Col>
                                
                             </Col>
@@ -159,10 +136,10 @@ function ProductDetailPage() {
                             {/* middle hide */}
                             <Col lg={6} className='pb-2 position-relative px-2'>
                                 <Col className='fw-bolder my-3 d-flex flex-column align-items-start justify-content-start'>
-                                    <h2>{apiObj.productDescription}</h2>
+                                    <h2>{apiObj.products.productDescription}</h2>
                                     <div className='ps-3 mt-3 d-flex justify-content-start align-items-center '>
                                         <h5>MRP : </h5>
-                                        <h5 className='d-flex justify-content-center align-items-center'><span className='fs-6 mx-1' style={{paddingBottom : '1px'}}><FaIndianRupeeSign /></span>{apiObj.productPrice}</h5>
+                                        <h5 className='d-flex justify-content-center align-items-center'><span className='fs-6 mx-1' style={{paddingBottom : '1px'}}><FaIndianRupeeSign /></span>{apiObj.products.productPrice}</h5>
                                     </div>
                                     <div className='d-flex justify-content-start align-items-center w-50 mt-2 ps-3'>
                                         <p className='d-flex justify-content-center align-items-center '>4<MdOutlineStarRate /><span className='ms-2'>Ratings</span></p>
@@ -172,11 +149,16 @@ function ProductDetailPage() {
                                 </Col>
                                 <Col style={{width : "40%"}} className='ps-3'>
                                     <h6>Choose Size</h6>
-                                    <div className='d-flex justify-content-evenly align-items-center'>
-                                        <span className='p-2 px-3 bg-info'>S</span>
-                                        <span className='p-2 px-3 bg-info'>M</span>
-                                        <span className='p-2 px-3 bg-info'>L</span>
-                                        <span className='p-2 px-3 bg-info'>XL</span>
+                                    <div className='d-flex justify-content-start align-items-center flex-wrap gap-2 productDetailSize'>
+                                        {apiObj.productSize.map((sizeObj, index) => (
+                                            <Button 
+                                                key={index}
+                                                variant={productSize === sizeObj.size ? 'success' : 'outline-primary'}
+                                                className='p-2 px-3'
+                                                onClick={()=>selectedSize(sizeObj.size)}>
+                                                    {sizeObj.size}
+                                            </Button>
+                                        ))}
                                     </div>
                                 </Col>
                                 <Col className='mt-4'>

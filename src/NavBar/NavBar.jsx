@@ -91,9 +91,8 @@ function NavBar() {
   // search redirect
   const [search, setSearch] = useState (null);
   const searchProducts = ()=>{
-    if (search && search.length > 3){
+    if (search && search.length >= 2){
       const trimmedSearch = search.trim().toLowerCase();
-      alert(trimmedSearch);
       navigate(`/product/${trimmedSearch}`);
     }
   }
