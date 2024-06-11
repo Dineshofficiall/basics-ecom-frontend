@@ -31,13 +31,6 @@ function ProductsSize() {
         quantity : 0
     })
 
-    const[updateUserInput, setUpdateUserInput] = useState ({
-        id : ,
-        productId : Params.id,
-        size : '',
-        quantity : 0 
-    })
-
 //  create,update modal
     const update = (e) =>{
         const {name, value} = e.target;
@@ -49,6 +42,8 @@ function ProductsSize() {
             axios.post("http://localhost:5300/Basics-Products-Size/create",userInput)
             .then((res)=>{
                 console.log(res.data);
+                handleClose();
+                productSizeApi();
             })
             .catch((error)=>{
                 console.log(error);
@@ -56,8 +51,8 @@ function ProductsSize() {
         }
     }
 
-    const updateProductSize = () =>{
-        axios.put('http://localhost:5300/Basics-Products-Size/update',userInput)
+    const updateProductSize = (pId) =>{
+        axios.put(`http://localhost:5300/Basics-Products-Size/update/${pId}`,userInput)
         .then((res)=>{
             console.log(res.data);
             handleUpdateClose();
@@ -122,6 +117,31 @@ function ProductsSize() {
                                             <Button variant="outline-danger" onClick={()=>deleteProductSize(response.id)}>Delete</Button>
                                         </td>
                                     </tr>
+                                    {/* update size Modals */}
+                                    <Modal show={updateShow} onHide={handleUpdateClose} animation={false}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>update Size</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <InputGroup className="mb-3 rounded-pill">
+                                                <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
+                                                <Form.Control type="text" className='border-0 py-2 inputbox' name='size' value={userInput.size} onChange={update} placeholder="Enter the ProductSize [ex : 's', 'xl']" />
+                                            </InputGroup>
+                                            <InputGroup className="mb-3 rounded-pill">
+                                                <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdDescription /></InputGroup.Text>
+                                                <Form.Control type="number" className='border-0 py-2 inputbox' name='quantity' value={userInput.quantity} onChange={update} placeholder="Enter the ProductQuantity [ex : 35]" />
+                                            </InputGroup>
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                            <Button variant="outline-danger" onClick={handleUpdateClose}>
+                                                Close
+                                            </Button>
+                                            <Button variant="outline-success" onClick={()=>updateProductSize(response.id)}>
+                                                Update
+                                            </Button>
+                                        </Modal.Footer>
+                                    </Modal>
+                                    {/* ends */}
                                 </tbody>
                             ))}
                         </Table>
@@ -149,32 +169,6 @@ function ProductsSize() {
                         </Button>
                         <Button variant="outline-success" onClick={saveSize}>
                             Create
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-                {/* ends */}
-
-                {/* update size Modals */}
-                <Modal show={updateShow} onHide={handleUpdateClose} animation={false}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>update Size</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <InputGroup className="mb-3 rounded-pill">
-                            <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdCategory /></InputGroup.Text>
-                            <Form.Control type="text" className='border-0 py-2 inputbox' name='size' value={userInput.size} onChange={update} placeholder="Enter the ProductSize [ex : 's', 'xl']" />
-                        </InputGroup>
-                        <InputGroup className="mb-3 rounded-pill">
-                            <InputGroup.Text className='border-0 bg-secondary inputbox-label'><MdDescription /></InputGroup.Text>
-                            <Form.Control type="number" className='border-0 py-2 inputbox' name='quantity' value={userInput.quantity} onChange={update} placeholder="Enter the ProductQuantity [ex : 35]" />
-                        </InputGroup>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="outline-danger" onClick={handleUpdateClose}>
-                            Close
-                        </Button>
-                        <Button variant="outline-success" onClick={updateProductSize}>
-                            Update
                         </Button>
                     </Modal.Footer>
                 </Modal>
