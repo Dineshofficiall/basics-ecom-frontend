@@ -61,22 +61,35 @@ function ProductDetailPage() {
 
     }, [Params.id, dataContext])
 
-    // selectedSize
-    const[productSize, setProductSize] = useState (null);
-    const selectedSize = (size) =>{
-        setProductSize(size);
-    }
-
-    // const [kartObj, updateKartObj] = useState(null)
+    
     // kart page
     const [kartObj, setKartObj] = useState({
+        userId : userobj ? userobj.id : null,
         productId : Params.id,
-        userId : userobj ? userobj.id : null
+        productSizeId : null
     });
+
+    // userConfirmSize
+    const[sizeConfirm, setSizeConfirm] = useState();
+    
+    // selectedSize
+    const[productSize, setProductSize] = useState (null);
+    const selectedSize = (size, sId) =>{
+        setSizeConfirm(true);
+        setProductSize(size);
+        setKartObj((prev) => ({ ...prev, productSizeId: sId }));
+    }
+
+    
     const pageDirectKart = ()=>{
-        if (userobj !== null && userobj.id !== null) {
-            kartApi();
-            navigate(`/kart`);
+        if (userobj && userobj.id) {
+            if (kartObj.productSizeId) {
+                kartApi();
+                navigate(`/kart`);
+            }
+            else {
+                setSizeConfirm(false);
+            }
         }
         else {
             if(confirm('Please Login')){
@@ -147,15 +160,18 @@ function ProductDetailPage() {
                                         <p className='d-flex align-items-center justify-content-center'>2000<span className='mx-2'>~</span>review</p>
                                     </div>
                                 </Col>
-                                <Col style={{width : "40%"}} className='ps-3'>
-                                    <h6>Choose Size</h6>
-                                    <div className='d-flex justify-content-start align-items-center flex-wrap gap-2 productDetailSize'>
+                                <Col style={{width : "55%"}} className='ps-3 '>
+                                    <div className="d-flex">
+                                        <h6 className='me-3'>Choose Size</h6>  {sizeConfirm === false ? <h6 className='text-danger'>atleast choose one size</h6> : sizeConfirm === true ? <h6 className='text-success'>Looks great</h6> : ''}
+                                    </div>
+                                    
+                                    <div className='d-flex justify-content-start align-items-center flex-wrap gap-2 py-2 productDetailSize'>
                                         {apiObj.productSize.map((sizeObj, index) => (
                                             <Button 
                                                 key={index}
                                                 variant={productSize === sizeObj.size ? 'success' : 'outline-primary'}
                                                 className='p-2 px-3'
-                                                onClick={()=>selectedSize(sizeObj.size)}>
+                                                onClick={()=>selectedSize(sizeObj.size, sizeObj.id)}>
                                                     {sizeObj.size}
                                             </Button>
                                         ))}

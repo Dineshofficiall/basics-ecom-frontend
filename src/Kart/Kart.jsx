@@ -28,8 +28,9 @@ function Kart() {
     const allKartProducts = async () => {
         try {
             const response = await axios.get(`http://localhost:5300/basics-kart/getAllKartData/${dataContext.userObject.id}`);
-            const kartProducts = response.data.map(list => list.products).flat(); // Flatten the array if needed
-            updateKartData(kartProducts);
+            // const kartProducts = response.data.map(list => list.products).flat(); // Flatten the array if needed
+            updateKartData(response.data);
+            console.log(response.data);
         } catch (error) {
             console.error('Error fetching kart data:', error);
         }
@@ -59,51 +60,11 @@ function Kart() {
         updateItemTotal((quantity + 1) * 533);
     }
 
-    const [status, setStatus] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
-
-    const [locationResult, updateLocationResult] = useState(false)
-    const fetchLocationData = () => {
-        const success = (position) => {
-        if (position && position.coords) {
-            const { latitude, longitude } = position.coords;
-            const geoApiUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
-
-            axios.get(geoApiUrl)
-            .then(response => {
-                const data = response.data;
-                const stateData = data.principalSubdivision;
-                const cityData = data.locality;
-                setStatus(`${cityData}, ${stateData}`);
-                setCity(cityData);
-                setState(stateData);
-
-                // result if true then show
-                updateLocationResult(true);
-            })
-            .catch(error => {
-                console.error('Error fetching location data:', error);
-                setStatus('Error fetching location data');
-                alert('Error fetching location data');
-            });
-        } else {
-            setStatus('Unable to retrieve your location');
-            alert('Unable to retrieve your location');
-        }
-        };
-
-        const error = () => {
-            setStatus('Unable to retrieve your location, Please allow your location');
-            alert("Unable to retrieve your location, Please allow your location");
-        };
-
-        navigator.geolocation.getCurrentPosition(success, error);
-    };
 
     const kartDelete = (kartProductId)=>{
         axios.delete(`http://localhost:5300/basics-kart/deleteById/${kartProductId}`)
         .then((res)=>{
+            console.log(res.data);
             allKartProducts();
         })
         .catch((error)=>{
@@ -121,7 +82,7 @@ function Kart() {
                     </Col>
                     <Col lg={2} className='d-flex flex-column justify-content-center align-items-start location ps-lg-4 '>
                         <span className='location-text d-flex justify-content-start align-items-center location'><span className='location'><FaLocationDot /></span><span className='location'>Location</span></span>
-                        {locationResult ? <span className='location-text location'>{status}</span> : <Button variant="outline-dark" className=' location' onClick={fetchLocationData}>Click here</Button>}
+                        {/* {locationResult ? <span className='location-text location'>{status}</span> : <Button variant="outline-dark" className=' location' onClick={fetchLocationData}>Click here</Button>} */}
                     </Col>
                 </Container>
 
@@ -132,17 +93,17 @@ function Kart() {
                             <Col lg={12} className='d-flex justify-content-center position-relative '>
                                 <Col lg={6} className='d-flex align-items-center '>
                                     <Col  className='d-flex justify-content-evenly align-items-center '>
-                                        <Image src={res.productImage[0]} className='object-fit-contain ' style={{height : '13em' ,width : '45%'}} />
+                                        <Image src={res.products.productImage[0]} className='object-fit-contain ' style={{height : '13em' ,width : '45%'}} />
                                         <div>
-                                            <h6>Product Name : {res.productName}</h6>
-                                            <p>Selected Size : Xl (extra Larger)</p>
+                                            <h6>Product Name : {res.products.productName}</h6>
+                                            <p>Selected Size : {res.productSize.size}</p>
                                         </div>
                                     </Col>
                                 </Col>
                                 
                                 <Col lg={6} className='d-flex justify-content-end align-items-center'>
                                     <Col className='d-flex flex-column justify-content-center align-items-center '>
-                                        <p>Price : ${res.productPrice}</p>
+                                        <p>Price : ${res.products.productPrice}</p>
                                         <div>
                                             <Button className='p-1 px-2' variant="outline-danger" onClick={decrement}><HiMiniMinusSmall /></Button>{' '}
                                                 <span className='p-1 mx-1'>{quantity}</span>
@@ -150,7 +111,7 @@ function Kart() {
                                         </div>
                                     </Col>
                                 </Col>
-                                <Button variant='outline-danger' className='kartClear p-1' onClick={()=>{kartDelete(res.id)}}><IoClose /></Button>
+                                <Button variant='outline-danger' className='kartClear p-1' onClick={()=>{kartDelete(res.products.id)}}><IoClose /></Button>
                             </Col>
                         </Row>
                     ))}
