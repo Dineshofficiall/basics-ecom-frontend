@@ -66,7 +66,14 @@ function ProductDetailPage() {
     const [kartObj, setKartObj] = useState({
         userId : userobj ? userobj.id : null,
         productId : Params.id,
-        productSizeId : null
+        productSizeId : null,
+    });
+
+    const [kartQuantity, setKartQuantity] = useState({
+        userId : dataContext.userObject.id,
+        productId : Params.id,
+        productSizeId : null,
+        productQuantity : 1
     });
 
     // userConfirmSize
@@ -74,10 +81,15 @@ function ProductDetailPage() {
     
     // selectedSize
     const[productSize, setProductSize] = useState (null);
+
+    // kartPage require ProductSizeId - need to use UseEffect while loading page get data
+    const [tempProductSizeId, setTempProductSizeId] = useState(null);
     const selectedSize = (size, sId) =>{
         setSizeConfirm(true);
         setProductSize(size);
         setKartObj((prev) => ({ ...prev, productSizeId: sId }));
+        setKartQuantity((prev) => ({...prev, productSizeId : sId}));
+        setTempProductSizeId(sId);
     }
 
     
@@ -85,7 +97,8 @@ function ProductDetailPage() {
         if (userobj && userobj.id) {
             if (kartObj.productSizeId) {
                 kartApi();
-                navigate(`/kart`);
+                kartSizeApi();
+                navigate(`/kart/${tempProductSizeId}`);
             }
             else {
                 setSizeConfirm(false);
@@ -99,15 +112,27 @@ function ProductDetailPage() {
     }
     const kartApi = async ()=>{
         try {
-            // setTimeout(async ()=>{
-                setLoading(true);
-                const createKartResponse = await axios.post(`http://localhost:5300/basics-kart/createKart`, kartObj);
-                console.log(createKartResponse);
-                setLoading(false);
-            // }, 450)
+            setLoading(true);
+            const createKartResponse = await axios.post(`http://localhost:5300/basics-kart/createKart`, kartObj);
+            console.log(createKartResponse);
+            setLoading(false);
+
         } catch (error) {
             setLoading(true);
             console.log("add to cart operation failed", error);
+            setLoading(false);
+        }
+    }
+
+    const kartSizeApi = async ()=>{
+        try {
+            setLoading(true);
+            const kartSizeResponse = await axios.post(`http://localhost:5300/Basics-kart-quantity/create`, kartQuantity);
+            console.log(kartSizeResponse);
+            setLoading(false);
+        } catch (error) {
+            setLoading(true);
+            console.log("size Quantity operation failed", error);
             setLoading(false);
         }
     }

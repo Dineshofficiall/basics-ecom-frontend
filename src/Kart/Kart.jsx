@@ -10,16 +10,24 @@ import { FaLocationDot } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import axios from 'axios';
 import { useDataContext } from '../useContext/DataContext';
+import { useParams } from 'react-router-dom';
 
 function Kart() {
     // useContext
     const dataContext = useDataContext();
+
+    // Params
+    const Params = useParams();
+
     const [kartData, updateKartData] = useState([]);
+    
     useEffect(() => {
         if (dataContext.userObject.id && kartData.length === 0) {
             allKartProducts(); // Fetch cart data when userObject.id is available and kartData is empty
+            kartQuantityObject();
         }
         allKartProducts();
+        kartQuantityObject();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -27,8 +35,7 @@ function Kart() {
     // all kart products
     const allKartProducts = async () => {
         try {
-            const response = await axios.get(`http://localhost:5300/basics-kart/getAllKartData/${dataContext.userObject.id}`);
-            // const kartProducts = response.data.map(list => list.products).flat(); // Flatten the array if needed
+            const response = await axios.get(`http://localhost:5300/basics-kart/getAllKartData/${dataContext.userObject.id}`)
             updateKartData(response.data);
             console.log(response.data);
         } catch (error) {
@@ -38,27 +45,59 @@ function Kart() {
 
     // button quantity
     const [quantity, UpdateQuantity] = useState(0);
+    const kartQuantityObject = async () =>{
+        try {
+            const kartQuantityResponse = await axios.get(`http://localhost:5300/Basics-kart-quantity/getQuantityById/${dataContext.userObject.id}/${Params.id}`);
+            UpdateQuantity(kartQuantityResponse.data.productQuantity);
+        } catch (error) {
+            console.error('error fetching quantity: ', error);
+        }
+    }
 
     // item price
     const [itemTotal, updateItemTotal] = useState(0);
 
     const gst = (12 / 100) * itemTotal;
-
-    const delivery = "free";
     
     // totalBill
     const total = itemTotal + gst;
+
+    // updates increment decrement
+    const [kartQuantity, setKartQuantity] = useState({
+        userId : dataContext.userObject.id,
+        productId : null,
+        productSizeId : Params.id,
+        productQuantity : null
+    });
     
-    const decrement = ()=>{
-        if (quantity > 0) {
-            UpdateQuantity(quantity - 1);
-            updateItemTotal((quantity - 1) * 533);
-        } 
-    }
-    const increament = ()=>{
-        UpdateQuantity(quantity + 1);
-        updateItemTotal((quantity + 1) * 533);
-    }
+    const decrement = (pId, productSizeId)=>{
+        setKartQuantity((prev)=>({
+            ...prev, productId : pId, productQuantity : -productSizeId
+        }))
+        decrementApi();
+    };
+    const decrementApi = async ()=>{
+        try{
+            const updateResponse = await axios.put(`http://localhost:5300/Basics-kart-quantity/updateQuantityById`, kartQuantity);
+            UpdateQuantity(updateResponse.data);
+        } catch (error) {
+            console.log('error fetching quantity: ', error)
+        }        
+    };
+    const increament = (pId, productSizeId)=>{
+        setKartQuantity((prev)=>({
+            ...prev, productId : pId, productQuantity : productSizeId
+        }))
+        incrementApi();
+    };
+    const incrementApi = async ()=>{
+        try {
+            const updateResponse = await axios.put(`http://localhost:5300/Basics-kart-quantity/updateQuantityById`, kartQuantity);
+            UpdateQuantity(updateResponse.data)
+        } catch (error) {
+            console.log('error fetching quantity: ', error);
+        }
+    };
 
 
     const kartDelete = (kartProductId)=>{
@@ -105,9 +144,9 @@ function Kart() {
                                     <Col className='d-flex flex-column justify-content-center align-items-center '>
                                         <p>Price : ${res.products.productPrice}</p>
                                         <div>
-                                            <Button className='p-1 px-2' variant="outline-danger" onClick={decrement}><HiMiniMinusSmall /></Button>{' '}
+                                            <Button className='p-1 px-2' variant="outline-danger" onClick={()=>decrement(res.products.id, res.productSize.id)}><HiMiniMinusSmall /></Button>{' '}
                                                 <span className='p-1 mx-1'>{quantity}</span>
-                                            <Button className='p-1 px-2' variant="outline-success" onClick={increament}><HiMiniPlusSmall /></Button>{' '}
+                                            <Button className='p-1 px-2' variant="outline-success" onClick={()=>increament(res.products.id, res.productSize.id)}><HiMiniPlusSmall /></Button>{' '}
                                         </div>
                                     </Col>
                                 </Col>
@@ -117,7 +156,7 @@ function Kart() {
                     ))}
                 </Container>
                 
-                <Container>
+                <Container className='px-4'>
                     <Row className='my-5'>
                         <Col className='px-lg-4 ' lg={12}>
                             <Col lg={12} className='d-flex justify-content-between align-items-center my-3'>
@@ -127,10 +166,6 @@ function Kart() {
                             <Col lg={12} className='d-flex justify-content-between align-items-center my-3'>
                                 <h5>GST & Additonal Charges : </h5>
                                 <h5>{gst}</h5>
-                            </Col>
-                            <Col lg={12} className='d-flex justify-content-between align-items-center my-3'>
-                                <h5>Delivery : </h5>
-                                <h5>{delivery}</h5>
                             </Col>
                             <Col lg={12} className='d-flex justify-content-between align-items-center my-3'>
                                 <h5>Total : </h5>
